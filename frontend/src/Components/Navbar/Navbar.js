@@ -35,7 +35,19 @@ const Navbar = () => {
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#" data-uri="/new">New Page</a>
-              </li>                        
+              </li> 
+              <li class="nav-item">
+                <a class="nav-link" href="#" data-uri="/categories">Categories</a>
+              </li> 
+              <li class="nav-item">
+                <a class="nav-link" href="#" data-uri="/aboutUs">About US</a>
+              </li> 
+              <li class="nav-item">
+                <a class="nav-link" href="#" data-uri="/ranking">Ranking</a>
+              </li> 
+              <li class="nav-item">
+                <a class="nav-link" href="#" data-uri="/login">Login</a>
+              </li>                      
             </ul>
           </div>
         </div>
