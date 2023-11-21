@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import { Navbar as BootstrapNavbar } from 'bootstrap';
+import logo from '../../img/logo.png';
 
 /**
  * Render the Navbar which is styled by using Bootstrap
@@ -11,9 +12,10 @@ import { Navbar as BootstrapNavbar } from 'bootstrap';
 const Navbar = () => {
   const navbarWrapper = document.querySelector('#navbarWrapper');
   const navbar = `
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Add your brand here</a>
+          <a class="navbar-brand" href="#"><img  class= "logo" src="${logo}" alt="Logo"></a>
+          
           <button
             class="navbar-toggler"
             type="button"
@@ -49,6 +51,13 @@ const Navbar = () => {
                 <a class="nav-link" href="#" data-uri="/login">Login</a>
               </li>                      
             </ul>
+
+            <div class="row  mt-2">
+          <div class="col-md-2 text-center">
+          <a class="btn btn-sm btn-purple" href="#" data-uri="/login">Login</a>
+        
+ 
+        </div>
           </div>
         </div>
       </nav>

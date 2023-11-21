@@ -1,9 +1,112 @@
-
 /************************** Category page **************************/
-.custom-img {
-    max-height: 150px;
-    width: 100%;
-    object-fit: cover; 
-  }
+* {
+  padding: 0;
+  margin: 0;
+}
 
-  
+/************************** NavBar Part Start**************************/
+
+#logo {
+  height: 55px;
+}
+
+.logo {
+  height: 100px;
+}
+
+/* Ajoutez ces styles dans votre fichier CSS */
+
+.btn-purple {
+  background-color: #6f52f9;
+  color: rgb(179, 177, 177); 
+  height : 40px;
+}
+
+/* Si vous souhaitez également réduire la taille du bouton */
+.btn-sm {
+  font-size: 20px; 
+}
+
+
+/************************** NavBar Part End **************************/
+
+.imgaboutUsPage {
+  max-height: 500px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.imagePInterro{
+  height: 305px;
+  width: 50%;
+  object-fit: cover;
+}
+
+.imagePencil{
+
+  height: 305px;
+  width: 80%;
+  object-fit: cover;
+
+}
+
+.banner {
+  background-color: #f4eeff;
+  height: 700px;
+  background-size: cover;
+}
+
+.bannerCreation {
+  background-color: #faf5ff;
+  height: 400px;
+  background-size: cover;
+}
+
+.custom-img {
+  max-height: 150px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.category {
+  margin-top: 20px;
+}
+
+.btn-color {
+  background-color: #e6f5ff;
+}
+
+.btn-style {
+  background-color: #e6f5ff;
+  width: 600px;
+}
+
+.container-xxl {
+  margin-top: 2%;
+  margin-bottom: 55px;
+}
+
+.footer-bypass {
+  margin-bottom: 55px;
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+
+  color: black;
+  text-align: center;
+  height: 30px;
+}
+
+.color-purple {
+  background-color: #f4eeff;
+}
+
+.color-blue {
+  background-color: #e6f5ff;
+}
+
+
