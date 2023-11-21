@@ -38,16 +38,16 @@ const CategoriesPage = () => {
 function renderCategories() {
   const main = document.querySelector('main');
   main.innerHTML = `
-  <section class="pt-5" >
-  <div class=" container">
-     <h3> Les catégories </h3>
+  <section>
+  <div class="container-xxl">
+     <h4>Catégories</h4>
 </div>
   <div class="container-xxl">
   <div class="row mt-3">
   <div class="col-12 col-lg-3 col-md-6">
   <a href="#" data-uri="/" class=" text-center text-decoration-none category">
     <div class="card highlight-card" >
-      <img class="custom-img" src="${mathematicsImage}" alt="Image category mathematics">
+      <img class="custom-img img-fluid" src="${mathematicsImage}" alt="Image category mathematics">
       <div class="card-body">
         <p class="card-text">Mathématiques</p>
       </div>
@@ -58,7 +58,7 @@ function renderCategories() {
   <div class="col-12 col-lg-3 col-md-6">
   <a href="#" data-uri="/" class=" text-center text-decoration-none category">
     <div class="card highlight-card" >
-      <img class="custom-img" src="${historyImage}" alt="Image category history">
+      <img class="custom-img img-fluid" src="${historyImage}" alt="Image category history">
       <div class="card-body">
         <p class="card-text">Histoire</p>
       </div>
@@ -69,7 +69,7 @@ function renderCategories() {
   <div class="col-12 col-lg-3 col-md-6">
   <a href="#" data-uri="/" class=" text-center text-decoration-none category">
     <div class="card highlight-card" >
-      <img class="custom-img" src="${computerScienceImage}" alt="Image category computer science">
+      <img class="custom-img img-fluid" src="${computerScienceImage}" alt="Image category computer science">
       <div class="card-body">
         <p class="card-text">Informatique</p>
       </div>
@@ -80,7 +80,7 @@ function renderCategories() {
   <div class="col-12 col-lg-3 col-md-6">
   <a href="#" data-uri="/" class=" text-center text-decoration-none category">
     <div class="card highlight-card" >
-      <img class="custom-img" src="${languagesImage}" alt="Image category languages">
+      <img class="custom-img img-fluid" src="${languagesImage}" alt="Image category languages">
       <div class="card-body">
         <p class="card-text">Langues</p>
       </div>
@@ -93,7 +93,7 @@ function renderCategories() {
   <div class="col-12 col-lg-3 col-md-6">
   <a href="#" data-uri="/" class=" text-center text-decoration-none category">
     <div class="card highlight-card" >
-      <img class="custom-img" src="${sportImage}" alt="Image category sport">
+      <img class="custom-img img-fluid" src="${sportImage}" alt="Image category sport">
       <div class="card-body">
         <p class="card-text">Sport</p>
       </div>
@@ -104,7 +104,7 @@ function renderCategories() {
   <div class="col-12 col-lg-3 col-md-6">
   <a href="#" data-uri="/" class=" text-center text-decoration-none category">
     <div class="card highlight-card" >
-      <img class="custom-img" src="${scienceImage}" alt="Image category science">
+      <img class="custom-img img-fluid" src="${scienceImage}" alt="Image category science">
       <div class="card-body">
         <p class="card-text">Sciences</p>
       </div>
@@ -115,7 +115,7 @@ function renderCategories() {
   <div class="col-12 col-lg-3 col-md-6">
   <a href="#" data-uri="/" class=" text-center text-decoration-none category">
     <div class="card highlight-card" >
-      <img class="custom-img" src="${geographyImage}" alt="Image category geography">
+      <img class="custom-img img-fluid" src="${geographyImage}" alt="Image category geography">
       <div class="card-body">
         <p class="card-text">Géographie</p>
       </div>
@@ -126,7 +126,7 @@ function renderCategories() {
   <div class="col-12 col-lg-3 col-md-6">
   <a href="#" data-uri="/" class=" text-center text-decoration-none category">
     <div class="card highlight-card" >
-      <img class="custom-img" src="${generalCultureImage}" alt="Image category general culture">
+      <img class="custom-img img-fluid" src="${generalCultureImage}" alt="Image category general culture">
       <div class="card-body">
         <p class="card-text">Culture Générale</p>
       </div>
@@ -140,7 +140,7 @@ function renderCategories() {
       <div class="col-12 col-lg-3 col-md-6">
       <a href="#" data-uri="/" class=" text-center text-decoration-none category">
         <div class="card highlight-card" >
-          <img class="custom-img" src="${videoGamesImage}" alt="Image categorie video games">
+          <img class="custom-img img-fluid" src="${videoGamesImage}" alt="Image categorie video games">
           <div class="card-body">
             <p class="card-text">Jeux Vidéos</p>
           </div>
@@ -152,7 +152,7 @@ function renderCategories() {
           <div class="col-12 col-lg-3 col-md-6">
           <a href="#" data-uri="/" class=" text-center text-decoration-none category">
             <div class="card highlight-card" >
-              <img class="custom-img" src="${economyImage}" alt="Image category economy">
+              <img class="custom-img img-fluid" src="${economyImage}" alt="Image category economy">
               <div class="card-body">
                 <p class="card-text">Economie</p>
               </div>
@@ -163,7 +163,7 @@ function renderCategories() {
               <div class="col-12 col-lg-3 col-md-6">
               <a href="#" data-uri="/" class=" text-center text-decoration-none category">
                 <div class="card highlight-card" >
-                  <img class="custom-img" src="${cinemaImage}" alt="Image category cinema">
+                  <img class="custom-img img-fluid" src="${cinemaImage}" alt="Image category cinema">
                   <div class="card-body">
                     <p class="card-text">Cinéma</p>
                   </div>
@@ -174,7 +174,7 @@ function renderCategories() {
                   <div class="col-12 col-lg-3 col-md-6">
                   <a href="#" data-uri="/" class=" text-center text-decoration-none category">
                     <div class="card highlight-card" >
-                      <img class="custom-img" src="${otherImage}" alt="Image category other">
+                      <img class="custom-img img-fluid" src="${otherImage}" alt="Image category other">
                       <div class="card-body">
                         <p class="card-text">Autres</p>
                       </div>
@@ -182,6 +182,7 @@ function renderCategories() {
                   </a>
                   </div>     
                </div>
+
             </div>
      </section>`;
 }
