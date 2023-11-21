@@ -1,0 +1,140 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+/************************** Category page **************************/
+
+.custom-img {
+  max-height: 150px;
+  width: 100%;
+  object-fit: cover;
+}
+
+/************************** NavBar Part Start**************************/
+
+.logo {
+  height: 70px;
+}
+
+.btn-purple {
+  background-color: #6f52f9;
+  color: rgb(179, 177, 177); 
+  height : 40px;
+}
+
+.btn-sm {
+  font-size: 20px; 
+}
+
+
+/************************** HomePage *************************/
+
+.imagePInterro{
+  height: 305px;
+  width: 50%;
+  object-fit: cover;
+}
+
+.imagePencil{
+
+  height: 305px;
+  width: 80%;
+  object-fit: cover;
+
+}
+
+.banner {
+  background-color: #f4eeff;
+  height: 700px;
+  background-size: cover;
+}
+
+.bannerCreation {
+  background-color: #faf5ff;
+  height: 400px;
+  background-size: cover;
+}
+
+
+
+.btn-color {
+  background-color: #e6f5ff;
+}
+
+.btn-style {
+  background-color: #e6f5ff;
+  width: 600px;
+}
+
+.color-purple {
+  background-color: #f4eeff;
+}
+
+.color-blue {
+  background-color: #e6f5ff;
+}
+
+
+/***************************Authentification*******************************/
+
+
+/***Login & register**/
+
+#containerAuthentification{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px; 
+  padding-top: 12cm;
+}
+
+.form-group{
+  margin-top: 45px;
+}
+
+.title{
+  margin-top: 45px;
+}
+
+input[type="button"] {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 15px 30px;
+  cursor: pointer;
+  font-size: 16px; 
+}
+
+input[type="text"], input[type="password"] {
+  width: 100%;    
+  padding: 5px;   
+  border-radius: 5px; 
+  border: 1px solid #ccc; 
+}
+
+
+
+/**************Login*************/
+
+#squareLogin{
+  width: 450px; 
+  height: 600px; 
+  text-align: center; 
+  padding: 30px;
+  background-color: lightgreen;
+}
+
+
+/**************Register***********/
+
+#squareRegister{
+  width: 450px; 
+  height: 500px; 
+  text-align: center; 
+  padding: 30px;
+  background-color: aqua;
+}
+
+/**************************************************************************/
