@@ -47,9 +47,7 @@ const Navbar = () => {
               <li class="nav-item">
                 <a class="nav-link" href="#" data-uri="/ranking">Ranking</a>
               </li> 
-              <li class="nav-item">
-                <a class="nav-link" href="#" data-uri="/login">Login</a>
-              </li>                      
+                    
             </ul>
 
             <div class="row  mt-2">
