@@ -54,10 +54,12 @@ const Navbar = () => {
 
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="btn btn-sm btn-purple" href="#" data-uri="/login">Login</a>
+            <a class="nav-link" href="#" data-uri="/userSpace">Mon espace</a>
+          </li>
+            <li class="nav-item">
+              <a class="nav-link btn btn-sm btn-purple" href="#" data-uri="/login">Login</a>
             </li>
           </ul>
-
         </div>
         </div>
       </nav>
