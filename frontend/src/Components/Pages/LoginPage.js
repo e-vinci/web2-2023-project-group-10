@@ -30,7 +30,7 @@ function renderLoginForm() {
       </div>
 
       <div class="mb-3">
-      <input id="login" type="button" class="btn btn-stylem mn-3  w-100" value="Se connecter" />
+      <input id="login" type="button" class="btn btn-authentification mn-3  w-100" value="Se connecter" />
       </div>
 
     <hr>
