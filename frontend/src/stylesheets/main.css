@@ -88,7 +88,7 @@
   padding-top: 12cm;
 }
 */
-
+/*
 .form-group{
   margin-top: 45px;
 }
@@ -96,6 +96,9 @@
 .title{
   margin-top: 45px;
 }
+*/
+
+/*
 
 input[type="button"] {
   background-color: #d598e691;
@@ -113,7 +116,7 @@ input[type="text"], input[type="password"] {
   border-radius: 5px; 
   border: 1px solid #ccc; 
 }
-
+*/
 
 
 /**************Login*************/
@@ -127,6 +130,9 @@ input[type="text"], input[type="password"] {
   background-color: lightgreen;
 }
 */
+.btn-stylem{
+  background-color: #d598e691;
+}
 
 /**************Register***********/
 
