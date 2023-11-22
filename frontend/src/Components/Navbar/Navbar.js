@@ -33,7 +33,7 @@ const Navbar = () => {
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="#" data-uri="/create">Home</a>
+                <a class="nav-link" aria-current="page" href="#" data-uri="/create">Créer</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#" data-uri="/game">Game</a>
@@ -45,7 +45,7 @@ const Navbar = () => {
                 <a class="nav-link" href="#" data-uri="/categories">Categories</a>
               </li> 
               <li class="nav-item">
-                <a class="nav-link" href="#" data-uri="/aboutUs">About US</a>
+                <a class="nav-link" href="#" data-uri="/aboutUs">À propos</a>
               </li> 
               <li class="nav-item">
                 <a class="nav-link" href="#" data-uri="/ranking">Ranking</a>
