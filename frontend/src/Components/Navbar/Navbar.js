@@ -15,7 +15,7 @@ const Navbar = () => {
   <nav class="navbar navbar-expand-lg navbar-light bg-white">
       
        <div class="container-fluid">
-          <a class="navbar-brand" href="#"  data-uri="/" >
+          <a class="nav-link" href="#"  data-uri="/" >
           <img class= "logo" src="${logo}" alt="Logo">
           </a>
           
