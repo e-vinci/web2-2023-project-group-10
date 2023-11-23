@@ -149,7 +149,10 @@ input[type="text"], input[type="password"] {
   padding: 30px;
   background-color: lightgreen;
 }
-
+*/
+.btn-authentification{
+  background-color: #d598e691;
+}
 
 /**************Register***********/
 /*
