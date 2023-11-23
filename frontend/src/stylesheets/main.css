@@ -79,7 +79,7 @@
 
 
 /***Login & register**/
-
+/*
 #containerAuthentification{
   display: flex;
   justify-content: center;
@@ -87,7 +87,8 @@
   height: 300px; 
   padding-top: 12cm;
 }
-
+*/
+/*
 .form-group{
   margin-top: 45px;
 }
@@ -95,9 +96,12 @@
 .title{
   margin-top: 45px;
 }
+*/
+
+/*
 
 input[type="button"] {
-  background-color: #007bff;
+  background-color: #d598e691;
   color: white;
   border: none;
   border-radius: 5px;
@@ -112,11 +116,12 @@ input[type="text"], input[type="password"] {
   border-radius: 5px; 
   border: 1px solid #ccc; 
 }
-
+*/
 
 
 /**************Login*************/
 
+/*
 #squareLogin{
   width: 450px; 
   height: 600px; 
@@ -124,10 +129,16 @@ input[type="text"], input[type="password"] {
   padding: 30px;
   background-color: lightgreen;
 }
+*/
+/*
+.btn-authentification{
+  background-color: #d598e691;
 
+}
+  */
 
 /**************Register***********/
-
+/*
 #squareRegister{
   width: 450px; 
   height: 500px; 
@@ -135,6 +146,5 @@ input[type="text"], input[type="password"] {
   padding: 30px;
   background-color: aqua;
 }
-
+*/
 /**************************************************************************/
-
