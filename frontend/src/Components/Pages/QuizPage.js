@@ -1,8 +1,24 @@
 import { clearPage } from '../../utils/render';
+// import quiz from './QuizPage.js'
 
-const NewPage = () => {
+const quizId = 1;
+
+const quizPage = () => {
     clearPage();
-    renderQuestionLayout();
+        fetch('/api/questions/1')
+        .then((response) => {
+            if (!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+            return response.json();
+        })
+        .then((question) => {
+            console.log('Question:', question);
+            renderQuestionLayout();
+            insertQuestionData(question)
+            
+        })
+        .catch((err) => {
+            console.error('QuizPage::error: ', err);
+        });
 };
 
 function renderQuestionLayout() {
@@ -22,6 +38,7 @@ function renderQuestionLayout() {
 
     // Header   
     const header = document.createElement('h2');
+    header.id = 'question-header';
     header.innerText = "Question Sample";
     header.style.border = '1px solid black';
     header.style.padding = '10px';
@@ -80,6 +97,12 @@ function renderBackButtonLayout(container) {
     });
     // TODO Implement functionality to stay hidden if it's the first question
     container.appendChild(backButton);
+}
+
+function insertQuestionData(question) {
+    const questionData = document.getElementById('question-header');
+    questionData.innerText = `${quizId  }: ${  JSON.stringify(question)}`;
+
 }
 
 function renderAnswerButtons() {
@@ -153,4 +176,4 @@ function renderTimer() {
 }
 
 
-export default NewPage;
+export default quizPage;
