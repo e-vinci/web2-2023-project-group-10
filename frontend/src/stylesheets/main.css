@@ -50,23 +50,10 @@
 
 /************************** HomePage *************************/
 
-.imagePInterro{
-  height: 305px;
-  width: 50%;
-  object-fit: cover;
-}
-
-.imagePencil{
-
-  height: 305px;
-  width: 80%;
-  object-fit: cover;
-
-}
 
 .banner {
-  background-color: #f4eeff;
-  height: 700px;
+  background-color:  #F4EEFF;
+  height: 600px;
   background-size: cover;
 }
 
@@ -83,7 +70,7 @@
 }
 
 .btn-style {
-  background-color: #e6f5ff;
+  background-color: #d598e691;
   width: 600px;
 }
 

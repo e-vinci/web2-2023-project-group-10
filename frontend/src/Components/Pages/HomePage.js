@@ -31,7 +31,9 @@ const HomePage = () => {
   </section>
 
 
-<!-- mettre le svg ici -->
+  <svg style="background color:#D9EEE1;" width="100%" height="70" viewBox="0 0 100 100"' preserveAspectRatio="none"> 
+  <path id="wavepath" d="M0, 0 L110, 0C35,150 35,0 0,100z" fill="#F4EEFF"></path>
+   </svg>
 
   <section class="pt-5 d-flex justify-content-center align-items-center ">
   <div class="container my-5 py-5">

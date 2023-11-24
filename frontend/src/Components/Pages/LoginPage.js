@@ -4,7 +4,6 @@ import { clearPage } from '../../utils/render';
 
 function renderLoginForm() {
   const main = document.querySelector('main');
-
   main.innerHTML = `
    <div id="containerAuthentification" class="container-xxl d-flex justify-content-center align-items-center pt-5">
         <div id="squareLogin" class="w-75">
