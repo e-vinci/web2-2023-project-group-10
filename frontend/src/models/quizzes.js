@@ -17,6 +17,7 @@ const readAllCategories = async () => {
 
   // eslint-disable-next-line no-unused-vars
   const addOneQuiz = async (quiz) => {
+    // 
   };
   
   // eslint-disable-next-line import/prefer-default-export
