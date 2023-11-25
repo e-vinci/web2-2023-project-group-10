@@ -142,7 +142,7 @@ function renderCategories() {
         <div class="card highlight-card" >
           <img class="custom-img img-fluid" src="${videoGamesImage}" alt="Image categorie video games">
           <div class="card-body">
-            <p class="card-text">Jeux Vidéos</p>
+            <p class="card-text">Jeux Vidéo</p>
           </div>
         </div>
       </a>
@@ -176,7 +176,7 @@ function renderCategories() {
                     <div class="card highlight-card" >
                       <img class="custom-img img-fluid" src="${otherImage}" alt="Image category other">
                       <div class="card-body">
-                        <p class="card-text">Autres</p>
+                        <p class="card-text">Autre</p>
                       </div>
                     </div>
                   </a>
