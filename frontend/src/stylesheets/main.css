@@ -152,3 +152,16 @@ input[type="text"], input[type="password"] {
 }
 */
 /**************************************************************************/
+
+/********************************* FOOTER *********************************/
+
+footer {
+  background-color: #f4eeff;
+  font-weight: bold;
+  display: flex;
+  vertical-align: bottom !important;
+  /*background-color: #d598e691;*/
+  color: black;
+  padding-bottom: 50px;
+
+}
