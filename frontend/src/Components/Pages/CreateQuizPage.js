@@ -1,18 +1,21 @@
+/* eslint-disable no-alert */
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-plusplus */
 /* eslint-disable no-console */
-// import Navigate from '../Router/Navigate';
+import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
-import { readAllCategories } from '../../models/quizzes';
+import { readAllCategories, addOneQuiz } from '../../models/quizzes';
 
+const questions = [];
 let questionCount = 0;
 let numberOfQuestions = 0;
 const numberBadAnswer = 3;
 let title;
 let category;
-let quiz;
+let quizToBeCreated;
 const main = document.querySelector('main');
 
 function showAlert(message) {
-  // eslint-disable-next-line no-alert
   alert(message);
 }
 
@@ -38,7 +41,7 @@ async function renderFormInfoQuiz() {
 						<div class="row mb-3">
 							<div class="col">
 								<label class="mb-2 text-muted" for="titleQuiz">Titre</label>
-								<input type="text" class="form-control" id="titleQuiz" name="titleQuiz" requiredautofocus >
+								<input type="text" class="form-control" id="titleQuiz" name="titleQuiz" required autofocus >
 							</div>
 						</div>
 						<div class="row mb-3">
@@ -76,19 +79,18 @@ async function renderFormInfoQuiz() {
 	</div>
 </section>`;
   main.innerHTML += MainFormInfoQuiz;
-  // eslint-disable-next-line no-plusplus
   questionCount++;
 }
 
 function attachEventListenersFromInfoQuiz() {
-  title = document.querySelector('#titleQuiz');
-  category = document.querySelector('#category');
   const btnSubmitNumber = document.querySelector('#btnSubmitNumber');
   const btnInfo = document.querySelector('#btnInfo');
+  title = document.querySelector('#titleQuiz');
+  category = document.querySelector('#category');
 
   btnInfo.addEventListener('click', (e) => {
     e.preventDefault();
-    showAlert('Le nombre maximum de question autorisé est de 50');
+    showAlert('Le nombre maximum de question autorisé est de 70');
   });
 
   btnSubmitNumber.addEventListener('click', (e) => {
@@ -96,8 +98,6 @@ function attachEventListenersFromInfoQuiz() {
     numberOfQuestions = parseInt(document.querySelector('#numberQuestion').value, 10);
     console.log(numberOfQuestions);
     questionCount = 1;
-    console.log(quiz);
-    // eslint-disable-next-line no-restricted-globals
     if (!isNaN(numberOfQuestions) && numberOfQuestions > 0) renderQuizQuestions();
     // else error
   });
@@ -129,13 +129,12 @@ function renderQuizQuestions() {
             </div>
 `;
 
-  // eslint-disable-next-line no-plusplus
   for (let index = 0; index < numberBadAnswer; index++) {
     quizHTML += `
     <div class="row mb-3">
       <div class="col">
         <label class="mb-2 text-muted" for="badAnswer">Mauvaise réponse</label>
-        <input type="text" class="form-control" id="badAnswer" name="badAnswer" required autofocus>
+        <input type="text" class="form-control badAnswers" name="badAnswer" required autofocus>
       </div>
     </div>
   `;
@@ -164,27 +163,44 @@ function attachEventListenersQuizQuestions() {
   previousQuestion.addEventListener('click', (e) => {
     e.preventDefault();
     if (questionCount > 1) {
-      // eslint-disable-next-line no-plusplus
       questionCount--;
       renderQuizQuestions();
     }
   });
   // rajouter le form préremplie avec les bonne infos
-  nextQuestion.addEventListener('click', (e) => {
+  nextQuestion.addEventListener('click', async (e) => {
     e.preventDefault();
-    // eslint-disable-next-line no-plusplus
     questionCount++;
+    const question = document.querySelector('#question');
+    const badAnswers = document.querySelectorAll('.badAnswers');
+    const goodAnswer = document.querySelector('#goodAnswer');
+
+    console.log('question : ', question.value);
+    console.log('goodAnswer : ', goodAnswer.value);
+
+    const answersBad = [];
+    badAnswers.forEach((answer) => {
+      answersBad.push(answer.value);
+    });
+
+    const questAnsw = [question.value, goodAnswer.value, ...answersBad];
+
+    console.log('questAnsw : ', questAnsw);
+    console.log('questions : ', questions);
+    questions.push(questAnsw);
+
     if (questionCount <= numberOfQuestions) {
-      // eslint-disable-next-line no-console
-      console.log(`Je suis dans nextQuestion.add ${questionCount}`);
+      console.log(`I am in nextQuestion.add ${questionCount}`);
       renderQuizQuestions();
     } else {
-      quiz = {
+      quizToBeCreated = {
         title: title.value,
         category: category.value,
+        questions,
       };
-      clearPage();
-      // eslint-disable-next-line no-console
+      console.log('quizToBeCreated : ', quizToBeCreated);
+      await addOneQuiz(quizToBeCreated);
+      Navigate('/categories');
       console.log(`Ici, on va direct être rediriger vers la page du jeu du quiz`); // A MODIF
     }
   });
