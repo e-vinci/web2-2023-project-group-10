@@ -5,7 +5,6 @@ const readAllCategories = async () => {
     if (!response.ok) {
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
-    // const result = await response.json();
     const categories = await response.json();
     console.log('Categories :', categories);
     return categories;
@@ -41,12 +40,12 @@ const addOneQuiz = async (quiz) => {
     if (!response.ok) {
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
-    loadingSpinner.style.display = 'none'; 
+    loadingSpinner.style.display = 'none';
     const createdQuiz = await response.json();
     console.log('createdQuiz :', createdQuiz);
     return createdQuiz;
   } catch (err) {
-    loadingSpinner.style.display = 'none'; 
+    loadingSpinner.style.display = 'none';
     console.error('addOneQuiz::error: ', err);
     throw err;
   }
