@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 /* eslint-disable no-console */
 const readAllCategories = async () => {
   try {
@@ -43,6 +44,13 @@ const addOneQuiz = async (quiz) => {
     loadingSpinner.style.display = 'none';
     const createdQuiz = await response.json();
     console.log('createdQuiz :', createdQuiz);
+    Swal.fire({
+      title: "Création du quiz réussie!",
+      text: "Votre quiz a été créé avec succès.",
+      icon: "success",
+      timer: 1500,
+      showConfirmButton: false
+    });
     return createdQuiz;
   } catch (err) {
     loadingSpinner.style.display = 'none';
