@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-plusplus */
 // import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';

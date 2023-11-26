@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const express = require('express');
 const bcrypt = require('bcrypt');
 const pool = require('../db');
@@ -5,8 +6,20 @@ const pool = require('../db');
 const router = express.Router();
 
 /* GET users listing. */
-router.get('/', (req, res) => {
-  res.json({ users: [{ name: 'e-baron' }] });
+router.get('/', async (req, res) => {
+  try {
+    const users = await pool.query(
+      'SELECT * FROM project.users ORDER BY total_point DESC, pseudo ASC, user_id ASC',
+    );
+    if (users.rows.length > 0) {
+      console.log('/users ok');
+      return res.json(users.rows);
+    }
+    return res.sendStatus(400);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Erreur serveur');
+  }
 });
 
 router.post('/login', async (req, res) => {
@@ -37,7 +50,10 @@ router.post('/register', async (req, res) => {
   try {
     const passwordHash = await bcrypt.hash(password, 10);
 
-    const user = await pool.query('INSERT INTO project.users (pseudo, password) VALUES ($1, $2)', [username, passwordHash]);
+    const user = await pool.query('INSERT INTO project.users (pseudo, password) VALUES ($1, $2)', [
+      username,
+      passwordHash,
+    ]);
     if (user.rowCount > 0) {
       res.status(200).json({ message: 'Connexion réussie register' });
     } else {
