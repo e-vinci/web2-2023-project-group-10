@@ -8,21 +8,8 @@ const pool = require('../db');
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
-  const userId = req?.query ? Number(req.query['user-id']) : undefined;
-  try {
-    const quizzes = await pool.query('SELECT * FROM project.quizzes WHERE user_id=$1', [
-      userId, // a remplcer par l'id de l'user (session)
-    ]);
-    if (quizzes.rows.length > 0) {
-      console.log('quizzes ok');
-      return res.json(quizzes.rows);
-    }
-    return res.sendStatus(400);
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send('Erreur serveur');
-  }
+router.get('/', (req, res) => {
+  res.json({ users: [{ name: 'e-baron' }] });
 });
 
 router.post('/', async (req, res) => {

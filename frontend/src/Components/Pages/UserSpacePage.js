@@ -2,9 +2,8 @@
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import badge1 from '../../img/badge1.jpg';
-import { readAllQuizzesByUser } from '../../models/quizzes';
 
-const allQuizzesByUser = await readAllQuizzesByUser(6); // a remplacer par l'id de l'utilisateur courant !!
+const numberOfQuiz = 6 ; // a CHANGER avec le nb de quiz de l'utilisateur dans la DB !!!!!!!!!!!!!!!
 const main = document.querySelector('main');
 
 const UserSpacePage = () => {
@@ -38,48 +37,42 @@ function renderUserQuiz() {
         <div class="container-xxl justify-content-center pt-5 "> 
      `;
 
-  // eslint-disable-next-line no-plusplus
-  allQuizzesByUser.forEach((quiz) => {
-    mainListQuiz += `   
+     // eslint-disable-next-line no-plusplus
+     for (let index = 0; index < numberOfQuiz; index++) {
+     mainListQuiz+=`   
      <div class="row">
      <div class="card shadow cardMyQuiz">
          <div class="card-body">
              <div class="row">
                  <div class="col-md-4">
-                    ${quiz.title}
+                     (Nom du quiz)
                  </div>
                  <div class="col-md-4 text-center">
-                 ${new Date(quiz.date_creation).toLocaleDateString()}
+                     (date_creation)
                  </div>
                  <div class="col-md-4 text-end">
                      <button class="btn btn-danger">Supprimer</button>
-                     <input type="hidden" id="quizToDelete" value=${quiz.quiz_id}>
                  </div>
              </div>
          </div>
      </div>
  </div>`;
-  });
-
-  mainListQuiz += `   
+     }
+ 
+      mainListQuiz+=`   
       </div>
       </div>
     </section>`;
 
-  main.innerHTML = mainListQuiz;
-
+    main.innerHTML = mainListQuiz;
+     
   const linkBadge = document.querySelector('#linkBadge');
 
   linkBadge.addEventListener('click', () => {
     renderUserBadges();
   });
-
-  const quizToDelete = document.querySelector('#quizToDelete');
-
-  quizToDelete.addEventListener('click', () => {
-    renderUserQuiz();
-  });
 }
+
 
 function renderUserBadges() {
   clearPage();
@@ -136,5 +129,6 @@ function renderUserBadges() {
     renderUserQuiz();
   });
 }
+
 
 export default UserSpacePage;
