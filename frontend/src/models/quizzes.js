@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import Swal from 'sweetalert2';
 /* eslint-disable no-console */
 const readAllCategories = async () => {
