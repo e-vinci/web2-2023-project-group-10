@@ -74,4 +74,21 @@ const readAllQuizzesByUser = async (id) => {
     throw err;
   }
 };
-export { readAllCategories, addOneQuiz, readAllQuizzesByUser };
+
+const deleteOneQuiz = async (id) => {
+  try {
+    const response = await fetch(`http://localhost:3000/quizzes/${id}`);
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP: ${response.status}`);
+    }
+    const categories = await response.json();
+    console.log('Categories :', categories);
+    return categories;
+  } catch (err) {
+    console.error('readAllCategories::error: ', err);
+    throw err;
+  }
+};
+
+
+export { readAllCategories, addOneQuiz, readAllQuizzesByUser, deleteOneQuiz };
