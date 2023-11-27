@@ -52,6 +52,7 @@ function renderUserQuiz() {
                  </div>
                  <div class="col-md-4 text-end">
                      <button class="btn btn-danger">Supprimer</button>
+                     <input type="hidden" id="quizToDelete">
                  </div>
              </div>
          </div>
@@ -71,7 +72,19 @@ function renderUserQuiz() {
   linkBadge.addEventListener('click', () => {
     renderUserBadges();
   });
+
+
+  const quizToDelete = document.querySelector('#quizToDelete');
+
+  quizToDelete.addEventListener('click', () => {
+    renderUserQuiz();
+  });
+
+
+
+
 }
+
 
 
 function renderUserBadges() {
