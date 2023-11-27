@@ -3,7 +3,6 @@ constructor(quizId) {
 this.quizId = quizId;
 this.currentQuestionIndex = 0;
 this.questions = [];
-// Add other properties you may need
 }
 
     async fetchQuestions() {
@@ -31,15 +30,15 @@ this.questions = [];
     }
 
     goToNextQuestion() {
-    if (this.currentQuestionIndex < this.questions.length - 1) {
-        this.currentQuestionIndex += 1;
-    }
+        if (this.currentQuestionIndex < this.questions.rows.length - 1) {
+            this.currentQuestionIndex += 1;
+        }
     }
 
     goToPreviousQuestion() {
-    if (this.currentQuestionIndex > 0) {
-        this.currentQuestionIndex -= 1;
-    }
+        if (this.currentQuestionIndex > 0) {
+            this.currentQuestionIndex -= 1;
+        }
     }
 
     isLastQuestion() {

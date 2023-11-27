@@ -19,10 +19,16 @@ const quizPage = async () => {
     updateButtonsText(questionModel);
 
     const nextButton = document.getElementById('nextButton');
-    nextButton.addEventListener('click', () => {
+    nextButton.addEventListener('click', async () => {
         chosenAnswers.push(selectedAnswer);
         questionModel.goToNextQuestion();
-        insertQuestionData(questionModel, answerModel);
+        
+        // Fetch answers for the next question
+        const nextAnswerModel = new Answers(questionModel.getCurrentQuestionNumber());
+        await nextAnswerModel.fetchAnswers();
+
+        // Update the card content with the next question and answers
+        insertQuestionData(questionModel, nextAnswerModel);
         updateButtonsText(questionModel);
         if (questionModel.isLastQuestion()) {
             console.log('REDIRECT TO RESULT PAGE')
@@ -56,60 +62,61 @@ function updateButtonsText(questionModel) {
     }
 }
 
-
 function renderQuestionLayout() {
     const main = document.querySelector('main');
     const container = document.createElement('div');
     container.classList = 'container text-center';
     const row = document.createElement('div');
-    row.classList = 'row align-items-center justify-content-between pt-5';
+    row.classList = 'row pt-5';
 
-    const contentCol = document.createElement('div');
-    contentCol.classList = 'col-md-6 mx-auto';
-    const nextButtonCol = document.createElement('div');
-    nextButtonCol.classList = 'col-md-2';
-
+    // Back Button Column
     const backButtonCol = document.createElement('div');
     backButtonCol.classList = 'col-md-2';
+    renderBackButtonLayout(backButtonCol);
+    row.appendChild(backButtonCol);
 
-    // Header   
-    const header = document.createElement('h2');
-    header.id = 'question-header';
-    header.style.border = '1px solid black';
-    header.style.padding = '10px';
-    header.style.backgroundColor = 'white';
-    header.style.marginBottom = '0px';
+    // Content Column
+    const contentCol = document.createElement('div');
+    contentCol.classList = 'col-md-8';
+
+    const card = document.createElement('div');
+    card.classList = 'card';
+
+    // Header
+    const cardHeader = document.createElement('div');
+    cardHeader.classList = 'card-header';
+    cardHeader.id = 'question-header';
+    card.appendChild(cardHeader);
 
     // Question Content
+    const cardBody = document.createElement('div');
+    cardBody.classList = 'card-body';
     const questionForm = document.createElement('form');
     questionForm.style.backgroundColor = '#4472C4';
     questionForm.appendChild(renderTimer());
     questionForm.appendChild(renderAnswerButtons());
-    questionForm.style.paddingBottom = '20px';
+    cardBody.appendChild(questionForm);
+    card.appendChild(cardBody);
 
     // Question Number
+    const cardFooter = document.createElement('div');
+    cardFooter.classList = 'card-footer text-muted';
     const questionNumberHeader = document.createElement('h4');
     questionNumberHeader.id = 'question-number-header';
-    questionNumberHeader.style.border = '1px solid black';
-    questionNumberHeader.style.backgroundColor = 'white';
-    questionNumberHeader.style.marginLeft = '100px';
-    questionNumberHeader.style.marginRight = '100px';
-    questionNumberHeader.style.marginTop = '20px';
+    cardFooter.appendChild(questionNumberHeader);
+    card.appendChild(cardFooter);
 
-
-    renderNextButtonLayout(nextButtonCol);
-    renderBackButtonLayout(backButtonCol);
-
-    contentCol.appendChild(header);
-    contentCol.appendChild(questionForm);
-    contentCol.appendChild(questionNumberHeader);
-
-    row.appendChild(backButtonCol);
+    contentCol.appendChild(card);
     row.appendChild(contentCol);
-    row.appendChild(nextButtonCol);
+
+    // Submit Button Column
+    const submitButtonCol = document.createElement('div');
+    submitButtonCol.classList = 'col-md-2';
+    renderNextButtonLayout(submitButtonCol);
+    row.appendChild(submitButtonCol);
 
     container.appendChild(row);
-    main.appendChild(container)
+    main.appendChild(container);
 }
 
 function renderNextButtonLayout(container) {
@@ -214,13 +221,9 @@ function renderTimer() {
 }
 
 function insertQuestionData(question, answers) {
-    console.log('Current Question : ', question);
-    console.log('Current Answers : ', answers);
-    // Modify the question header
     const questionHeader = document.getElementById('question-header');
     questionHeader.innerText = question.getCurrentQuestion().libelle;
 
-    // Modify the answer buttons
     const answerLabels = document.querySelectorAll('label');
     answerLabels.forEach((label, index) => {
         // eslint-disable-next-line no-param-reassign
