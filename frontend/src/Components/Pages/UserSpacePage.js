@@ -4,17 +4,16 @@ import { clearPage } from '../../utils/render';
 import badge1 from '../../img/badge1.jpg';
 import { readAllQuizzesByUser } from '../../models/quizzes';
 
-const allQuizzesByUser = await readAllQuizzesByUser(6); // a remplacer par l'id de l'utilisateur courant !!
 const main = document.querySelector('main');
 
 const UserSpacePage = () => {
   renderUserQuiz();
 };
 
-function renderUserQuiz() {
+async function renderUserQuiz() {
   clearPage();
-  // eslint-disable-next-line prefer-const
   let mainListQuiz = '';
+  const allQuizzesByUser = await readAllQuizzesByUser(6); // a remplacer par l'id de l'utilisateur courant !!
   mainListQuiz = `
     <section>
       <div class="alert color-purple">
