@@ -61,7 +61,7 @@ const addOneQuiz = async (quiz) => {
 
 const readAllQuizzesByUser = async (id) => {
   try {
-    const response = await fetch(`http://localhost:3000/quizzes/${id}`);
+    const response = await fetch(`http://localhost:3000/quizzes/?user-id=${id}`);
     if (!response.ok) {
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
