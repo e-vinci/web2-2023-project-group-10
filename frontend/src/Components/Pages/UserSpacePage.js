@@ -49,7 +49,7 @@ function renderUserQuiz() {
                     ${quiz.title}
                  </div>
                  <div class="col-md-4 text-center">
-                     ${quiz.date_creation}
+                 ${new Date(quiz.date_creation).toLocaleDateString()}
                  </div>
                  <div class="col-md-4 text-end">
                      <button class="btn btn-danger">Supprimer</button>
