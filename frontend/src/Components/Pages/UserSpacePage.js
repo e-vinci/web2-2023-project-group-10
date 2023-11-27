@@ -3,17 +3,16 @@ import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import badge1 from '../../img/badge1.jpg';
 
-const numberOfQuiz = 6 ; // a CHANGER avec le nb de quiz de l'utilisateur dans la DB !!!!!!!!!!!!!!!
 const main = document.querySelector('main');
 
 const UserSpacePage = () => {
   renderUserQuiz();
 };
 
-function renderUserQuiz() {
+async function renderUserQuiz() {
   clearPage();
-  // eslint-disable-next-line prefer-const
   let mainListQuiz = '';
+  const allQuizzesByUser = await readAllQuizzesByUser(6); // a remplacer par l'id de l'utilisateur courant !!
   mainListQuiz = `
     <section>
       <div class="alert color-purple">
