@@ -123,4 +123,12 @@ router.get('/:id_user', async (req, res) => {
   }
 });
 
+router.delete('/:id', (req, res) => {
+  const deletedQuiz = deleteOneQuiz(req.params.id);
+
+  if (!deletedQuiz) return res.sendStatus(404);
+
+  return res.json(deletedQuiz);
+});
+
 module.exports = router;
