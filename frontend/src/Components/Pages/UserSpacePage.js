@@ -2,19 +2,19 @@
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import badge1 from '../../img/badge1.jpg';
-import { readAllQuizzesByUser } from '../../models/quizzes';
+import { readAllQuizzesByUser, deleteOneQuiz } from '../../models/quizzes';
 
-const allQuizzesByUser = await readAllQuizzesByUser(6); // a remplacer par l'id de l'utilisateur courant !!
 const main = document.querySelector('main');
 
 const UserSpacePage = () => {
   renderUserQuiz();
 };
 
-function renderUserQuiz() {
+async function renderUserQuiz() {
   clearPage();
   // eslint-disable-next-line prefer-const
   let mainListQuiz = '';
+  const allQuizzesByUser = await readAllQuizzesByUser(6); // a remplacer par l'id de l'utilisateur courant !!
   mainListQuiz = `
     <section>
       <div class="alert color-purple">
@@ -38,29 +38,30 @@ function renderUserQuiz() {
         <div class="container-xxl justify-content-center pt-5 "> 
      `;
 
-     // eslint-disable-next-line no-plusplus
-     for (let index = 0; index < numberOfQuiz; index++) {
-     mainListQuiz+=`   
+  // eslint-disable-next-line no-plusplus
+  allQuizzesByUser.forEach((quiz) => {
+    mainListQuiz += `   
      <div class="row">
      <div class="card shadow cardMyQuiz">
          <div class="card-body">
              <div class="row">
                  <div class="col-md-4">
-                     (Nom du quiz)
+                    ${quiz.title}
                  </div>
                  <div class="col-md-4 text-center">
-                     (date_creation)
+                 ${new Date(quiz.date_creation).toLocaleDateString()}
                  </div>
                  <div class="col-md-4 text-end">
                      <button class="btn btn-danger">Supprimer</button>
+                     <input type="hidden" id="quizToDelete" value=${quiz.quiz_id}>
                  </div>
              </div>
          </div>
      </div>
  </div>`;
-     }
- 
-      mainListQuiz+=`   
+  });
+
+  mainListQuiz += `   
       </div>
       </div>
     </section>`;
@@ -75,16 +76,14 @@ function renderUserQuiz() {
 
   const quizToDelete = document.querySelectorAll('#quizToDelete');
 
-  quizToDelete.forEach((btn) =>{
-
+  quizToDelete.forEach((btn) => {
     btn.addEventListener('click', (e) => {
       const deleteQuiz = e.target.dataset.data_quizid;
       // console.log(deleteQuiz);
       deleteOneQuiz(deleteQuiz);
 
       // renderUserQuiz() recharger les quiz
-  });
-
+    });
   });
 }
 
@@ -145,4 +144,3 @@ function renderUserBadges() {
 }
 
 export default UserSpacePage;
-
