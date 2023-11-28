@@ -1,4 +1,3 @@
-import Swal from 'sweetalert2';
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 
@@ -54,51 +53,25 @@ async function handleRegisterClick() {
  
   const username = document.getElementById('username').value;
   const password = document.getElementById('password').value;
-  const verifPassword = document.getElementById('conf-password').value;
 
-  if(password !== verifPassword){
-    Swal.fire({
-      title: "Les mots de passe ne correspondent pas",
-      icon: "error",
-      showConfirmButton: true
-    });
-    
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({
+      username,
+      password,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
 
-  } else{
-    const options = {
-      method: 'POST',
-      body: JSON.stringify({
-        username,
-        password,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
+  const response = await fetch('http://localhost:3000/users/register', options);
 
-    const response = await fetch('http://localhost:3000/users/register', options);
-
-    if (!response.ok) {
-      Swal.fire({
-        title: "Le pseudo existe deja",
-        icon: "error",
-        showConfirmButton: true
-      });
-
-
-    }else{
-      Swal.fire({
-        title: "Inscription réussie!",
-        text: "Votre compte a été créé avec succès.",
-        icon: "success",
-        timer: 1000,
-        showConfirmButton: false
-      });
-      
-      Navigate('/login');
-
-    }
+  if (!response.ok) {
+    throw new Error(`Erreur HTTP: ${response.status}`);
   }
+
+  Navigate('/categories');
 }
 
 

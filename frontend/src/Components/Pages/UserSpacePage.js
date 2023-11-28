@@ -4,17 +4,16 @@ import { clearPage } from '../../utils/render';
 import badge1 from '../../img/badge1.jpg';
 import { deleteOneQuiz, readAllQuizzesByUser } from '../../models/quizzes';
 
-const allQuizzesByUser = await readAllQuizzesByUser(6); // a remplacer par l'id de l'utilisateur courant !!
 const main = document.querySelector('main');
 
 const UserSpacePage = () => {
   renderUserQuiz();
 };
 
-function renderUserQuiz() {
+async function renderUserQuiz() {
   clearPage();
-  // eslint-disable-next-line prefer-const
   let mainListQuiz = '';
+  const allQuizzesByUser = await readAllQuizzesByUser(6); // a remplacer par l'id de l'utilisateur courant !!
   mainListQuiz = `
     <section>
       <div class="alert color-purple">
@@ -38,18 +37,18 @@ function renderUserQuiz() {
         <div class="container-xxl justify-content-center pt-5 "> 
      `;
 
-  // eslint-disable-next-line no-plusplus
-  allQuizzesByUser.forEach((quiz) => {
-    mainListQuiz += `   
+     // eslint-disable-next-line no-plusplus
+     for (let index = 0; index < numberOfQuiz; index++) {
+     mainListQuiz+=`   
      <div class="row">
      <div class="card shadow cardMyQuiz">
          <div class="card-body">
              <div class="row">
                  <div class="col-md-4">
-                    ${quiz.title}
+                     (Nom du quiz)
                  </div>
                  <div class="col-md-4 text-center">
-                     ${quiz.date_creation}
+                     (date_creation)
                  </div>
                  <div class="col-md-4 text-end">
                      <button class="btn btn-danger" class="quizToDelete" data-quizid="${quiz.quiz_id}">Supprimer</button>
@@ -59,15 +58,15 @@ function renderUserQuiz() {
          </div>
      </div>
  </div>`;
-  });
-
-  mainListQuiz += `   
+     }
+ 
+      mainListQuiz+=`   
       </div>
       </div>
     </section>`;
 
-  main.innerHTML = mainListQuiz;
-
+    main.innerHTML = mainListQuiz;
+     
   const linkBadge = document.querySelector('#linkBadge');
 
   linkBadge.addEventListener('click', () => {
@@ -88,6 +87,7 @@ function renderUserQuiz() {
 
   });
 }
+
 
 function renderUserBadges() {
   clearPage();
@@ -144,5 +144,6 @@ function renderUserBadges() {
     renderUserQuiz();
   });
 }
+
 
 export default UserSpacePage;

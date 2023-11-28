@@ -11,6 +11,8 @@ const usersRouter = require('./routes/users');
 const quizzesRouter = require('./routes/quizzes');
 const pizzaRouter = require('./routes/pizzas');
 const authsRouter = require('./routes/auths');
+const questionsRouter = require('./routes/questions');
+const answersRouter = require('./routes/answers');
 
 const app = express();
 
@@ -23,6 +25,8 @@ app.use(cors(corsOptions));
 
 app.use('/users', usersRouter);
 app.use('/quizzes', quizzesRouter);
+app.use('/questions', questionsRouter);
+app.use('/answers', answersRouter);
 app.use('/pizzas', pizzaRouter);
 app.use('/auths', authsRouter);
 
