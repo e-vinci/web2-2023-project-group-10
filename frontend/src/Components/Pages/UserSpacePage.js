@@ -2,7 +2,7 @@
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import badge1 from '../../img/badge1.jpg';
-import { deleteOneQuiz, readAllQuizzesByUser } from '../../models/quizzes';
+import { readAllQuizzesByUser } from '../../models/quizzes';
 
 const allQuizzesByUser = await readAllQuizzesByUser(6); // a remplacer par l'id de l'utilisateur courant !!
 const main = document.querySelector('main');
@@ -38,30 +38,29 @@ function renderUserQuiz() {
         <div class="container-xxl justify-content-center pt-5 "> 
      `;
 
-  // eslint-disable-next-line no-plusplus
-  allQuizzesByUser.forEach((quiz) => {
-    mainListQuiz += `   
+     // eslint-disable-next-line no-plusplus
+     for (let index = 0; index < numberOfQuiz; index++) {
+     mainListQuiz+=`   
      <div class="row">
      <div class="card shadow cardMyQuiz">
          <div class="card-body">
              <div class="row">
                  <div class="col-md-4">
-                    ${quiz.title}
+                     (Nom du quiz)
                  </div>
                  <div class="col-md-4 text-center">
-                     ${quiz.date_creation}
+                     (date_creation)
                  </div>
                  <div class="col-md-4 text-end">
-                     <button class="btn btn-danger" class="quizToDelete" data-quizid="${quiz.quiz_id}">Supprimer</button>
-                     <input type="hidden" class="deleteQuiz" value=${quiz.quiz_id}>
+                     <button class="btn btn-danger">Supprimer</button>
                  </div>
              </div>
          </div>
      </div>
  </div>`;
-  });
-
-  mainListQuiz += `   
+     }
+ 
+      mainListQuiz+=`   
       </div>
       </div>
     </section>`;
@@ -146,3 +145,4 @@ function renderUserBadges() {
 }
 
 export default UserSpacePage;
+

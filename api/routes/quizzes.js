@@ -7,9 +7,20 @@ const express = require('express');
 const pool = require('../db');
 
 const router = express.Router();
+const { readAllQuizzesByUser } = require('../models/quizzes');
 
-router.get('/', (req, res) => {
-  res.json({ users: [{ name: 'e-baron' }] });
+router.get('/', async (req, res) => {
+  const userId = req?.query ? Number(req.query['user-id']) : undefined;
+  try {
+    const quizzes = await readAllQuizzesByUser(userId);
+    // quand on appel une focntion asyn, obliger de mettre await ici !!
+    console.log(quizzes);
+    if (quizzes !== undefined) return res.json(quizzes);
+    return res.sendStatus(400);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Erreur serveur');
+  }
 });
 
 router.post('/', async (req, res) => {
