@@ -75,17 +75,47 @@ const readAllQuizzesByUser = async (id) => {
   }
 };
 
-const deleteOneQuiz = async (id) => {
+const deleteOneQuiz = async (quiz) => {
+  console.log('I am in models/quizzes.js, in the function deleteOneQuiz');
+  console.log('param quiz : ', quiz);
+
+  const main = document.querySelector('main');
+  main.innerHTML = `
+  <div class="text-center" id="loadingSpinner" style="display: none;">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+`;
+  const loadingSpinner = document.querySelector('#loadingSpinner');
   try {
-    const response = await fetch(`http://localhost:3000/quizzes/${id}`);
+    loadingSpinner.style.display = 'block';
+    const options = {
+      method: 'DELETE',
+      body: JSON.stringify(quiz),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    console.log(options);
+    const response = await fetch('http://localhost:3000/quizzes', options);
     if (!response.ok) {
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
-    const categories = await response.json();
-    console.log('Categories :', categories);
-    return categories;
+    loadingSpinner.style.display = 'none';
+    const deletedQuiz = await response.json();
+    console.log('deletedQuiz :', deletedQuiz);
+    Swal.fire({
+      title: 'Suppression du quiz réussie!',
+      text: 'Votre quiz a été supprimé avec succès.',
+      icon: 'success',
+      timer: 1500,
+      showConfirmButton: true,
+    });
+    return deletedQuiz;
   } catch (err) {
-    console.error('readAllCategories::error: ', err);
+    loadingSpinner.style.display = 'none';
+    console.error('deleteOneQuiz::error: ', err);
     throw err;
   }
 };

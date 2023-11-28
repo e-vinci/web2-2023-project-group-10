@@ -2,7 +2,7 @@
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import badge1 from '../../img/badge1.jpg';
-import { readAllQuizzesByUser } from '../../models/quizzes';
+import { deleteOneQuiz, readAllQuizzesByUser } from '../../models/quizzes';
 
 const allQuizzesByUser = await readAllQuizzesByUser(6); // a remplacer par l'id de l'utilisateur courant !!
 const main = document.querySelector('main');
@@ -52,8 +52,8 @@ function renderUserQuiz() {
                      ${quiz.date_creation}
                  </div>
                  <div class="col-md-4 text-end">
-                     <button class="btn btn-danger">Supprimer</button>
-                     <input type="hidden" id="quizToDelete" value=${quiz.quiz_id}>
+                     <button class="btn btn-danger" class="quizToDelete" data-quizid="${quiz.quiz_id}">Supprimer</button>
+                     <input type="hidden" class="deleteQuiz" value=${quiz.quiz_id}>
                  </div>
              </div>
          </div>
@@ -74,10 +74,18 @@ function renderUserQuiz() {
     renderUserBadges();
   });
 
-  const quizToDelete = document.querySelector('#quizToDelete');
+  const quizToDelete = document.querySelectorAll('#quizToDelete');
 
-  quizToDelete.addEventListener('click', () => {
-    renderUserQuiz();
+  quizToDelete.forEach((btn) =>{
+
+    btn.addEventListener('click', (e) => {
+      const deleteQuiz = e.target.dataset.data_quizid;
+      // console.log(deleteQuiz);
+      deleteOneQuiz(deleteQuiz);
+
+      // renderUserQuiz() recharger les quiz
+  });
+
   });
 }
 
