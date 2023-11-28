@@ -1,3 +1,8 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import anime from 'animejs';
+import bootstrap from 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import { clearPage } from '../../utils/render';
 import Questions from '../../models/questions'
 import Answers from '../../models/answers';
@@ -20,6 +25,7 @@ const quizPage = async () => {
 
     const nextButton = document.getElementById('nextButton');
     nextButton.addEventListener('click', async () => {
+        fade();
         chosenAnswers.push(selectedAnswer);
         questionModel.goToNextQuestion();
         
@@ -30,14 +36,11 @@ const quizPage = async () => {
         // Update the card content with the next question and answers
         insertQuestionData(questionModel, nextAnswerModel);
         updateButtonsText(questionModel);
-        if (questionModel.isLastQuestion()) {
-            console.log('REDIRECT TO RESULT PAGE')
-            console.log(chosenAnswers)
-        }
     });
 
     const backButton = document.getElementById('backButton');
     backButton.addEventListener('click', () => {
+        fade();
         chosenAnswers.pop();
         questionModel.goToPreviousQuestion();
         insertQuestionData(questionModel, answerModel);
@@ -47,18 +50,17 @@ const quizPage = async () => {
 
 function updateButtonsText(questionModel) {
     const nextButton = document.getElementById('nextButton');
+    const submitButton = document.getElementById('submitButton');
     const backButton = document.getElementById('backButton');
 
-    // Access the span inside each button
-    const nextButtonSpan = nextButton.querySelector('span');
-    const backButtonSpan = backButton.querySelector('span');
-
-    nextButtonSpan.textContent = questionModel.isLastQuestion() ? 'Submit' : 'Next';
+    if (questionModel.isLastQuestion()) {
+        nextButton.style.display = 'none';
+        submitButton.style.display = 'block';
+    }
     if (questionModel.isFirstQuestion()) {
         backButton.style.visibility = 'hidden';
     } else {
         backButton.style.visibility = 'visible';
-        backButtonSpan.textContent = 'Back';
     }
 }
 
@@ -113,6 +115,7 @@ function renderQuestionLayout() {
     const submitButtonCol = document.createElement('div');
     submitButtonCol.classList = 'col-md-2';
     renderNextButtonLayout(submitButtonCol);
+    renderSubmitButtonLayout(submitButtonCol);
     row.appendChild(submitButtonCol);
 
     container.appendChild(row);
@@ -120,30 +123,46 @@ function renderQuestionLayout() {
 }
 
 function renderNextButtonLayout(container) {
-    const submit = document.createElement('button'); // Change from input to button
+    const submit = document.createElement('button');
     submit.id = 'nextButton';
     submit.className = 'btn btn-secondary mb-5';
-
-    // Create a span element
     const span = document.createElement('span');
     span.textContent = 'Next';
 
-    // Append the span inside the button
     submit.appendChild(span);
 
     container.appendChild(submit);
 }
 
+function renderSubmitButtonLayout(container) {
+    renderModal(); // Add this line to render the modal HTML
+
+    const submit = document.createElement('button');
+    submit.id = 'submitButton';
+    submit.type = 'button';
+    submit.className = 'btn btn-secondary';
+    submit.style.display = 'none';
+    const span = document.createElement('span');
+    span.textContent = 'Submit';
+
+    // Add a click event listener to show the modal
+    submit.addEventListener('click', () => {
+        const myModal = new bootstrap.Modal(document.getElementById('resultsModal'), {});
+        myModal.show();
+    });
+
+    submit.appendChild(span);
+    container.appendChild(submit);
+}
+
+
 function renderBackButtonLayout(container) {
-    const backButton = document.createElement('button'); // Change from input to button
+    const backButton = document.createElement('button');
     backButton.id = 'backButton';
     backButton.className = 'btn btn-secondary mb-5';
-
-    // Create a span element
     const span = document.createElement('span');
     span.textContent = 'Back';
 
-    // Append the span inside the button
     backButton.appendChild(span);
 
     container.appendChild(backButton);
@@ -234,4 +253,94 @@ function insertQuestionData(question, answers) {
     const questionNumberHeader = document.getElementById('question-number-header');
     questionNumberHeader.innerText = `Question n°${question.getCurrentQuestionNumber()}/${question.getCurrentQuizNumberOfQuestions()}`;
 }
+
+function fade() {
+    anime({
+        targets: document.querySelector('.card'),
+        opacity: 0,
+        duration: 1, // Adjust the duration for a slower fade in
+        easing: 'easeOutQuad',
+        complete: () => {
+            // Start the fade out animation after the fade in is complete
+            anime({
+                targets: document.querySelector('.card'),
+                opacity: 1,
+                duration: 300, // Adjust the duration for a slower fade out
+                easing: 'easeInQuad',
+            });
+        },
+    });
+}
+
+function renderModal() {
+    const main = document.querySelector('main');
+
+    // Modal
+    const modal = document.createElement('div');
+    modal.classList.add('modal', 'fade');
+    modal.id = 'resultsModal';
+    modal.tabIndex = '-1';
+    modal.role = 'dialog';
+    modal.setAttribute('aria-labelledby', 'resultsModalLabel');
+    modal.setAttribute('aria-hidden', 'true');
+
+    // Modal Dialog
+    const modalDialog = document.createElement('div');
+    modalDialog.classList.add('modal-dialog');
+    modalDialog.role = 'document';
+    modal.appendChild(modalDialog);
+
+    // Modal Content
+    const modalContent = document.createElement('div');
+    modalContent.classList.add('modal-content');
+    modalDialog.appendChild(modalContent);
+
+    // Modal Header
+    const modalHeader = document.createElement('div');
+    modalHeader.className = 'modal-header';
+    const header = document.createElement('h5');
+    header.className = 'modal-title';
+    header.id = 'resultsModalLabel';
+    header.textContent = 'Quiz Results'; // Customize the modal title here
+    const crossBtn = document.createElement('button');
+    crossBtn.type = 'button';
+    crossBtn.classList.add('close');
+    crossBtn.setAttribute('data-dismiss', 'modal');
+    crossBtn.setAttribute('aria-label', 'Close');
+    const span = document.createElement('span');
+    span.setAttribute('aria-hidden', 'true');
+    span.innerText = '×';
+    crossBtn.appendChild(span);
+    modalHeader.appendChild(header);
+    modalHeader.appendChild(crossBtn);
+    modalContent.appendChild(modalHeader);
+
+    // Modal Body
+    const modalBody = document.createElement('div');
+    modalBody.className = 'modal-body';
+    const modalTextContent = document.createElement('p');
+    modalTextContent.innerText = 'Quiz results will be displayed here.'; // Customize the modal body text
+    modalBody.appendChild(modalTextContent);
+    modalContent.appendChild(modalBody);
+
+    // Modal Footer
+    const modalFooter = document.createElement('div');
+    modalFooter.classList.add('modal-footer');
+    const saveBtn = document.createElement('button');
+    saveBtn.type = 'button';
+    saveBtn.classList.add('btn', 'btn-primary');
+    saveBtn.innerText = 'Save changes'; // Customize the save button text
+    const closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.classList.add('btn', 'btn-secondary');
+    closeBtn.setAttribute('data-dismiss', 'modal');
+    closeBtn.innerText = 'Close'; // Customize the close button text
+    modalFooter.appendChild(saveBtn);
+    modalFooter.appendChild(closeBtn);
+    modalContent.appendChild(modalFooter);
+
+    // Append the modal to the main element
+    main.appendChild(modal);
+}
+
 export default quizPage;
