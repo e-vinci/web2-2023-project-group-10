@@ -96,13 +96,7 @@ const deleteOneQuiz = async (quiz) => {
     loadingSpinner.style.display = 'none';
     const deletedQuiz = await response.json();
     console.log('deletedQuiz :', deletedQuiz);
-    Swal.fire({
-      title: 'Suppression du quiz réussie!',
-      text: 'Votre quiz a été supprimé avec succès.',
-      icon: 'success',
-      timer: 1500,
-      showConfirmButton: true,
-    });
+    
     return deletedQuiz;
   } catch (err) {
     loadingSpinner.style.display = 'none';
