@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-console */
 const readAllCategories = async () => {
   try {
@@ -43,6 +44,13 @@ const addOneQuiz = async (quiz) => {
     loadingSpinner.style.display = 'none';
     const createdQuiz = await response.json();
     console.log('createdQuiz :', createdQuiz);
+    Swal.fire({
+      title: 'Création du quiz réussie!',
+      text: 'Votre quiz a été créé avec succès.',
+      icon: 'success',
+      timer: 1500,
+      showConfirmButton: false,
+    });
     return createdQuiz;
   } catch (err) {
     loadingSpinner.style.display = 'none';
@@ -51,4 +59,19 @@ const addOneQuiz = async (quiz) => {
   }
 };
 
-export { readAllCategories, addOneQuiz };
+const readAllQuizzesByUser = async (id) => {
+  try {
+    const response = await fetch(`http://localhost:3000/quizzes/?user-id=${id}`);
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP: ${response.status}`);
+    }
+    const quizzes = await response.json();
+    console.log('Categories :', quizzes);
+    return quizzes;
+  } catch (err) {
+    console.error('readAllQuizzesByUser::error: ', err);
+    throw err;
+  }
+};
+
+export { readAllCategories, addOneQuiz, readAllQuizzesByUser };
