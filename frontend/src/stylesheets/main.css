@@ -151,6 +151,25 @@ input[type="text"], input[type="password"] {
   background-color: aqua;
 }
 */
+
+/**************QuizPage*************/
+.answer-label {
+  margin : 10px;
+  border-radius : 5px;
+  background-color : white;
+  width : 75%;
+  border-color : black;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.card-header, .card-footer {
+  background-color : #d598e691;
+}
 /**************************************************************************/
 
 /********************************* FOOTER *********************************/

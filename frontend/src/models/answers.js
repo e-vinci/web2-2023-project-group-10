@@ -1,33 +1,16 @@
-class answers {
-constructor(questionId) {
-this.questionId = questionId;
-this.answers = [];
-// Add other properties you may need
-}
-
-    async fetchAnswers() {
+const fetchAnswersByQuestionId = async (questionId) => {
     try {
-        const response = await fetch(`http://localhost:3000/answers/${this.questionId}`);
+        const response = await fetch(`http://localhost:3000/answers/${questionId}`);
         if (!response.ok) {
-        throw new Error(`Fetch error: ${response.status} - ${response.statusText}`);
+            throw new Error(`Fetch error: ${response.status} - ${response.statusText}`);
         }
-        this.answers = await response.json();
+        const answers = await response.json();
+        console.log('ANSWERS : ', answers)
+        return answers;
     } catch (error) {
-        console.error('Error fetching questions:', error);
-    }
-    }
-
-    getAnswers() {
-    return this.answers.rows;
-    }
-
-    getAnswerContent(answerId) {
-        return this.answers.rows[answerId].libelle;
-    }
-
-    getAnswerIsRight(answerId) {
-        return this.answers.rows[answerId].est_correcte;
+        console.error('Error fetching answers:', error);
+        throw error;
     }
 };
 
-export default answers;
+export default fetchAnswersByQuestionId;

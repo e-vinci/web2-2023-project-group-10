@@ -113,5 +113,4 @@ const deleteOneQuiz = async (quiz) => {
   }
 };
 
-
 export { readAllCategories, addOneQuiz, readAllQuizzesByUser, deleteOneQuiz };

@@ -8,7 +8,7 @@ const pool = require('../db');
 
 const router = express.Router();
 
-// Read the questions identified by the quiz id
+// Read the answers identified by the question id
 router.get('/:questionId', async (req, res) => {
   const { questionId } = req.params;
 
@@ -21,7 +21,7 @@ router.get('/:questionId', async (req, res) => {
   if (!foundAnswers) {
     return res.sendStatus(404);
   }
-  return res.json(foundAnswers);
+  return res.json(foundAnswers.rows);
 });
 
 module.exports = router;

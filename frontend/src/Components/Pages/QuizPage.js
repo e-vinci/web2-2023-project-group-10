@@ -1,63 +1,78 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import anime from 'animejs';
-import bootstrap from 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
 import { clearPage } from '../../utils/render';
-import Questions from '../../models/questions'
-import Answers from '../../models/answers';
+// eslint-disable-next-line no-unused-vars
+import {fetchQuestionsById, fetchQuestionsByQuizzId} from '../../models/questions';
+import fetchAnswersByQuestionId from '../../models/answers';
+
 
 let selectedAnswer = -1;
 
 
 const quizPage = async () => {
-    const quizId = 1;
+    // const quizId = 1;
+    let questionCursor = 0;
     const chosenAnswers = [];
-    const questionModel = new Questions(quizId);
-    await questionModel.fetchQuestions();
+    const questionIds = [1];
+
+    const currentQuestionId = questionIds[questionCursor];
+    const currentQuestion = await fetchQuestionsById(currentQuestionId);
     clearPage();
     renderQuestionLayout();
-    const currentQuestion = questionModel.getCurrentQuestion();
-    const answerModel = new Answers(currentQuestion.id_question);
-    await answerModel.fetchAnswers();
-    insertQuestionData(questionModel, answerModel);
-    updateButtonsText(questionModel);
+    const currentAnswers = await fetchAnswersByQuestionId(currentQuestionId);
+    insertQuestionData(currentQuestion, currentAnswers, questionCursor+1, questionIds.length);
+    updateButtonsText(questionCursor, questionIds.length);
 
     const nextButton = document.getElementById('nextButton');
     nextButton.addEventListener('click', async () => {
         fade();
+
         chosenAnswers.push(selectedAnswer);
-        questionModel.goToNextQuestion();
-        
+
+        // Fetch questions for the next card
+        questionCursor += 1;
+        const nextQuestionId = questionIds[questionCursor];
+        const nextQuestion = await fetchQuestionsById(nextQuestionId);
+
         // Fetch answers for the next question
-        const nextAnswerModel = new Answers(questionModel.getCurrentQuestionNumber());
-        await nextAnswerModel.fetchAnswers();
+        const nextAnswers = await  fetchAnswersByQuestionId(nextQuestionId);
 
         // Update the card content with the next question and answers
-        insertQuestionData(questionModel, nextAnswerModel);
-        updateButtonsText(questionModel);
+        insertQuestionData(nextQuestion, nextAnswers, questionCursor+1, questionIds.length);
+        updateButtonsText(questionCursor, questionIds.length);
     });
 
     const backButton = document.getElementById('backButton');
-    backButton.addEventListener('click', () => {
+    backButton.addEventListener('click', async () => {
         fade();
         chosenAnswers.pop();
-        questionModel.goToPreviousQuestion();
-        insertQuestionData(questionModel, answerModel);
-        updateButtonsText(questionModel);
+
+        // Fetch questions for the last card
+        questionCursor -= 1;
+        const lastQuestionId = questionIds[questionCursor];
+        const lastQuestion = await fetchQuestionsById(lastQuestionId);
+
+        // Fetch answers for the last question
+        const lastAnswers = await  fetchAnswersByQuestionId(lastQuestionId);
+
+        // Update the card content with the last question and answers
+        insertQuestionData(lastQuestion, lastAnswers, questionCursor+1, questionIds.length);
+        updateButtonsText(questionCursor, questionIds.length);
     });
 };
 
-function updateButtonsText(questionModel) {
+function updateButtonsText(questionCursor, maxLength) {
     const nextButton = document.getElementById('nextButton');
     const submitButton = document.getElementById('submitButton');
     const backButton = document.getElementById('backButton');
 
-    if (questionModel.isLastQuestion()) {
+    if (questionCursor === maxLength) {
         nextButton.style.display = 'none';
         submitButton.style.display = 'block';
-    }
-    if (questionModel.isFirstQuestion()) {
+    } else {
+        nextButton.style.display = 'block';
+        submitButton.style.display = 'none';
+        }
+    if (questionCursor === 0) {
         backButton.style.visibility = 'hidden';
     } else {
         backButton.style.visibility = 'visible';
@@ -94,7 +109,6 @@ function renderQuestionLayout() {
     const cardBody = document.createElement('div');
     cardBody.classList = 'card-body';
     const questionForm = document.createElement('form');
-    questionForm.style.backgroundColor = '#4472C4';
     questionForm.appendChild(renderTimer());
     questionForm.appendChild(renderAnswerButtons());
     cardBody.appendChild(questionForm);
@@ -135,7 +149,6 @@ function renderNextButtonLayout(container) {
 }
 
 function renderSubmitButtonLayout(container) {
-    renderModal(); // Add this line to render the modal HTML
 
     const submit = document.createElement('button');
     submit.id = 'submitButton';
@@ -145,16 +158,13 @@ function renderSubmitButtonLayout(container) {
     const span = document.createElement('span');
     span.textContent = 'Submit';
 
-    // Add a click event listener to show the modal
     submit.addEventListener('click', () => {
-        const myModal = new bootstrap.Modal(document.getElementById('resultsModal'), {});
-        myModal.show();
+        alert('Quiz results will be displayed here.'); // Temporary alert for demonstration
     });
 
     submit.appendChild(span);
     container.appendChild(submit);
 }
-
 
 function renderBackButtonLayout(container) {
     const backButton = document.createElement('button');
@@ -171,7 +181,6 @@ function renderBackButtonLayout(container) {
 function renderAnswerButtons() {
     const labels = [];
     const container = document.createElement('div');
-    container.style.textAlign = 'center';
 
     for (let index = 1; index < 5; index += 1) {
         const answerRadioId = `${index}`;
@@ -179,10 +188,7 @@ function renderAnswerButtons() {
         const answerItem = document.createElement('div');
         const answerContent = document.createElement('label');
         answerContent.setAttribute('for', answerRadioId);
-        answerContent.style.margin = '10px';
-        answerContent.style.borderRadius = '5px';
-        answerContent.style.backgroundColor = 'white';
-        answerContent.style.width = '75%';
+        answerContent.classList += 'answer-label';
 
         const answerRadio = document.createElement('input');
         answerRadio.type = 'radio';
@@ -196,7 +202,7 @@ function renderAnswerButtons() {
                 const element = labels[j];
                 element.style.backgroundColor = 'white';
             }
-            answerContent.style.backgroundColor = 'green';
+            answerContent.style.backgroundColor = '#6f52f9';
             selectedAnswer = answerRadioId;
         };
         labels.push(answerContent);
@@ -214,7 +220,6 @@ function renderTimer() {
     timerContainer.classList = 'd-flex justify-content-end';
 
     const timerText = document.createElement('h4');
-    timerText.style.padding = "10px";
     let count = 60;
     const updateTimerText = () => {
         const minutes = Math.floor(count / 60);
@@ -239,19 +244,19 @@ function renderTimer() {
     return timerContainer;
 }
 
-function insertQuestionData(question, answers) {
+function insertQuestionData(question, answers, questionNumber, numberOfQuestions) {
     const questionHeader = document.getElementById('question-header');
-    questionHeader.innerText = question.getCurrentQuestion().libelle;
+    questionHeader.innerText = question.libelle;
 
     const answerLabels = document.querySelectorAll('label');
     answerLabels.forEach((label, index) => {
         // eslint-disable-next-line no-param-reassign
-        label.innerText = answers.getAnswerContent(index);
+        label.innerText = answers[index].libelle
     });
 
     // Modify the question number
     const questionNumberHeader = document.getElementById('question-number-header');
-    questionNumberHeader.innerText = `Question n°${question.getCurrentQuestionNumber()}/${question.getCurrentQuizNumberOfQuestions()}`;
+    questionNumberHeader.innerText = `Question n°${questionNumber}/${numberOfQuestions}`;
 }
 
 function fade() {
@@ -270,77 +275,6 @@ function fade() {
             });
         },
     });
-}
-
-function renderModal() {
-    const main = document.querySelector('main');
-
-    // Modal
-    const modal = document.createElement('div');
-    modal.classList.add('modal', 'fade');
-    modal.id = 'resultsModal';
-    modal.tabIndex = '-1';
-    modal.role = 'dialog';
-    modal.setAttribute('aria-labelledby', 'resultsModalLabel');
-    modal.setAttribute('aria-hidden', 'true');
-
-    // Modal Dialog
-    const modalDialog = document.createElement('div');
-    modalDialog.classList.add('modal-dialog');
-    modalDialog.role = 'document';
-    modal.appendChild(modalDialog);
-
-    // Modal Content
-    const modalContent = document.createElement('div');
-    modalContent.classList.add('modal-content');
-    modalDialog.appendChild(modalContent);
-
-    // Modal Header
-    const modalHeader = document.createElement('div');
-    modalHeader.className = 'modal-header';
-    const header = document.createElement('h5');
-    header.className = 'modal-title';
-    header.id = 'resultsModalLabel';
-    header.textContent = 'Quiz Results'; // Customize the modal title here
-    const crossBtn = document.createElement('button');
-    crossBtn.type = 'button';
-    crossBtn.classList.add('close');
-    crossBtn.setAttribute('data-dismiss', 'modal');
-    crossBtn.setAttribute('aria-label', 'Close');
-    const span = document.createElement('span');
-    span.setAttribute('aria-hidden', 'true');
-    span.innerText = '×';
-    crossBtn.appendChild(span);
-    modalHeader.appendChild(header);
-    modalHeader.appendChild(crossBtn);
-    modalContent.appendChild(modalHeader);
-
-    // Modal Body
-    const modalBody = document.createElement('div');
-    modalBody.className = 'modal-body';
-    const modalTextContent = document.createElement('p');
-    modalTextContent.innerText = 'Quiz results will be displayed here.'; // Customize the modal body text
-    modalBody.appendChild(modalTextContent);
-    modalContent.appendChild(modalBody);
-
-    // Modal Footer
-    const modalFooter = document.createElement('div');
-    modalFooter.classList.add('modal-footer');
-    const saveBtn = document.createElement('button');
-    saveBtn.type = 'button';
-    saveBtn.classList.add('btn', 'btn-primary');
-    saveBtn.innerText = 'Save changes'; // Customize the save button text
-    const closeBtn = document.createElement('button');
-    closeBtn.type = 'button';
-    closeBtn.classList.add('btn', 'btn-secondary');
-    closeBtn.setAttribute('data-dismiss', 'modal');
-    closeBtn.innerText = 'Close'; // Customize the close button text
-    modalFooter.appendChild(saveBtn);
-    modalFooter.appendChild(closeBtn);
-    modalContent.appendChild(modalFooter);
-
-    // Append the modal to the main element
-    main.appendChild(modal);
 }
 
 export default quizPage;
