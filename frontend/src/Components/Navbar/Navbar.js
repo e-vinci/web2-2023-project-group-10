@@ -16,7 +16,7 @@ const Navbar = () => {
       
        <div class="container-fluid">
           <a class="nav-link" href="#"  data-uri="/" >
-          <img class= "logo" src="${logo}" alt="Logo">
+          <img class= "logo" src="${logo}" alt="Logo" data-uri="/">
           </a>
           
           <button

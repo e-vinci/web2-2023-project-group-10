@@ -29,8 +29,8 @@ async function renderFormInfoQuiz() {
   clearPage();
   const allCategories = await readAllCategories();
   let MainFormInfoQuiz = ` 
-  <section>
-	<div class="container-xxl d-flex justify-content-center align-items-center pt-5">
+  <section >
+	<div class="container-xxl d-flex justify-content-center align-items-center pt-5 ">
 		<div class="w-75">
 			<div class="card shadow-lg">
 				<div class="card-body p-5">
@@ -78,7 +78,7 @@ async function renderFormInfoQuiz() {
 		</div>
 	</div>
 </section>`;
-  main.innerHTML += MainFormInfoQuiz;
+  main.innerHTML = MainFormInfoQuiz;
   questionCount++;
 }
 

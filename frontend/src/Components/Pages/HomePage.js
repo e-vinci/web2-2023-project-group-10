@@ -51,10 +51,6 @@ const HomePage = () => {
             </div>
           </div>
       </section>
-
-      <footer>
-      COPYRIGHT © 2023 - 2023 - TOUS DROITS RESERVES
-      </footer>
         </section>`;
 };
 
