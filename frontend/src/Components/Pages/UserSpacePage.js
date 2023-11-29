@@ -10,6 +10,7 @@ const UserSpacePage = () => {
   renderUserQuiz();
 };
 
+
 async function renderUserQuiz() {
   clearPage();
   // eslint-disable-next-line prefer-const
@@ -44,6 +45,7 @@ async function renderUserQuiz() {
      <div class="row">
      <div class="card shadow cardMyQuiz">
          <div class="card-body">
+          <p id="deletedReponse"></p>
              <div class="row">
                  <div class="col-md-4">
                     ${quiz.title}
@@ -53,8 +55,10 @@ async function renderUserQuiz() {
                  </div>
                  <div class="col-md-4 text-end">
                      <button class="btn btn-danger">Supprimer</button>
-                     <input type="hidden" id="quizToDelete" value=${quiz.quiz_id}>
+                     <input type="hidden" class="quizToDelete" data-id=${quiz.quiz_id}>
+                
                  </div>
+
              </div>
          </div>
      </div>
@@ -74,15 +78,30 @@ async function renderUserQuiz() {
     renderUserBadges();
   });
 
-  const quizToDelete = document.querySelectorAll('#quizToDelete');
+  const quizToDelete = document.querySelectorAll('.quizToDelete');
+  // console.log(quizToDelete);
+
+  // faire une fonction comme dans la théorie 
 
   quizToDelete.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      const deleteQuiz = e.target.dataset.data_quizid;
-      // console.log(deleteQuiz);
-      deleteOneQuiz(deleteQuiz);
+    btn.addEventListener('click', async (e) => {
 
-      // renderUserQuiz() recharger les quiz
+      // console.log('front btn ');
+      e.preventDefault();
+      const deleteQuiz = e.target.dataset.id;
+      const reponse = await deleteOneQuiz(deleteQuiz);
+      const message = document.querySelector('#deletedResponse');
+      if(!reponse.ok){
+        message.className = "text-danger";
+        message.innerHTML = `Votre quiz n'a pas été supprimé`;
+      }
+      else{
+        message.className = "text-success";
+        message.innerHTML = `Votre quiz a été supprimé`;
+
+      }
+      
+      renderUserQuiz() // recharger les quiz
     });
   });
 }
