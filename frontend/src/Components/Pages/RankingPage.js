@@ -2,25 +2,18 @@
 /* eslint-disable no-plusplus */
 // import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
+import { readAllUsers } from '../../models/users';
 
 let allUsers = [];
-let ranking = 1;
+let ranking;
 const RankingPage = async () => {
-  clearPage();
-  try {
-    const response = await fetch('http://localhost:3000/users');
-    if (!response.ok) {
-      throw new Error(`Erreur HTTP: ${response.status}`);
-    }
-    allUsers = await response.json();
-  } catch (err) {
-    console.error('HTTP error : ', err);
-    throw err;
-  }
+  allUsers = await readAllUsers();
+  ranking = 1;
   renderRankingTable();
 };
 
 function renderRankingTable() {
+  clearPage();
   const main = document.querySelector('main');
   let mainRanking = `
   <section>
