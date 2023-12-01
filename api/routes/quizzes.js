@@ -13,6 +13,7 @@ const {
   readCategoryByLabel,
   addOneQuiz,
   addQuestionsAnswers,
+  deleteOneQuiz,
 } = require('../models/quizzes');
 
 /**
@@ -84,12 +85,25 @@ router.get('/categories', async (req, res) => {
   }
 });
 
-router.delete('/:id', (req, res) => {
-  const deletedQuiz = deleteOneQuiz(req.params.id);
+router.delete('/:quizId', async (req, res) => {
+  try {
+    const { quizId } = req.params;
+    console.log('ID du quiz à supprimer:', quizId);
+    const rowCount = await deleteOneQuiz(quizId);
+    console.log('cest greg');
+    console.log(rowCount);
 
-  if (!deletedQuiz) return res.sendStatus(404);
-
-  return res.json(deletedQuiz);
+    if (rowCount === 0) {
+      // Si aucune ligne n'a été affectée, le quiz n'existe pas.
+      res.status(404).send('Quiz non trouvé.');
+    } else {
+      // Si des lignes ont été affectées, la suppression a réussi.
+      res.status(200).json({ message: 'Quiz supprimé avec succès.' });
+    }
+  } catch (err) {
+    console.error('Erreur serveur lors de la suppression du quiz:', err);
+    res.status(500).send('Erreur serveur.');
+  }
 });
 
 module.exports = router;

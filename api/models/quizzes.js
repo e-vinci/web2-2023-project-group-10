@@ -96,10 +96,41 @@ async function addQuestionsAnswers(questions, quizId) {
   }
   return { message: 'Questions and answers added successfully.' };
 }
+
+async function deleteOneQuiz(quizId) {
+  console.log('hello world');
+  console.log(quizId);
+
+  try {
+    console.log('effacer plusieurs réponses');
+    const deleteAnswersQuery = `
+      DELETE FROM project.answers
+      WHERE question IN (
+        SELECT question_id
+        FROM project.questions
+        WHERE quiz_id = $1
+      )`;
+    let quizResult = await pool.query(deleteAnswersQuery, [quizId]);
+    console.log(`Nombre de réponses supprimées : ${quizResult.rowCount}`);
+
+    console.log('effacer les questions du quiz');
+    const deleteQuestionsQuery = 'DELETE FROM project.questions WHERE quiz_id = $1';
+    quizResult = await pool.query(deleteQuestionsQuery, [quizId]);
+    console.log(`Nombre de questions supprimées : ${quizResult.rowCount}`);
+
+    const deleteQuizQuery = 'DELETE FROM project.quizzes WHERE quiz_id = $1';
+    quizResult = await pool.query(deleteQuizQuery, [quizId]);
+    return quizResult.rowCount;
+  } catch (err) {
+    console.error('Erreur lors de la suppression du quiz:', err);
+  }
+}
+
 module.exports = {
   readAllQuizzesByUser,
   readCategoryByLabel,
   readAllCategories,
   addOneQuiz,
   addQuestionsAnswers,
+  deleteOneQuiz,
 };

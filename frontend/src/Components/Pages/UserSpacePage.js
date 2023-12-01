@@ -54,9 +54,7 @@ async function renderUserQuiz() {
                  ${new Date(quiz.date_creation).toLocaleDateString()}
                  </div>
                  <div class="col-md-4 text-end">
-                     <button class="btn btn-danger">Supprimer</button>
-                     <input type="hidden" class="quizToDelete" data-id=${quiz.quiz_id}>
-                
+                  <button class="btn btn-danger delete-quiz-btn" data-id=${quiz.quiz_id}>Supprimer</button>
                  </div>
 
              </div>
@@ -78,32 +76,45 @@ async function renderUserQuiz() {
     renderUserBadges();
   });
 
-  const quizToDelete = document.querySelectorAll('.quizToDelete');
-  // console.log(quizToDelete);
+  attachDeleteEventListeners();
 
-  // faire une fonction comme dans la théorie 
+}
 
-  quizToDelete.forEach((btn) => {
+
+function attachDeleteEventListeners(){
+  const deleteButtons = document.querySelectorAll('.delete-quiz-btn');
+
+  deleteButtons.forEach((btn) => {
     btn.addEventListener('click', async (e) => {
-
-      // console.log('front btn ');
+      console.log('front btn ');
       e.preventDefault();
       const deleteQuiz = e.target.dataset.id;
-      const reponse = await deleteOneQuiz(deleteQuiz);
       const message = document.querySelector('#deletedResponse');
-      if(!reponse.ok){
+      try{
+        const reponse = await deleteOneQuiz(deleteQuiz);
+        console.log(`la reponse du frontttttttttttttttt  ::    ${reponse.status}`);
+        
+      if (!reponse.ok) {
         message.className = "text-danger";
         message.innerHTML = `Votre quiz n'a pas été supprimé`;
+        Navigate('/login');
       }
-      else{
+      else {
         message.className = "text-success";
         message.innerHTML = `Votre quiz a été supprimé`;
+        console.log('Votre quiz a été supprimé dans le front');
 
+        Navigate('/register');
       }
-      
-      renderUserQuiz() // recharger les quiz
+      renderUserQuiz();
+      }catch (error) {
+        console.error('Erreur lors de la suppression du quiz:', error);
+        Navigate('/login');
+      }
     });
   });
+
+
 }
 
 function renderUserBadges() {

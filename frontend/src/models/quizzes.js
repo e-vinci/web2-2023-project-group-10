@@ -44,13 +44,6 @@ const addOneQuiz = async (quiz) => {
     loadingSpinner.style.display = 'none';
     const createdQuiz = await response.json();
     console.log('createdQuiz :', createdQuiz);
-    Swal.fire({
-      title: 'Création du quiz réussie!',
-      text: 'Votre quiz a été créé avec succès.',
-      icon: 'success',
-      timer: 1500,
-      showConfirmButton: false,
-    });
     return createdQuiz;
   } catch (err) {
     loadingSpinner.style.display = 'none';
@@ -86,18 +79,19 @@ const deleteOneQuiz = async (quiz) => {
     </div>
   </div>
 `;
+
+
   const loadingSpinner = document.querySelector('#loadingSpinner');
   try {
     loadingSpinner.style.display = 'block';
     const options = {
       method: 'DELETE',
-      body: JSON.stringify(quiz),
       headers: {
         'Content-Type': 'application/json',
       },
     };
     console.log(options);
-    const response = await fetch('http://localhost:3000/quizzes', options);
+    const response = await fetch(`http://localhost:3000/quizzes/${quiz}`, options);
     if (!response.ok) {
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
@@ -105,7 +99,7 @@ const deleteOneQuiz = async (quiz) => {
     const deletedQuiz = await response.json();
     console.log('deletedQuiz :', deletedQuiz);
     
-    return deletedQuiz;
+    return response;
   } catch (err) {
     loadingSpinner.style.display = 'none';
     console.error('deleteOneQuiz::error: ', err);
