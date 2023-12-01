@@ -24,4 +24,20 @@ router.get('/:questionId', async (req, res) => {
   return res.json(foundAnswers.rows);
 });
 
+// Get if an answer is correct or not given its Id
+router.get('/isTrue/:answerId', async (req, res) => {
+  const { answerId } = req.params;
+
+  if (!answerId) {
+    return res.status(400).json({ error: 'Missing answerId parameter' });
+  }
+
+  const isCorrect = await pool.query('SELECT is_correct FROM project.answers WHERE id_answer = $1', [answerId]);
+
+  if (isCorrect === null) {
+    return res.sendStatus(404);
+  }
+  return res.json(isCorrect);
+});
+
 module.exports = router;

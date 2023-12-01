@@ -1,10 +1,9 @@
 import anime from 'animejs';
-// eslint-disable-next-line no-unused-vars
 import navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 // eslint-disable-next-line no-unused-vars
 import {fetchQuestionsById, fetchQuestionsByQuizzId} from '../../models/questions';
-import fetchAnswersByQuestionId from '../../models/answers';
+import {fetchAnswersByQuestionId, isGivenAnswerCorrect} from '../../models/answers';
 
 
 let selectedAnswer = -1;
@@ -27,6 +26,7 @@ const quizPage = async () => {
     const nextButton = document.getElementById('nextButton');
     nextButton.addEventListener('click', async () => {
         fade();
+        resetSelectionColors();
 
         chosenAnswers.push(selectedAnswer);
 
@@ -46,6 +46,7 @@ const quizPage = async () => {
     const backButton = document.getElementById('backButton');
     backButton.addEventListener('click', async () => {
         fade();
+        resetSelectionColors();
         chosenAnswers.pop();
 
         // Fetch questions for the last card
@@ -60,6 +61,13 @@ const quizPage = async () => {
         insertQuestionData(lastQuestion, lastAnswers, questionCursor+1, questionIds.length);
         updateButtonsText(questionCursor, questionIds.length);
     });
+
+    const submitButton = document.getElementById('submitButton');
+    submitButton.addEventListener('click', async () => {
+        chosenAnswers.push(selectedAnswer);
+        const score = await calculateScore(chosenAnswers);
+        updateScore(score);
+    })
 };
 
 function renderModal() {
@@ -69,10 +77,11 @@ function renderModal() {
     <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Here will be diaplayed your results</h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Here will be displayed your results</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+        <p id="score-p"> Score : </p>
             Some notes will be added here. Maybe add a badge you won
         </div>
         <div class="modal-footer">
@@ -95,6 +104,34 @@ function renderModal() {
     const btn3 = document.getElementById('modalPlayAnotherQuiz');
     btn3.addEventListener('click', () => {
         quizPage();
+    });
+}
+
+async function calculateScore(answers) {
+    let score = 0;
+    
+    const promises = answers.map(async answer => {
+        const isTrue = await isGivenAnswerCorrect(answer);
+        if (isTrue.rows[0].is_correct) {
+            score += 1;
+        }
+    });
+
+    await Promise.all(promises);
+
+    return score;
+}
+
+function updateScore(score) {
+    const scoreP = document.getElementById('score-p');
+    scoreP.innerText += score;
+}
+
+function resetSelectionColors() {
+    const answerLabels = document.querySelectorAll('label');
+    answerLabels.forEach((label) => {
+        // eslint-disable-next-line no-param-reassign
+        label.style.backgroundColor = 'white';
     });
 }
 
@@ -229,6 +266,16 @@ function renderAnswerButtons() {
         answerRadio.id = answerRadioId;
         answerRadio.style.display = 'none';
         answerRadio.name = 'answers';
+        answerRadio.addEventListener('click', () => {
+            // Check if the radio button is checked
+            if (answerRadio.checked) {
+                // Get the value or any other property you need
+                answerRadio.selectedValue = answerRadio.id;
+                
+                // Now you can use the selectedValue as needed
+                console.log('Selected radio value:', answerRadio.selectedValue);
+            }
+            });
 
         // eslint-disable-next-line no-loop-func
         answerRadio.onclick = () => {
@@ -237,7 +284,7 @@ function renderAnswerButtons() {
                 element.style.backgroundColor = 'white';
             }
             answerContent.style.backgroundColor = '#6f52f9';
-            selectedAnswer = answerRadioId;
+            selectedAnswer = answerRadio.id;
         };
         labels.push(answerContent);
 
@@ -286,8 +333,14 @@ function insertQuestionData(question, answers, questionNumber, numberOfQuestions
     answerLabels.forEach((label, index) => {
         // eslint-disable-next-line no-param-reassign
         label.innerText = answers[index].answer;
+        // eslint-disable-next-line no-param-reassign
+        label.setAttribute("for", answers[index].id_answer);
     });
-
+    const answerRadios = document.querySelectorAll('input');
+    answerRadios.forEach((radio, index) => {
+        // eslint-disable-next-line no-param-reassign
+        radio.id = answers[index].id_answer;
+    });
     // Modify the question number
     const questionNumberHeader = document.getElementById('question-number-header');
     questionNumberHeader.innerText = `Question n°${questionNumber}/${numberOfQuestions}`;

@@ -12,5 +12,19 @@ const fetchAnswersByQuestionId = async (questionId) => {
         throw error;
     }
 };
+const isGivenAnswerCorrect = async (answerId) => {
+    try {
+        const response = await fetch(`http://localhost:3000/answers/isTrue/${answerId}`);
+        if (!response.ok) {
+            throw new Error(`Fetch error: ${response.status} - ${response.statusText}`);
+        }
+        const isTrue = await response.json();
+        console.log('IS TRUE : ', isTrue)
+        return isTrue;
+    } catch (error) {
+        console.error('Error fetching answers:', error);
+        throw error;
+    }
+}
 
-export default fetchAnswersByQuestionId;
+export {fetchAnswersByQuestionId, isGivenAnswerCorrect} ;
