@@ -16,7 +16,7 @@ router.get('/:questionId', async (req, res) => {
     return res.status(400).json({ error: 'Missing questionId parameter' });
   }
 
-  const foundAnswers = await pool.query('SELECT * FROM projet.reponses WHERE question = $1', [questionId]);
+  const foundAnswers = await pool.query('SELECT * FROM project.answers WHERE question = $1', [questionId]);
 
   if (!foundAnswers) {
     return res.sendStatus(404);

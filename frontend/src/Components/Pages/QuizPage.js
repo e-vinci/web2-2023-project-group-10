@@ -16,7 +16,7 @@ const quizPage = async () => {
     // const quizId = 1;
     let questionCursor = 0;
     const chosenAnswers = [];
-    const questionIds = [1, 2];
+    const questionIds = [131, 132];
     const currentQuestionId = questionIds[questionCursor];
     const currentQuestion = await fetchQuestionsById(currentQuestionId);
     renderQuestionLayout();
@@ -65,9 +65,6 @@ const quizPage = async () => {
 function renderModal() {
     const main = document.querySelector('main');
     const modal = `
-
-
-    <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -283,12 +280,12 @@ function renderTimer() {
 
 function insertQuestionData(question, answers, questionNumber, numberOfQuestions) {
     const questionHeader = document.getElementById('question-header');
-    questionHeader.innerText = question.libelle;
+    questionHeader.innerText = question.question;
 
     const answerLabels = document.querySelectorAll('label');
     answerLabels.forEach((label, index) => {
         // eslint-disable-next-line no-param-reassign
-        label.innerText = answers[index].libelle
+        label.innerText = answers[index].answer;
     });
 
     // Modify the question number
