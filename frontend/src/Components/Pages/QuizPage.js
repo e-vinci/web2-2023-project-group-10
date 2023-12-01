@@ -1,4 +1,6 @@
 import anime from 'animejs';
+// eslint-disable-next-line no-unused-vars
+import navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 // eslint-disable-next-line no-unused-vars
 import {fetchQuestionsById, fetchQuestionsByQuizzId} from '../../models/questions';
@@ -9,14 +11,14 @@ let selectedAnswer = -1;
 
 
 const quizPage = async () => {
+    clearPage();
+    renderModal();
     // const quizId = 1;
     let questionCursor = 0;
     const chosenAnswers = [];
-    const questionIds = [1];
-
+    const questionIds = [1, 2];
     const currentQuestionId = questionIds[questionCursor];
     const currentQuestion = await fetchQuestionsById(currentQuestionId);
-    clearPage();
     renderQuestionLayout();
     const currentAnswers = await fetchAnswersByQuestionId(currentQuestionId);
     insertQuestionData(currentQuestion, currentAnswers, questionCursor+1, questionIds.length);
@@ -60,17 +62,56 @@ const quizPage = async () => {
     });
 };
 
+function renderModal() {
+    const main = document.querySelector('main');
+    const modal = `
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Here will be diaplayed your results</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            Some notes will be added here. Maybe add a badge you won
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="modalPlayAnotherQuiz" data-bs-dismiss="modal">Play another Quiz</button>
+            <button type="button" class="btn btn-primary" id="modalReplayBtn" data-bs-dismiss="modal">Try Again</button>
+            <button type="button" class="btn btn-primary" id="modalSubmitButton" data-bs-dismiss="modal">Go Home</button>
+        </div>
+        </div>
+    </div>
+    </div>`;
+    main.innerHTML += modal;
+    const btn1 = document.getElementById('modalSubmitButton');
+    btn1.addEventListener('click', () => {
+        navigate("/");
+    });
+    const btn2 = document.getElementById('modalReplayBtn');
+    btn2.addEventListener('click', () => {
+        quizPage();
+    });
+    const btn3 = document.getElementById('modalPlayAnotherQuiz');
+    btn3.addEventListener('click', () => {
+        quizPage();
+    });
+}
+
 function updateButtonsText(questionCursor, maxLength) {
     const nextButton = document.getElementById('nextButton');
     const submitButton = document.getElementById('submitButton');
     const backButton = document.getElementById('backButton');
 
-    if (questionCursor === maxLength) {
+    if (questionCursor+1 === maxLength) {
         nextButton.style.display = 'none';
-        submitButton.style.display = 'block';
+        submitButton.classList = 'btn btn-secondary';
     } else {
         nextButton.style.display = 'block';
-        submitButton.style.display = 'none';
+        submitButton.classList = 'btn btn-secondary visually-hidden'
         }
     if (questionCursor === 0) {
         backButton.style.visibility = 'hidden';
@@ -149,18 +190,14 @@ function renderNextButtonLayout(container) {
 }
 
 function renderSubmitButtonLayout(container) {
-
     const submit = document.createElement('button');
-    submit.id = 'submitButton';
-    submit.type = 'button';
-    submit.className = 'btn btn-secondary';
-    submit.style.display = 'none';
+    submit.setAttribute("type", "button");
+    submit.setAttribute("class", "btn btn-secondary visually-hidden");
+    submit.setAttribute("data-bs-toggle", "modal");
+    submit.setAttribute("data-bs-target", "#exampleModal");
+    submit.setAttribute("id", "submitButton");
     const span = document.createElement('span');
     span.textContent = 'Submit';
-
-    submit.addEventListener('click', () => {
-        alert('Quiz results will be displayed here.'); // Temporary alert for demonstration
-    });
 
     submit.appendChild(span);
     container.appendChild(submit);
