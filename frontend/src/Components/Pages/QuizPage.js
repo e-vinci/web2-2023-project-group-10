@@ -7,14 +7,13 @@ import {fetchAnswersByQuestionId, isGivenAnswerCorrect} from '../../models/answe
 
 
 let selectedAnswer = -1;
-
+const chosenAnswers = [];
 
 const quizPage = async () => {
     clearPage();
     renderModal();
     // const quizId = 1;
     let questionCursor = 0;
-    const chosenAnswers = [];
     const questionIds = [131, 132];
     const currentQuestionId = questionIds[questionCursor];
     const currentQuestion = await fetchQuestionsById(currentQuestionId);
@@ -64,9 +63,7 @@ const quizPage = async () => {
 
     const submitButton = document.getElementById('submitButton');
     submitButton.addEventListener('click', async () => {
-        chosenAnswers.push(selectedAnswer);
-        const score = await calculateScore(chosenAnswers);
-        updateScore(score);
+        signalEndOfQuiz(selectedAnswer);
     })
 };
 
@@ -107,17 +104,37 @@ function renderModal() {
     });
 }
 
+async function signalEndOfQuiz(answer) {
+    let score;
+    
+    if (chosenAnswers.length === 0) {
+        console.log('PASSED');
+        score = 0;
+    } else {
+        chosenAnswers.push(answer);
+        score = await calculateScore(answer);
+    }
+    
+    updateScore(score);
+}
+
+
 async function calculateScore(answers) {
     let score = 0;
     
-    const promises = answers.map(async answer => {
-        const isTrue = await isGivenAnswerCorrect(answer);
-        if (isTrue.rows[0].is_correct) {
-            score += 1;
-        }
-    });
+    if (chosenAnswers.length === 0) {
+        score = 0;
+    } else {
+        const promises = answers.map(async answer => {
+            const isTrue = await isGivenAnswerCorrect(answer);
+            if (isTrue.rows[0].is_correct) {
+                score += 1;
+            }
+        });
 
-    await Promise.all(promises);
+        await Promise.all(promises);
+    }
+
 
     return score;
 }
@@ -316,6 +333,7 @@ function renderTimer() {
         if (count === 0) {
             clearInterval(timer);
             timerText.innerText = "Temps écoulé!";
+            signalEndOfQuiz(selectedAnswer);
         } else {
             updateTimerText();
         }
