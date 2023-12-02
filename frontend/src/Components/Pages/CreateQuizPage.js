@@ -2,6 +2,8 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-console */
+import Swal from 'sweetalert2';
+
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import { readAllCategories, addOneQuiz } from '../../models/quizzes';
@@ -206,15 +208,30 @@ function attachEventListenersQuizQuestions() {
         console.log(`I am in nextQuestion.add ${questionCount}`);
         renderQuizQuestions();
       } else {
-        quizToBeCreated = {
-          title: title.value,
-          category: category.value,
-          questions,
-        };
-        console.log('quizToBeCreated : ', quizToBeCreated);
-        await addOneQuiz(quizToBeCreated);
-        Navigate('/categories');
-        console.log(`Ici, on va direct être rediriger vers la page du jeu du quiz`); // A MODIF
+        const result = await Swal.fire({
+          title: 'Êtes-vous sûr de vouloir créer ce quiz?',
+          text: 'Une fois créé, le quiz ne pourra pas être modifié.',
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonText: 'Oui, créer le quiz!',
+          cancelButtonText: 'Annuler',
+        });
+        if (result.isConfirmed) {
+          quizToBeCreated = {
+            title: title.value,
+            category: category.value,
+            questions,
+          };
+          console.log('quizToBeCreated : ', quizToBeCreated);
+          await addOneQuiz(quizToBeCreated);
+          Navigate('/categories');
+          console.log(`Ici, on va direct être rediriger vers la page du jeu du quiz`); // A MODIF
+        } else {
+          questionCount--;
+          currentCount--;
+          console.log('current', currentCount);
+          renderQuizQuestions();
+        }
       }
     }
   });
