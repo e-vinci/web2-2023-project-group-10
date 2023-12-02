@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 
@@ -109,14 +110,28 @@ async function handleLoginClick(e) {
   };
 
   const response = await fetch('http://localhost:3000/users/login', options);
-
+  
   if (!response.ok) {
-    throw new Error(`Erreur HTTP: ${response.status}`);
+    Swal.fire({
+      title: "Le pseudo ou le mot de passe est incorrect",
+      icon: "error",
+      showConfirmButton: true
+    });
+  }else{
+    const responseData = await response.json(); 
+    Swal.fire({
+      title: "Connexion réussie!",
+      icon: "success",
+      timer: 1000,
+      showConfirmButton: false
+    });
+
+    localStorage.setItem("token", responseData.token);
+    Navigate('/categories');
   }
 
-  Navigate('/categories');
+  
 }
-
 
 const LoginPage = () => {
   clearPage();
