@@ -10,10 +10,8 @@ const UserSpacePage = () => {
   renderUserQuiz();
 };
 
-
 async function renderUserQuiz() {
   clearPage();
-  // eslint-disable-next-line prefer-const
   let mainListQuiz = '';
   const allQuizzesByUser = await readAllQuizzesByUser(6); // a remplacer par l'id de l'utilisateur courant !!
   mainListQuiz = `
@@ -39,9 +37,15 @@ async function renderUserQuiz() {
         <div class="container-xxl justify-content-center pt-5 "> 
      `;
 
-  // eslint-disable-next-line no-plusplus
-  allQuizzesByUser.forEach((quiz) => {
+  if (allQuizzesByUser.length === 0) {
     mainListQuiz += `   
+    <div class="alert alert-light text-center">
+    <p>Vous n'avez pas encore créé de quiz !</p>
+  </div>
+          `;
+  } else {
+    allQuizzesByUser.forEach((quiz) => {
+      mainListQuiz += `   
      <div class="row">
      <div class="card shadow cardMyQuiz">
          <div class="card-body">
@@ -54,15 +58,17 @@ async function renderUserQuiz() {
                  ${new Date(quiz.date_creation).toLocaleDateString()}
                  </div>
                  <div class="col-md-4 text-end">
-                  <button class="btn btn-danger delete-quiz-btn" data-id=${quiz.quiz_id}>Supprimer</button>
+                  <button class="btn btn-danger delete-quiz-btn" data-id=${
+                    quiz.quiz_id
+                  }>Supprimer</button>
                  </div>
 
              </div>
          </div>
      </div>
  </div>`;
-  });
-
+    });
+  }
   mainListQuiz += `   
       </div>
       </div>
@@ -77,11 +83,9 @@ async function renderUserQuiz() {
   });
 
   attachDeleteEventListeners();
-
 }
 
-
-function attachDeleteEventListeners(){
+function attachDeleteEventListeners() {
   const deleteButtons = document.querySelectorAll('.delete-quiz-btn');
 
   deleteButtons.forEach((btn) => {
@@ -90,31 +94,28 @@ function attachDeleteEventListeners(){
       e.preventDefault();
       const deleteQuiz = e.target.dataset.id;
       const message = document.querySelector('#deletedResponse');
-      try{
+      try {
         const reponse = await deleteOneQuiz(deleteQuiz);
         console.log(`la reponse du frontttttttttttttttt  ::    ${reponse.status}`);
-        
-      if (!reponse.ok) {
-        message.className = "text-danger";
-        message.innerHTML = `Votre quiz n'a pas été supprimé`;
-        Navigate('/login');
-      }
-      else {
-        message.className = "text-success";
-        message.innerHTML = `Votre quiz a été supprimé`;
-        console.log('Votre quiz a été supprimé dans le front');
 
-        Navigate('/register');
-      }
-      renderUserQuiz();
-      }catch (error) {
+        if (!reponse.ok) {
+          message.className = 'text-danger';
+          message.innerHTML = `Votre quiz n'a pas été supprimé`;
+          Navigate('/login');
+        } else {
+          message.className = 'text-success';
+          message.innerHTML = `Votre quiz a été supprimé`;
+          console.log('Votre quiz a été supprimé dans le front');
+
+          Navigate('/register');
+        }
+        renderUserQuiz();
+      } catch (error) {
         console.error('Erreur lors de la suppression du quiz:', error);
         Navigate('/login');
       }
     });
   });
-
-
 }
 
 function renderUserBadges() {

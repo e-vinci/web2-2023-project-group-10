@@ -20,6 +20,16 @@ let category;
 let quizToBeCreated;
 const main = document.querySelector('main');
 
+const CreateQuizPage = async () => {
+  clearPage();
+  questions = [];
+  numberOfQuestions = 0;
+  questionCount = 0;
+  currentCount = 0;
+  await renderFormInfoQuiz(); // wait for renderFormInfoQuiz to finish before continuing
+  attachEventListenersFromInfoQuiz();
+};
+
 function showInfo(message) {
   Swal.fire({
     icon: 'info',
@@ -35,16 +45,6 @@ function showError(message) {
     text: message,
   });
 }
-
-const CreateQuizPage = async () => {
-  clearPage();
-  questions = [];
-  numberOfQuestions = 0;
-  questionCount = 0;
-  currentCount = 0;
-  await renderFormInfoQuiz(); // wait for renderFormInfoQuiz to finish before continuing
-  attachEventListenersFromInfoQuiz();
-};
 
 async function renderFormInfoQuiz() {
   clearPage();

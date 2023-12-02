@@ -56,7 +56,8 @@ const addOneQuiz = async (quiz) => {
     return createdQuiz;
   } catch (err) {
     loadingSpinner.style.display = 'none';
-    Swal.fire({ // nécessaire ??
+    Swal.fire({
+      // nécessaire ??
       title: 'Erreur lors de la création du quiz',
       text: err.message,
       icon: 'error',
@@ -70,6 +71,9 @@ const readAllQuizzesByUser = async (id) => {
   try {
     const response = await fetch(`http://localhost:3000/quizzes/?user-id=${id}`);
     if (!response.ok) {
+      if (response.status === 400) {
+        return [];
+      }
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
     const quizzes = await response.json();
