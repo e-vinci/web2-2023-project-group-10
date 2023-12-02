@@ -8,6 +8,7 @@ import { readAllCategories, addOneQuiz } from '../../models/quizzes';
 
 const questions = [];
 let questionCount = 0;
+let currentCount = 0;
 let numberOfQuestions = 0;
 const numberBadAnswer = 3;
 let title;
@@ -80,6 +81,7 @@ async function renderFormInfoQuiz() {
 </section>`;
   main.innerHTML = MainFormInfoQuiz;
   questionCount++;
+  currentCount++;
 }
 
 function attachEventListenersFromInfoQuiz() {
@@ -97,7 +99,6 @@ function attachEventListenersFromInfoQuiz() {
     e.preventDefault();
     numberOfQuestions = parseInt(document.querySelector('#numberQuestion').value, 10);
     console.log(numberOfQuestions);
-    questionCount = 1;
     if (!isNaN(numberOfQuestions) && numberOfQuestions > 0) renderQuizQuestions();
     // else error
   });
@@ -117,27 +118,32 @@ function renderQuizQuestions() {
             <div class="row mb-3">
               <div class="col">
                 <label class="mb-2 text-muted" for="question">Question</label>
-                <input type="text" class="form-control" id="question" name="question" required autofocus>
+                <input type="text" class="form-control" id="question" name="question" value="${
+                  questions[questionCount - 1] !== undefined ? questions[questionCount - 1][0] : ''
+                }" required autofocus>
               </div>
             </div>
 
             <div class="row mb-3">
               <div class="col">
                 <label class="mb-2 text-muted" for="goodAnswer">Bonne réponse</label>
-                <input type="text" class="form-control" id="goodAnswer" name="goodAnswer" required autofocus>
+                <input type="text" class="form-control" id="goodAnswer" name="goodAnswer" value="${
+                  questions[questionCount - 1] !== undefined ? questions[questionCount - 1][1] : ''
+                }" required autofocus>
               </div>
-            </div>
-`;
-
+            </div>`;
+  let j = 2;
   for (let index = 0; index < numberBadAnswer; index++) {
     quizHTML += `
     <div class="row mb-3">
       <div class="col">
         <label class="mb-2 text-muted" for="badAnswer">Mauvaise réponse</label>
-        <input type="text" class="form-control badAnswers" name="badAnswer" required autofocus>
+        <input type="text" class="form-control badAnswers" name="badAnswer" value="${
+          questions[questionCount - 1] !== undefined ? questions[questionCount - 1][j] : ''
+        }" required autofocus>
       </div>
-    </div>
-  `;
+    </div>`;
+    j++;
   }
 
   quizHTML += `
@@ -167,41 +173,49 @@ function attachEventListenersQuizQuestions() {
       renderQuizQuestions();
     }
   });
-  // rajouter le form préremplie avec les bonne infos
   nextQuestion.addEventListener('click', async (e) => {
     e.preventDefault();
-    questionCount++;
-    const question = document.querySelector('#question');
-    const badAnswers = document.querySelectorAll('.badAnswers');
-    const goodAnswer = document.querySelector('#goodAnswer');
-
-    console.log('question : ', question.value);
-    console.log('goodAnswer : ', goodAnswer.value);
-
-    const answersBad = [];
-    badAnswers.forEach((answer) => {
-      answersBad.push(answer.value);
-    });
-
-    const questAnsw = [question.value, goodAnswer.value, ...answersBad];
-
-    console.log('questAnsw : ', questAnsw);
-    console.log('questions : ', questions);
-    questions.push(questAnsw);
-
     if (questionCount <= numberOfQuestions) {
-      console.log(`I am in nextQuestion.add ${questionCount}`);
-      renderQuizQuestions();
-    } else {
-      quizToBeCreated = {
-        title: title.value,
-        category: category.value,
-        questions,
-      };
-      console.log('quizToBeCreated : ', quizToBeCreated);
-      await addOneQuiz(quizToBeCreated);
-      Navigate('/categories');
-      console.log(`Ici, on va direct être rediriger vers la page du jeu du quiz`); // A MODIF
+      const question = document.querySelector('#question');
+      const badAnswers = document.querySelectorAll('.badAnswers');
+      const goodAnswer = document.querySelector('#goodAnswer');
+
+      console.log('question : ', question.value);
+      console.log('goodAnswer : ', goodAnswer.value);
+
+      const answersBad = [];
+      badAnswers.forEach((answer) => {
+        answersBad.push(answer.value);
+      });
+
+      const questAnsw = [question.value, goodAnswer.value, ...answersBad];
+
+      console.log('questAnsw : ', questAnsw);
+      console.log('questions : ', questions);
+
+      if (questionCount === currentCount) {
+        questions.push(questAnsw);
+        questionCount++;
+        currentCount++;
+      } else {
+        questions[questionCount - 1] = questAnsw;
+        questionCount++;
+      }
+
+      if (questionCount <= numberOfQuestions) {
+        console.log(`I am in nextQuestion.add ${questionCount}`);
+        renderQuizQuestions();
+      } else {
+        quizToBeCreated = {
+          title: title.value,
+          category: category.value,
+          questions,
+        };
+        console.log('quizToBeCreated : ', quizToBeCreated);
+        await addOneQuiz(quizToBeCreated);
+        Navigate('/categories');
+        console.log(`Ici, on va direct être rediriger vers la page du jeu du quiz`); // A MODIF
+      }
     }
   });
 }
