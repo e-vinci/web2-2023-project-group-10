@@ -1,4 +1,5 @@
 import Swal from 'sweetalert2';
+import Navbar from '../Navbar/Navbar';
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 
@@ -127,6 +128,7 @@ async function handleLoginClick(e) {
     });
 
     localStorage.setItem("token", responseData.token);
+    Navbar();
     Navigate('/categories');
   }
 

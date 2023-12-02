@@ -1,7 +1,9 @@
 /* eslint-disable consistent-return */
 const express = require('express');
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
+const secretToken = 'soislechangementquetuveuxvoirdanslemonde ';
 
 const {
   getUser,
@@ -30,7 +32,13 @@ router.post('/login', async (req, res) => {
     console.log(user);
 
     if (user.rows.length > 0) {
-      res.status(200).json({ message: 'Connexion réussie' });
+      const userID = user.rows[0].user_id;
+      const userName = user.rows[0].pseudo;
+      console.log('routes API /login');
+      console.log(userID);
+      const currentUser = { userID, userName };
+      const token = jwt.sign({ currentUser }, secretToken);
+      res.status(200).json({ message: 'Connexion réussie', token });
     } else {
       res.status(400).json({ message: 'Pseudo incorrect ou Mot de passe incorrect' });
     }
