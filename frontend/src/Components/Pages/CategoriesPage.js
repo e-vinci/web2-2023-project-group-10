@@ -1,3 +1,6 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable no-param-reassign */
+/* eslint-disable consistent-return */
 // eslint-disable-next-line no-unused-vars
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
@@ -13,178 +16,79 @@ import computerScienceImage from '../../img/computer_science.jpg';
 import geographyImage from '../../img/georaphy.jpg';
 import sportImage from '../../img/sport.jpg';
 import otherImage from '../../img/other.jpg';
+import { readAllCategories } from '../../models/quizzes';
 
-const CategoriesPage = () => {
+const CategoriesPage = async () => {
   clearPage();
-  renderCategories();
+  await renderCategories();
   const cards = document.querySelectorAll('.card');
   /* manages category hover events */
   cards.forEach((card) => {
     card.addEventListener('mouseover', () => {
-      // eslint-disable-next-line no-param-reassign
       card.style.borderWidth = '2px';
       card.classList.add('border-primary');
     });
 
     card.addEventListener('mouseout', () => {
-      // eslint-disable-next-line no-param-reassign
       card.style.borderWidth = '1px';
       card.classList.remove('border-primary');
     });
   });
 };
-
 /* returns the categories page */
-function renderCategories() {
+async function renderCategories() {
   const main = document.querySelector('main');
-  main.innerHTML = `
-  <section>
-  <div class="container-xxl">
-     <h4>Catégories</h4>
-</div>
-  <div class="container-xxl">
-  <div class="row mt-3">
-  <div class="col-12 col-lg-3 col-md-6">
-  <a href="#" data-uri="/" class=" text-center text-decoration-none category">
-    <div class="card highlight-card" >
-      <img class="custom-img img-fluid" src="${mathematicsImage}" alt="Image category mathematics">
-      <div class="card-body">
-        <p class="card-text">Mathématiques</p>
+  let mainCategory = ``;
+  mainCategory += `
+    <section>
+      <div class="container-xxl">
+        <h4>Catégories</h4>
       </div>
-    </div>
-  </a>
-  </div>
-
-  <div class="col-12 col-lg-3 col-md-6">
-  <a href="#" data-uri="/" class=" text-center text-decoration-none category">
-    <div class="card highlight-card" >
-      <img class="custom-img img-fluid" src="${historyImage}" alt="Image category history">
-      <div class="card-body">
-        <p class="card-text">Histoire</p>
-      </div>
-    </div>
-  </a>
-  </div>
-
-  <div class="col-12 col-lg-3 col-md-6">
-  <a href="#" data-uri="/" class=" text-center text-decoration-none category">
-    <div class="card highlight-card" >
-      <img class="custom-img img-fluid" src="${computerScienceImage}" alt="Image category computer science">
-      <div class="card-body">
-        <p class="card-text">Informatique</p>
-      </div>
-    </div>
-  </a>
-  </div>
-
-  <div class="col-12 col-lg-3 col-md-6">
-  <a href="#" data-uri="/" class=" text-center text-decoration-none category">
-    <div class="card highlight-card" >
-      <img class="custom-img img-fluid" src="${languagesImage}" alt="Image category languages">
-      <div class="card-body">
-        <p class="card-text">Langues</p>
-      </div>
-    </div>
-  </a>
-  </div>
-  </div>
-
-      <div class="row mt-3">
-  <div class="col-12 col-lg-3 col-md-6">
-  <a href="#" data-uri="/" class=" text-center text-decoration-none category">
-    <div class="card highlight-card" >
-      <img class="custom-img img-fluid" src="${sportImage}" alt="Image category sport">
-      <div class="card-body">
-        <p class="card-text">Sport</p>
-      </div>
-    </div>
-  </a>
-  </div>
-
-  <div class="col-12 col-lg-3 col-md-6">
-  <a href="#" data-uri="/" class=" text-center text-decoration-none category">
-    <div class="card highlight-card" >
-      <img class="custom-img img-fluid" src="${scienceImage}" alt="Image category science">
-      <div class="card-body">
-        <p class="card-text">Sciences</p>
-      </div>
-    </div>
-  </a>
-  </div>
-
-  <div class="col-12 col-lg-3 col-md-6">
-  <a href="#" data-uri="/" class=" text-center text-decoration-none category">
-    <div class="card highlight-card" >
-      <img class="custom-img img-fluid" src="${geographyImage}" alt="Image category geography">
-      <div class="card-body">
-        <p class="card-text">Géographie</p>
-      </div>
-    </div>
-  </a>
-  </div>
-
-  <div class="col-12 col-lg-3 col-md-6">
-  <a href="#" data-uri="/" class=" text-center text-decoration-none category">
-    <div class="card highlight-card" >
-      <img class="custom-img img-fluid" src="${generalCultureImage}" alt="Image category general culture">
-      <div class="card-body">
-        <p class="card-text">Culture Générale</p>
-      </div>
-    </div>
-  </a>
-  </div>
-      </div>
-
-
-      <div class="row mt-3">
-      <div class="col-12 col-lg-3 col-md-6">
-      <a href="#" data-uri="/" class=" text-center text-decoration-none category">
-        <div class="card highlight-card" >
-          <img class="custom-img img-fluid" src="${videoGamesImage}" alt="Image categorie video games">
-          <div class="card-body">
-            <p class="card-text">Jeux Vidéo</p>
-          </div>
-        </div>
-      </a>
-      </div>
-         
-
-          <div class="col-12 col-lg-3 col-md-6">
-          <a href="#" data-uri="/" class=" text-center text-decoration-none category">
-            <div class="card highlight-card" >
-              <img class="custom-img img-fluid" src="${economyImage}" alt="Image category economy">
+      <div class="container-xxl">
+        <div class="row mt-3">
+  `;
+  let count = 0;
+  const categories = await readAllCategories();
+  categories.forEach((category) => {
+    if (count % 4 === 0 && count !== 0) {
+      mainCategory += `</div><div class="row mt-3">`;
+    }
+    mainCategory += `
+        <div class="col-12 col-lg-3 col-md-6">
+          <a href="#" data-uri="/" class="text-center text-decoration-none category">
+            <div class="card highlight-card">
+              <img class="custom-img img-fluid" src="${getImageForCategory(
+                category.label,
+              )}" alt="Image category ${category.label}">
               <div class="card-body">
-                <p class="card-text">Economie</p>
+                <p class="card-text">${category.label}</p>
               </div>
             </div>
           </a>
-          </div>
-        
-              <div class="col-12 col-lg-3 col-md-6">
-              <a href="#" data-uri="/" class=" text-center text-decoration-none category">
-                <div class="card highlight-card" >
-                  <img class="custom-img img-fluid" src="${cinemaImage}" alt="Image category cinema">
-                  <div class="card-body">
-                    <p class="card-text">Cinéma</p>
-                  </div>
-                </div>
-              </a>
-              </div>
-  
-                  <div class="col-12 col-lg-3 col-md-6">
-                  <a href="#" data-uri="/" class=" text-center text-decoration-none category">
-                    <div class="card highlight-card" >
-                      <img class="custom-img img-fluid" src="${otherImage}" alt="Image category other">
-                      <div class="card-body">
-                        <p class="card-text">Autre</p>
-                      </div>
-                    </div>
-                  </a>
-                  </div>     
-               </div>
+        </div>
+      `;
+    count++;
+  });
 
-            </div>
-     </section>`;
+  mainCategory += `
+      </div>
+    </div>
+  </section>`;
+  main.innerHTML = mainCategory;
 }
 
+function getImageForCategory(categoryLabel) {
+  if (categoryLabel === 'Mathématiques') return mathematicsImage;
+  if (categoryLabel === 'Histoire') return historyImage;
+  if (categoryLabel === 'Informatique') return computerScienceImage;
+  if (categoryLabel === 'Langues') return languagesImage;
+  if (categoryLabel === 'Sport') return sportImage;
+  if (categoryLabel === 'Sciences') return scienceImage;
+  if (categoryLabel === 'Géographie') return geographyImage;
+  if (categoryLabel === 'Culture Générale') return generalCultureImage;
+  if (categoryLabel === 'Jeux Vidéo') return videoGamesImage;
+  if (categoryLabel === 'Economie') return economyImage;
+  if (categoryLabel === 'Cinéma') return cinemaImage;
+  if (categoryLabel === 'Autre') return otherImage;
+}
 export default CategoriesPage;

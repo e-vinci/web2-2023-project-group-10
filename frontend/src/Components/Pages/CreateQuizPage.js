@@ -1,3 +1,4 @@
+/* eslint-disable no-const-assign */
 /* eslint-disable consistent-return */
 /* eslint-disable no-alert */
 /* eslint-disable no-restricted-globals */
@@ -9,7 +10,7 @@ import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import { readAllCategories, addOneQuiz } from '../../models/quizzes';
 
-const questions = [];
+let questions = [];
 let questionCount = 0;
 let currentCount = 0;
 let numberOfQuestions = 0;
@@ -37,6 +38,10 @@ function showError(message) {
 
 const CreateQuizPage = async () => {
   clearPage();
+  questions = [];
+  numberOfQuestions = 0;
+  questionCount = 0;
+  currentCount = 0;
   await renderFormInfoQuiz(); // wait for renderFormInfoQuiz to finish before continuing
   attachEventListenersFromInfoQuiz();
 };
