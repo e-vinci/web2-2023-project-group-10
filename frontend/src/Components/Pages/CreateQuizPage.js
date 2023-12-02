@@ -19,7 +19,11 @@ let quizToBeCreated;
 const main = document.querySelector('main');
 
 function showAlert(message) {
-  alert(message);
+  Swal.fire({
+    icon: 'info',
+    title: 'Information',
+    text: message,
+  });
 }
 
 const CreateQuizPage = async () => {
