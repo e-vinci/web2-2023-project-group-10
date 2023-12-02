@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-alert */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-plusplus */
@@ -18,10 +19,18 @@ let category;
 let quizToBeCreated;
 const main = document.querySelector('main');
 
-function showAlert(message) {
+function showInfo(message) {
   Swal.fire({
     icon: 'info',
     title: 'Information',
+    text: message,
+  });
+}
+
+function showError(message) {
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
     text: message,
   });
 }
@@ -95,18 +104,19 @@ function attachEventListenersFromInfoQuiz() {
   const btnInfo = document.querySelector('#btnInfo');
   title = document.querySelector('#titleQuiz');
   category = document.querySelector('#category');
-
   btnInfo.addEventListener('click', (e) => {
     e.preventDefault();
-    showAlert('Le nombre maximum de question autorisé est de 70');
+    showInfo('Le nombre maximum de question autorisé est de 70');
   });
 
   btnSubmitNumber.addEventListener('click', (e) => {
     e.preventDefault();
     numberOfQuestions = parseInt(document.querySelector('#numberQuestion').value, 10);
     console.log(numberOfQuestions);
-    if (!isNaN(numberOfQuestions) && numberOfQuestions > 0) renderQuizQuestions();
-    // else error
+    console.log('titre', title.value);
+    if (!isNaN(numberOfQuestions) && numberOfQuestions > 0 && title.value && category.value)
+      renderQuizQuestions();
+    else showError('Tous les champs du formulaire sont obligatoires'); // verif
   });
 }
 
@@ -151,8 +161,21 @@ function renderQuizQuestions() {
     </div>`;
     j++;
   }
-
-  quizHTML += `
+  if (questionCount === 1) {
+    quizHTML += `
+    <div class="mb-3">
+    <button type="submit" class="btn btn-primary mn-3" id="previousQuestion" style="display: none;">Précédent</button>
+      <button type="submit" class="btn btn-primary mn-3" id="nextQuestion">Suivant</button>
+    </div>
+  </form>
+</div>
+</div>
+</div>
+</div>
+</section>
+`;
+  } else {
+    quizHTML += `
             <div class="mb-3">
             <button type="submit" class="btn btn-primary mn-3" id="previousQuestion">Précédent</button>
               <button type="submit" class="btn btn-primary mn-3" id="nextQuestion">Suivant</button>
@@ -164,6 +187,7 @@ function renderQuizQuestions() {
   </div>
 </section>
 `;
+  }
   main.innerHTML = quizHTML;
   attachEventListenersQuizQuestions();
 }
@@ -186,11 +210,19 @@ function attachEventListenersQuizQuestions() {
       const badAnswers = document.querySelectorAll('.badAnswers');
       const goodAnswer = document.querySelector('#goodAnswer');
 
+      if (!question.value || !goodAnswer.value) {
+        showError('Tous les champs du formulaire sont obligatoires'); // verif
+        return renderQuizQuestions();
+      }
       console.log('question : ', question.value);
       console.log('goodAnswer : ', goodAnswer.value);
 
       const answersBad = [];
       badAnswers.forEach((answer) => {
+        if (!answer.value) {
+          showError('Tous les champs du formulaire sont obligatoires'); // verif
+          return renderQuizQuestions();
+        }
         answersBad.push(answer.value);
       });
 
@@ -234,7 +266,7 @@ function attachEventListenersQuizQuestions() {
           questionCount--;
           currentCount--;
           console.log('current', currentCount);
-          renderQuizQuestions();
+          return renderQuizQuestions();
         }
       }
     }

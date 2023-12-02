@@ -56,6 +56,11 @@ const addOneQuiz = async (quiz) => {
     return createdQuiz;
   } catch (err) {
     loadingSpinner.style.display = 'none';
+    Swal.fire({ // nécessaire ??
+      title: 'Erreur lors de la création du quiz',
+      text: err.message,
+      icon: 'error',
+    });
     console.error('addOneQuiz::error: ', err);
     throw err;
   }
