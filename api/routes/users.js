@@ -1,23 +1,23 @@
 /* eslint-disable consistent-return */
 const express = require('express');
-const bcrypt = require('bcrypt');
-const pool = require('../db');
 
 const router = express.Router();
+
+const {
+  getUser,
+  loginUser,
+  registerUser,
+} = require('../models/users');
 
 /* GET users listing. */
 router.get('/', async (req, res) => {
   try {
-    const users = await pool.query(
-      'SELECT * FROM project.users ORDER BY total_point DESC, pseudo ASC, user_id ASC',
-    );
-    if (users.rows.length > 0) {
-      console.log('/users ok');
-      return res.json(users.rows);
+    const users = await getUser();
+    if (users) {
+      return res.json(users);
     }
-    return res.sendStatus(400);
+    return res.sendStatus(400).json({ message: 'Aucun utilisateur dans la DB' });
   } catch (error) {
-    console.error(error.message);
     res.status(500).send('Erreur serveur');
   }
 });
@@ -25,42 +25,30 @@ router.get('/', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
   try {
-    const user = await pool.query('SELECT * FROM project.users WHERE pseudo = $1', [username]);
+    const user = await loginUser(username, password);
+    console.log('routes API /login');
+    console.log(user);
 
     if (user.rows.length > 0) {
-      const validPassword = await bcrypt.compare(password, user.rows[0].password);
-
-      if (validPassword) {
-        res.status(200).json({ message: 'Connexion réussie' });
-      } else {
-        res.status(400).json({ message: 'Mot de passe incorrect' });
-      }
+      res.status(200).json({ message: 'Connexion réussie' });
     } else {
-      res.status(400).json({ message: 'Utilisateur non trouvé' });
+      res.status(400).json({ message: 'Pseudo incorrect ou Mot de passe incorrect' });
     }
   } catch (err) {
-    console.error(err.message);
     res.status(500).send('Erreur serveur');
   }
 });
 
 router.post('/register', async (req, res) => {
   const { username, password } = req.body;
-
   try {
-    const passwordHash = await bcrypt.hash(password, 10);
-
-    const user = await pool.query('INSERT INTO project.users (pseudo, password) VALUES ($1, $2)', [
-      username,
-      passwordHash,
-    ]);
+    const user = await registerUser(username, password);
     if (user.rowCount > 0) {
       res.status(200).json({ message: 'Connexion réussie register' });
     } else {
       res.status(400).send('Erreur lors de l’enregistrement de l’utilisateur');
     }
   } catch (err) {
-    console.error(err.message);
     res.status(500).send('Erreur serveur');
   }
 });
