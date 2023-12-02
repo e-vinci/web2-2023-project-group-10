@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-const-assign */
 /* eslint-disable consistent-return */
 /* eslint-disable no-alert */
@@ -223,14 +224,15 @@ function attachEventListenersQuizQuestions() {
       console.log('goodAnswer : ', goodAnswer.value);
 
       const answersBad = [];
-      badAnswers.forEach((answer) => {
+      for (const answer of badAnswers) {
         if (!answer.value) {
           showError('Tous les champs du formulaire sont obligatoires'); // verif
+          console.log('erreur');
           return renderQuizQuestions();
         }
         answersBad.push(answer.value);
-      });
-
+      }
+      console.log('on est dans le reste');
       const questAnsw = [question.value, goodAnswer.value, ...answersBad];
 
       console.log('questAnsw : ', questAnsw);
