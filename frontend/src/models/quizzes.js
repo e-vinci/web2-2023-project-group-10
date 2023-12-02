@@ -1,5 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-console */
+import Swal from 'sweetalert2';
+
 const readAllCategories = async () => {
   try {
     const response = await fetch('http://localhost:3000/quizzes/categories');
@@ -44,6 +46,13 @@ const addOneQuiz = async (quiz) => {
     loadingSpinner.style.display = 'none';
     const createdQuiz = await response.json();
     console.log('createdQuiz :', createdQuiz);
+    Swal.fire({
+      title: 'Création du quiz réussie!',
+      text: 'Votre quiz a été créé avec succès.',
+      icon: 'success',
+      timer: 1500,
+      showConfirmButton: false,
+    });
     return createdQuiz;
   } catch (err) {
     loadingSpinner.style.display = 'none';
@@ -80,7 +89,6 @@ const deleteOneQuiz = async (quiz) => {
   </div>
 `;
 
-
   const loadingSpinner = document.querySelector('#loadingSpinner');
   try {
     loadingSpinner.style.display = 'block';
@@ -98,7 +106,7 @@ const deleteOneQuiz = async (quiz) => {
     loadingSpinner.style.display = 'none';
     const deletedQuiz = await response.json();
     console.log('deletedQuiz :', deletedQuiz);
-    
+
     return response;
   } catch (err) {
     loadingSpinner.style.display = 'none';
