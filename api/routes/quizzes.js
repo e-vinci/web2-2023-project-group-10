@@ -42,6 +42,11 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   console.log('POST routes/quizzes');
   const { title, category, questions } = req.body;
+  if (!title || !category || !questions || questions.length === 0) {
+    // nécessaire du coté client et serveur
+    return res.status(400).json({ message: 'Tous les champs du formulaire sont obligatoires' });
+  }
+
   try {
     // recover the selected category
     const categorySelected = await readCategoryByLabel(category);
