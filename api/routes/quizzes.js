@@ -7,8 +7,6 @@ const express = require('express');
 
 const router = express.Router();
 
-const pool = require('../db');
-
 const {
   readAllQuizzesByUser,
   readAllCategories,
@@ -16,6 +14,7 @@ const {
   addOneQuiz,
   addQuestionsAnswers,
   deleteOneQuiz,
+  readAllQuizzesByCategory,
 } = require('../models/quizzes');
 
 /**
@@ -36,6 +35,13 @@ router.get('/', async (req, res) => {
 */
 
 // faut encore ameliorer //
+
+/**
+ *  Return all quizzes for a user.
+ *  user-id: The user's ID passed as a query parameter.
+ *  Return all quizzes for a category.
+ *  label : The label's category passed as a query parameter
+ * */
 router.get('/', async (req, res) => {
   const userId = req?.query ? Number(req.query['user-id']) : undefined;
   const categoryName = req?.query ? req.query.label : undefined;
@@ -46,13 +52,8 @@ router.get('/', async (req, res) => {
       if (quizzes !== undefined) return res.json(quizzes);
       return res.sendStatus(400);
     } if (categoryName !== undefined) {
-      const quizzesInCategory = await pool.query('SELECT q.title, u.pseudo, c.label FROM project.quizzes q, project.users u,project.categories c WHERE c.category_id = q.category AND u.user_id = q.user_id AND c.label = $1', [categoryName]);
-      if (quizzesInCategory.rows.length > 0) {
-        console.log('quizzes ok');
-        console.log('Response json:', quizzesInCategory.rows);
-        return res.json(quizzesInCategory.rows);
-      }
-      return res.sendStatus(400);
+      const quizzesInCategory = await readAllQuizzesByCategory(categoryName);
+      return res.json(quizzesInCategory);
     }
     return res.sendStatus(400);
   } catch (error) {
