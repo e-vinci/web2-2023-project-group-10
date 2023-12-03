@@ -124,4 +124,25 @@ const deleteOneQuiz = async (quiz) => {
   }
 };
 
-export { readAllCategories, addOneQuiz, readAllQuizzesByUser, deleteOneQuiz };
+const readAllQuizzesByCategory = async (categoryName) => {
+  try {
+    console.log('url :', `http://localhost:3000/quizzes/?label=${categoryName}`);
+    const response = await fetch(`http://localhost:3000/quizzes/?label=${categoryName}`);
+
+    console.log('reponse',response)
+    if (!response.ok) {
+      console.error(`Erreur HTTP: ${response.status}`);
+      throw new Error(`Erreur HTTP: ${response.status}`);
+    }
+    
+    const quizzesInCategory = await response.json();
+    console.log('Quizzes de la catégorie:', quizzesInCategory);
+    return quizzesInCategory;
+  } catch (err) {
+    console.error('readAllQuizzesByCategory::error:', err);
+    throw err;
+  }
+
+};
+
+export { readAllCategories, addOneQuiz, readAllQuizzesByUser, deleteOneQuiz, readAllQuizzesByCategory };
