@@ -5,14 +5,20 @@ const bcrypt = require('bcrypt');
 const pool = require('../db');
 
 module.exports = {
-  getUser,
+  getAllUsers,
   loginUser,
   registerUser,
 };
 
-async function getUser() {
-  const users = await pool.query('SELECT * FROM project.users ORDER BY total_point DESC, pseudo ASC, user_id ASC');
-  return users.rows;
+async function getAllUsers() {
+  const users = await pool.query(
+    'SELECT * FROM project.users ORDER BY total_point DESC, pseudo ASC, user_id ASC',
+  );
+  if (users.rows.length > 0) {
+    console.log('Users retrieved successfully');
+    return users.rows;
+  }
+  return undefined;
 }
 
 async function loginUser(username, password) {

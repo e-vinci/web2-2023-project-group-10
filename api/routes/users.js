@@ -6,7 +6,7 @@ const router = express.Router();
 const secretToken = 'soislechangementquetuveuxvoirdanslemonde ';
 
 const {
-  getUser,
+  getAllUsers,
   loginUser,
   registerUser,
 } = require('../models/users');
@@ -14,7 +14,7 @@ const {
 /* GET users listing. */
 router.get('/', async (req, res) => {
   try {
-    const users = await getUser();
+    const users = await getAllUsers();
     if (users) {
       return res.json(users);
     }
