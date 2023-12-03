@@ -26,7 +26,7 @@ const QuizListPage = async () => {
     QuizList = `
     <section>
         <div class="headerLabel">
-            <h1>${categoryName}</h1>
+            <h2>${categoryName}</h2>
         </div>
     </section>
 
