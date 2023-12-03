@@ -169,9 +169,9 @@ function renderQuizQuestions() {
   }
   if (questionCount === 1) {
     quizHTML += `
-    <div class="mb-3">
-    <button type="submit" class="btn btn-primary mn-3" id="previousQuestion" style="display: none;">Précédent</button>
-      <button type="submit" class="btn btn-primary mn-3" id="nextQuestion">Suivant</button>
+    <div class="mb-3 d-flex justify-content-end">
+    <button type="submit" class="btn btn-primary " id="previousQuestion" style="display: none;">Précédent</button>
+      <button type="submit" class="btn btn-outline-primary " id="nextQuestion">Suivant</button>
     </div>
   </form>
 </div>
@@ -182,9 +182,17 @@ function renderQuizQuestions() {
 `;
   } else {
     quizHTML += `
-            <div class="mb-3">
-            <button type="submit" class="btn btn-primary mn-3" id="previousQuestion">Précédent</button>
-              <button type="submit" class="btn btn-primary mn-3" id="nextQuestion">Suivant</button>
+    <div class="mb-3 d-flex justify-content-between">
+      <button type="submit" class="btn btn-outline-info" id="previousQuestion">Précédent</button>
+     `;
+
+    if (questionCount === numberOfQuestions) {
+      quizHTML += `<button type="submit" class="btn btn-primary  " id="nextQuestion">Terminer</button>`;
+    } else {
+      quizHTML += `<button type="submit" class="btn btn-outline-primary  " id="nextQuestion">Suivant</button>`;
+    }
+
+    quizHTML += `
             </div>
           </form>
         </div>
@@ -194,6 +202,7 @@ function renderQuizQuestions() {
 </section>
 `;
   }
+
   main.innerHTML = quizHTML;
   attachEventListenersQuizQuestions();
 }
