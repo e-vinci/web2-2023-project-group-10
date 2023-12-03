@@ -55,7 +55,7 @@ async function renderCategories() {
     }
     mainCategory += `
         <div class="col-12 col-lg-3 col-md-6">
-          <a href="#" data-uri="/" class="text-center text-decoration-none category">
+          <a href="/list?label=${category.label}" data-uri="/" class="text-center text-decoration-none category">
             <div class="card highlight-card">
               <img class="custom-img img-fluid" src="${getImageForCategory(
                 category.label,
