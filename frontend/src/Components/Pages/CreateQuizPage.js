@@ -269,10 +269,13 @@ function attachEventListenersQuizQuestions() {
           cancelButtonText: 'Annuler',
         });
         if (result.isConfirmed) {
+          const userID = localStorage.getItem("user_id");
+          console.log(userID);
           quizToBeCreated = {
             title: title.value,
             category: category.value,
             questions,
+            currentUser: userID,
           };
           console.log('quizToBeCreated : ', quizToBeCreated);
           await addOneQuiz(quizToBeCreated);

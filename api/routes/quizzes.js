@@ -70,7 +70,15 @@ router.get('/', async (req, res) => {
  */
 router.post('/', async (req, res) => {
   console.log('POST routes/quizzes');
-  const { title, category, questions } = req.body;
+  const {
+    title,
+    category,
+    questions,
+    currentUser,
+  } = req.body;
+
+  console.log(currentUser);
+
   if (!title || !category || !questions || questions.length === 0) {
     // nécessaire du coté client et serveur
     return res.status(400).json({ message: 'Tous les champs du formulaire sont obligatoires' });
@@ -85,7 +93,7 @@ router.post('/', async (req, res) => {
     const categoryId = categorySelected[0].category_id;
     console.log(`id category :  ${categoryId}`);
     // add the quiz to the quiz table
-    const quiz = await addOneQuiz(categoryId, title, 6); // a changer par l'utilisateur courant !!
+    const quiz = await addOneQuiz(categoryId, title, currentUser);
     const quizId = quiz[0].quiz_id;
     if (!quizId) {
       return res.status(400).send('Erreur lors de l’enregistrement du quiz');

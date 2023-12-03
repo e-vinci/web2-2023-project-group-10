@@ -10,14 +10,19 @@ const UserSpacePage = () => {
   renderUserQuiz();
 };
 
+const username = localStorage.getItem("username");
+console.log("Récupération du username:", username);
+const userID = localStorage.getItem("user_id");
+console.log("Récupération user id", userID);
+
 async function renderUserQuiz() {
   clearPage();
   let mainListQuiz = '';
-  const allQuizzesByUser = await readAllQuizzesByUser(6); // a remplacer par l'id de l'utilisateur courant !!
+  const allQuizzesByUser = await readAllQuizzesByUser(userID); // a remplacer par l'id de l'utilisateur courant !!
   mainListQuiz = `
     <section>
       <div class="alert color-purple">
-        <p>(afficher le nom)</p>
+        <p>Bienvenue ${username}</p>
       </div>
       <nav class="navbar navbar-expand-lg ">
       <div class="container-fluid">
@@ -123,7 +128,7 @@ function renderUserBadges() {
   main.innerHTML = `
     <section>
     <div class="alert color-purple">
-    <p>(afficher le nom)</p>
+    <p>Bienvenue ${username}</p>
   </div>
     <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">

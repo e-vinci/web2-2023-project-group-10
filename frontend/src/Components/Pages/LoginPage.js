@@ -120,14 +120,16 @@ async function handleLoginClick(e) {
     });
   }else{
     const responseData = await response.json(); 
+    localStorage.setItem("token", responseData.token);
+    localStorage.setItem("username", responseData.username);
+    localStorage.setItem("user_id", responseData.user_id); 
     Swal.fire({
       title: "Connexion réussie!",
       icon: "success",
       timer: 1000,
       showConfirmButton: false
     });
-
-    localStorage.setItem("token", responseData.token);
+    
     Navbar();
     Navigate('/categories');
   }

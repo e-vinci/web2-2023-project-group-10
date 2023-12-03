@@ -5,6 +5,8 @@ import { clearPage } from '../../utils/render';
 
 function logout(){
     localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    localStorage.removeItem("userID");
     Swal.fire({
         title: "Deconnexion réussie!",
         icon: "success",

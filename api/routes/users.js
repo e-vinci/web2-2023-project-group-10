@@ -34,11 +34,16 @@ router.post('/login', async (req, res) => {
     if (user.rows.length > 0) {
       const userID = user.rows[0].user_id;
       const userName = user.rows[0].pseudo;
+      const token = jwt.sign({ userID, userName }, secretToken);
       console.log('routes API /login');
       console.log(userID);
-      const currentUser = { userID, userName };
-      const token = jwt.sign({ currentUser }, secretToken);
-      res.status(200).json({ message: 'Connexion réussie', token });
+
+      res.status(200).json({
+        message: 'Connexion réussie',
+        token,
+        user_id: userID,
+        username: userName,
+      });
     } else {
       res.status(400).json({ message: 'Pseudo incorrect ou Mot de passe incorrect' });
     }
