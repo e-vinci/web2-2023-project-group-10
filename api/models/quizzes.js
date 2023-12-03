@@ -126,6 +126,21 @@ async function deleteOneQuiz(quizId) {
   }
 }
 
+/**
+ * Retrieve all quizzes by selected category name
+ * If quizzes are found, returns an array of quiz objects.
+ * If no quizzes are found, returns undefined.
+ * categoryName : The label of the category.
+ */
+async function readAllQuizzesByCategory(categoryName) {
+  const quizzesInCategory = await pool.query('SELECT q.title, u.pseudo, c.label FROM project.quizzes q, project.users u,project.categories c WHERE c.category_id = q.category AND u.user_id = q.user_id AND c.label = $1', [categoryName]);
+  if (quizzesInCategory.rows.length > 0) {
+    console.log('quizzes par catégorie OK');
+    return quizzesInCategory.rows;
+  }
+  return undefined;
+}
+
 module.exports = {
   readAllQuizzesByUser,
   readCategoryByLabel,
@@ -133,4 +148,5 @@ module.exports = {
   addOneQuiz,
   addQuestionsAnswers,
   deleteOneQuiz,
+  readAllQuizzesByCategory,
 };
