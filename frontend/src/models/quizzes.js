@@ -124,17 +124,17 @@ const deleteOneQuiz = async (quiz) => {
   }
 };
 
+
 const readAllQuizzesByCategory = async (categoryName) => {
   try {
     console.log('url :', `http://localhost:3000/quizzes/?label=${categoryName}`);
     const response = await fetch(`http://localhost:3000/quizzes/?label=${categoryName}`);
 
-    console.log('reponse',response)
+    console.log('response',response)
     if (!response.ok) {
       console.error(`Erreur HTTP: ${response.status}`);
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
-    
     const quizzesInCategory = await response.json();
     console.log('Quizzes de la catégorie:', quizzesInCategory);
     return quizzesInCategory;

@@ -34,6 +34,16 @@ const QuizListPage = async () => {
     <div class="container ">
     <div class="row mt-3 lowPart">
   `
+  if (quizzesInCategory.length === 0) {
+    console.log("aucun quiz trouvé");
+    QuizList += `   
+    <div class="alert alert-light text-center alertQuizListPage" role="alert">
+    <p>Aucun quiz n'a été créé pour cette catégorie.
+    <a href="/create" class="alert-link">Sois le premier à en créer un !</a>
+    </p>
+  </div>
+ `;
+  } else {
   quizzesInCategory.forEach(q => {
     if(counter === cardsInRow){ 
       console.log("COUNTER:", counter);
@@ -60,7 +70,7 @@ const QuizListPage = async () => {
    console.log("compteur apres incrementation", counter);
     
   });
- 
+}
 QuizList += `
 
 </div>
