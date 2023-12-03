@@ -20,11 +20,11 @@ const Navbar = () => {
   let userSpace;
 
   if (isLoggedIn) {
-    loginOrLogoutLink = `<a class="nav-link" href="#" data-uri="/logout">Logout</a>`;
+    loginOrLogoutLink = `<a class="nav-link" href="#" data-uri="/logout">Déconnexion</a>`;
     createLink = `<li class="nav-item"><a class="nav-link" aria-current="page" href="#" data-uri="/create">Créer</a></li>`;
     userSpace = `<a class="nav-link" href="#" data-uri="/userSpace">Mon espace</a>`;
   } else {
-    loginOrLogoutLink = `<a class="nav-link btn btn-sm btn-purple" href="#" data-uri="/login">Login</a>`;
+    loginOrLogoutLink = `<a class="nav-link text-white btn-purple" href="#" data-uri="/login">Connexion</a>`;
     createLink = '';
     userSpace = '';
   }
@@ -58,7 +58,7 @@ const Navbar = () => {
                 <a class="nav-link" href="#" data-uri="/aboutUs">À propos</a>
               </li> 
               <li class="nav-item">
-                <a class="nav-link" href="#" data-uri="/ranking">Ranking</a>
+                <a class="nav-link" href="#" data-uri="/ranking">Classement</a>
               </li>  
             </ul>
 

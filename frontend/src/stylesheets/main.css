@@ -3,7 +3,17 @@
   margin: 0;
 }
 
-/************************** Category page **************************/
+body {
+  min-height: 100vh; 
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+/************************** CategoryPage **************************/
 
 .custom-img {
   max-height: 150px;
@@ -11,7 +21,7 @@
   object-fit: cover;
 }
 
-/************************** User Space page **************************/
+/************************** UserSpacePage **************************/
 .cardMyQuiz:hover{
   border: 1px solid #bb86fc;
   background-color: #CAACD7;
@@ -31,7 +41,7 @@
   border-bottom: 2px solid #673ab7; 
 }
 
-/************************** NavBar Part **************************/
+/*************************** NavBar *********************************/
 
 .logo {
   height: 70px;
@@ -39,16 +49,11 @@
 
 .btn-purple {
   background-color: #6f52f9;
-  color: rgb(179, 177, 177); 
-  height : 40px;
-}
-
-.btn-sm {
-  font-size: 20px; 
+  border-radius: 5px; 
 }
 
 
-/************************** HomePage *************************/
+/************************** HomePage ****************************/
 
 
 .banner {
@@ -62,8 +67,6 @@
   height: 400px;
   background-size: cover;
 }
-
-
 
 .btn-color {
   background-color: #e6f5ff;
@@ -82,77 +85,14 @@
   background-color: #e6f5ff;
 }
 
-/***************************Authentification*******************************/
+/**************************** LoginPage *****************************/
 
-
-/***Login & register**/
-/*
-#containerAuthentification{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 300px; 
-  padding-top: 12cm;
-}
-*/
-/*
-.form-group{
-  margin-top: 45px;
-}
-
-.title{
-  margin-top: 45px;
-}
-*/
-
-/*
-
-input[type="button"] {
-  background-color: #d598e691;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 15px 30px;
-  cursor: pointer;
-  font-size: 16px; 
-}
-
-input[type="text"], input[type="password"] {
-  width: 100%;    
-  padding: 5px;   
-  border-radius: 5px; 
-  border: 1px solid #ccc; 
-}
-*/
-
-
-/**************Login*************/
-
-/*
-#squareLogin{
-  width: 450px; 
-  height: 600px; 
-  text-align: center; 
-  padding: 30px;
-  background-color: lightgreen;
-}
-*/
 .btn-authentification{
   background-color: #d598e691;
 }
 
-/**************Register***********/
-/*
-#squareRegister{
-  width: 450px; 
-  height: 500px; 
-  text-align: center; 
-  padding: 30px;
-  background-color: aqua;
-}
-*/
 
-/**************QuizPage*************/
+/*************************** QuizPage  ******************************/
 .answer-label {
   margin : 10px;
   border-radius : 5px;
@@ -170,23 +110,10 @@ input[type="text"], input[type="password"] {
 .card-header, .card-footer {
   background-color : #d598e691;
 }
-/**************************************************************************/
 
-/********************************* FOOTER *********************************/
-/*
-footer {
-  background-color: #f4eeff;
-  font-weight: bold;
-  display: flex;
-  vertical-align: bottom !important;
-  /*background-color: #d598e691;
-  color: black;
-  padding-bottom: 50px;
-
-}
-*/
+/************************* Footer *****************************/
 
 footer {
   margin-top: 20px;
-  background-color:rgba(0, 0, 0, 0.05); ;
+  background-color: rgba(0, 0, 0, 0.05);
 }
