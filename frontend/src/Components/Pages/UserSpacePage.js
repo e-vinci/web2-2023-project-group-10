@@ -3,20 +3,23 @@
 // eslint-disable-next-line no-unused-vars
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
+import getConnectedUserDetails from '../../utils/auths';
 import trophee from '../../img/badge1.jpg';
 import { readAllQuizzesByUser, deleteOneQuiz } from '../../models/quizzes';
 import { readAllBadgesByUser } from '../../models/badges';
 
 const main = document.querySelector('main');
+let userID;
+let userName;
 
-const UserSpacePage = () => {
-  renderUserQuiz();
+const UserSpacePage = async () => {
+  await getConnectedUserDetails().then((userDetails) => {
+    console.log(userDetails);
+    userID = userDetails.userID;
+    userName = userDetails.userName;
+    renderUserQuiz();
+  });
 };
-
-const username = localStorage.getItem('username');
-console.log('Récupération du username:', username);
-const userID = localStorage.getItem('user_id');
-console.log('Récupération user id', userID);
 
 async function renderUserQuiz() {
   clearPage();
@@ -25,7 +28,7 @@ async function renderUserQuiz() {
   mainListQuiz = `
     <section>
       <div class="alert color-purple">
-        <p>Bienvenue ${username}</p>
+        <p>Bienvenue ${userName}</p>
       </div>
       <nav class="navbar navbar-expand-lg ">
       <div class="container-fluid">
@@ -132,7 +135,7 @@ async function renderUserBadges() {
   let mainUserBadges = `
     <section>
     <div class="alert color-purple">
-    <p>Bienvenue ${username}</p>
+    <p>Bienvenue ${userName}</p>
   </div>
     <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">

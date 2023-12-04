@@ -24,19 +24,25 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/details', async (req, res) => {
+  try {
+    const token = req.headers.authorization.replace('Bearer ', '');
+    const decoded = jwt.verify(token, secretToken);
+    return res.json({ userID: decoded.userID, userName: decoded.userName });
+  } catch (error) {
+    res.status(500).send('Erreur serveur');
+  }
+});
+
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
   try {
     const user = await loginUser(username, password);
-    console.log('routes API /login');
-    console.log(user);
 
     if (user.rows.length > 0) {
       const userID = user.rows[0].user_id;
       const userName = user.rows[0].pseudo;
       const token = jwt.sign({ userID, userName }, secretToken);
-      console.log('routes API /login');
-      console.log(userID);
 
       res.status(200).json({
         message: 'Connexion réussie',
