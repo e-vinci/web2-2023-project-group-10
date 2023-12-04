@@ -55,7 +55,7 @@ const QuizListPage = async () => {
   
     QuizList += `
     <div class="col-12 col-lg-3 col-md-6 mt-3">
-    <a href="#" data-uri="/quiz?id=${q.quiz_id}" class="text-decoration-none">
+    <a href="/quiz?id=${q.quiz_id}" data-uri="/quiz?id=${q.quiz_id}" class="text-decoration-none">
         <div class="card cardQuizzes  style="width: 10rem;">
             <div class="card-body">
                <h5 class="card-title">${q.title}</h5>
