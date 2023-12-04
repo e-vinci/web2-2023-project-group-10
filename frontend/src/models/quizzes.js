@@ -132,6 +132,10 @@ const readAllQuizzesByCategory = async (categoryName) => {
 
     console.log('response',response)
     if (!response.ok) {
+      if(response.status === 400) {
+        console.log("je suis dans la verification");
+        return [];
+      }
       console.error(`Erreur HTTP: ${response.status}`);
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
