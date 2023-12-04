@@ -13,6 +13,7 @@ const pizzaRouter = require('./routes/pizzas');
 const authsRouter = require('./routes/auths');
 const questionsRouter = require('./routes/questions');
 const answersRouter = require('./routes/answers');
+const badgesRouter = require('./routes/badges');
 
 const app = express();
 
@@ -29,5 +30,6 @@ app.use('/questions', questionsRouter);
 app.use('/answers', answersRouter);
 app.use('/pizzas', pizzaRouter);
 app.use('/auths', authsRouter);
+app.use('/badges', badgesRouter);
 
 module.exports = app;

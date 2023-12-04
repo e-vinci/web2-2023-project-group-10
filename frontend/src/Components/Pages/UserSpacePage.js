@@ -1,8 +1,11 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-plusplus */
 // eslint-disable-next-line no-unused-vars
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
-import badge1 from '../../img/badge1.jpg';
+import trophee from '../../img/badge1.jpg';
 import { readAllQuizzesByUser, deleteOneQuiz } from '../../models/quizzes';
+import { readAllBadgesByUser } from '../../models/badges';
 
 const main = document.querySelector('main');
 
@@ -10,15 +13,15 @@ const UserSpacePage = () => {
   renderUserQuiz();
 };
 
-const username = localStorage.getItem("username");
-console.log("Récupération du username:", username);
-const userID = localStorage.getItem("user_id");
-console.log("Récupération user id", userID);
+const username = localStorage.getItem('username');
+console.log('Récupération du username:', username);
+const userID = localStorage.getItem('user_id');
+console.log('Récupération user id', userID);
 
 async function renderUserQuiz() {
   clearPage();
   let mainListQuiz = '';
-  const allQuizzesByUser = await readAllQuizzesByUser(userID); // a remplacer par l'id de l'utilisateur courant !!
+  const allQuizzesByUser = await readAllQuizzesByUser(userID);
   mainListQuiz = `
     <section>
       <div class="alert color-purple">
@@ -123,9 +126,10 @@ function attachDeleteEventListeners() {
   });
 }
 
-function renderUserBadges() {
+async function renderUserBadges() {
   clearPage();
-  main.innerHTML = `
+  const allBadgesByUser = await readAllBadgesByUser(userID);
+  let mainUserBadges = `
     <section>
     <div class="alert color-purple">
     <p>Bienvenue ${username}</p>
@@ -144,34 +148,40 @@ function renderUserBadges() {
           </div>
         </div>
       </nav>
-      <div class="alert">
-        <div class="container-xxl justify-content-center pt-5">
-          <div class="card shadow-lg">
-            <div class="card-body p-5">
-      
-            <div class="row mt-3">
-            <div class="col-12 col-lg-3 col-md-6">
-              <img src="${badge1}" alt="badge1" class="img-fluid">
-            </div>
+      `;
 
-            <div class="col-12 col-lg-3 col-md-6">
-            <p> Gerer les badges</p>
-            <img src="" alt="badge2" class="img-fluid">
-          </div>
-
-          <div class="col-12 col-lg-3 col-md-6">
-          <img src="" alt="badge3" class="img-fluid">
-        </div>
-        <div class="col-12 col-lg-3 col-md-6">
-        <img src="" alt="badge4" class="img-fluid">
-      </div>
+  if (allBadgesByUser.length === 0) {
+    mainUserBadges += `   
+              <div class="alert alert-light text-center">
+              <p>Vous n'avez pas encore gagné de badge !</p>
+            </div>`;
+  } else {
+    mainUserBadges += `
+          <div class="alert">
+          <div class="container-xxl justify-content-center pt-5">
+            <div class="card shadow-lg">
+              <div class="card-body p-5"> 
+              <div class="row mt-3">`;
+    let count = 0;
+    allBadgesByUser.forEach((badge) => {
+      if (count % 3 === 0 && count !== 0) {
+        mainUserBadges += ' </div>  <div class="row mt-3">';
+      }
+      mainUserBadges += ` <div class="col-12 col-lg-3 col-md-6">
+                <img src="${getImageForBadge(badge.label)}"  alt="${badge.label}" class="img-fluid">
+              </div>`;
+      count++;
+    });
+    mainUserBadges += `
         </div>
             </div>
           </div>
         </div>
       </div>
     </section>`;
+  }
 
+  main.innerHTML = mainUserBadges;
   const linkListQuiz = document.querySelector('#linkListQuiz');
 
   linkListQuiz.addEventListener('click', () => {
@@ -179,4 +189,7 @@ function renderUserBadges() {
   });
 }
 
+function getImageForBadge(badgeLabel) {
+  if (badgeLabel === `Trophée d'or`) return trophee;
+}
 export default UserSpacePage;
