@@ -16,19 +16,18 @@ export default async function getConnectedUserDetails() {
         if (!response.ok) {
             throw new Error(`Erreur HTTP: ${response.status}`);
             
-          
         }
         
         const data = response.json();
         return data;
-
-        
+ 
     } catch (error) {
-        Swal.fire({
-            title: 'Erreur lors de la création du quiz',
-            text: error.message,
+          Swal.fire({
+            title: 'Erreur de Connexion',
+            text: `Impossible de récupérer les détails de l'utilisateur. Erreur: ${error.message}. Veuillez réessayer ultérieurement.`,
             icon: 'error',
-          });
+        });
+        
           return null;
     }
 }

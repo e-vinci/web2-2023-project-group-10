@@ -45,6 +45,13 @@ function renderLoginForm() {
                             <label class="form-check-label" for="rememberMe">Se souvenir de moi</label>
                         </div>
 
+                        <div class="mb-3 text-center">
+                          <div class="accept">
+                            J'accepte les <a href="https://www.privacypolicies.com/live/57c23a50-18c6-4d2b-9bc6-79fda5cc263d" target="_blank">termes & conditions</a>
+                          </div>
+                          <input type="checkbox" id="checkBox" class="form-check-input mt-2">
+                        </div>
+
                         <div class="mb-3">
                             <input id="login" type="button" class="btn btn-authentification mn-3  w-100"
                                 value="Se connecter" />
@@ -121,7 +128,7 @@ async function handleLoginClick(e) {
   }else{
     const responseData = await response.json(); 
     localStorage.setItem("token", responseData.token);
-    
+
     Swal.fire({
       title: "Connexion réussie!",
       icon: "success",
