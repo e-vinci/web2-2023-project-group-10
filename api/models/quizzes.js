@@ -54,6 +54,8 @@ async function addOneQuiz(categoryId, title, user) {
     'INSERT INTO project.quizzes (user_id, category, title) VALUES ($1, $2, $3) RETURNING  quiz_id, title, category',
     [user, categoryId, title],
   );
+  console.log('API- models- quizzes.js');
+  console.log(user);
   if (quiz.rows.length > 0) {
     console.log('Quiz add successfully.');
     return quiz.rows;

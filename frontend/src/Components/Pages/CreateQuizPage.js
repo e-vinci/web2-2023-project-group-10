@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
+import getConnectedUserDetails from '../../utils/auths';
 import { readAllCategories, addOneQuiz } from '../../models/quizzes';
 
 let questions = [];
@@ -19,10 +20,13 @@ const numberBadAnswer = 3;
 let title;
 let category;
 let quizToBeCreated;
+let userID;
 const main = document.querySelector('main');
 
 const CreateQuizPage = async () => {
   clearPage();
+  const currentUser = await getConnectedUserDetails();
+  userID = currentUser.userID;
   questions = [];
   numberOfQuestions = 0;
   questionCount = 0;
@@ -269,7 +273,7 @@ function attachEventListenersQuizQuestions() {
           cancelButtonText: 'Annuler',
         });
         if (result.isConfirmed) {
-          const userID = localStorage.getItem("user_id");
+          // hello
           console.log(userID);
           quizToBeCreated = {
             title: title.value,
