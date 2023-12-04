@@ -133,7 +133,7 @@ async function deleteOneQuiz(quizId) {
  * categoryName : The label of the category.
  */
 async function readAllQuizzesByCategory(categoryName) {
-  const quizzesInCategory = await pool.query('SELECT q.title, u.pseudo, c.label FROM project.quizzes q, project.users u,project.categories c WHERE c.category_id = q.category AND u.user_id = q.user_id AND c.label = $1', [categoryName]);
+  const quizzesInCategory = await pool.query('SELECT q.title, u.pseudo, c.label, q.quiz_id FROM project.quizzes q, project.users u,project.categories c WHERE c.category_id = q.category AND u.user_id = q.user_id AND c.label = $1', [categoryName]);
   if (quizzesInCategory.rows.length > 0) {
     console.log('quizzes par catégorie OK');
     return quizzesInCategory.rows;

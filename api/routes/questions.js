@@ -33,7 +33,7 @@ router.get('/quiz/:quizId', async (req, res) => {
   }
 
   try {
-    const foundQuestions = await pool.query('SELECT * FROM project.questions WHERE quizz_id = $1', [quizId]);
+    const foundQuestions = await pool.query('SELECT * FROM project.questions WHERE quiz_id = $1', [quizId]);
 
     if (!foundQuestions.rows.length) {
       return res.sendStatus(404);

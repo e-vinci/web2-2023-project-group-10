@@ -12,10 +12,11 @@ const chosenAnswers = [];
 const quizPage = async () => {
     clearPage();
     renderModal();
-    // const quizId = 1;
+    const url = new URLSearchParams(window.location.search);
+    const quizId = url.get('id');
     let questionCursor = 0;
-    const questionIds = [131, 132];
-    const currentQuestionId = questionIds[questionCursor];
+    const questionIds = await fetchQuestionsByQuizzId(quizId);
+    const currentQuestionId = questionIds[questionCursor].question_id;
     const currentQuestion = await fetchQuestionsById(currentQuestionId);
     renderQuestionLayout();
     const currentAnswers = await fetchAnswersByQuestionId(currentQuestionId);
