@@ -30,7 +30,7 @@ async function renderUserQuiz() {
       <nav class="navbar navbar-expand-lg ">
       <div class="container-fluid">
           <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav navbar-userSpace">
+            <ul class="navbar-nav ">
               <li class="nav-item">
                 <a class="nav-link styleLink styleLinkHover" id="linkListQuiz" >Mes quiz</a>
               </li>
@@ -148,6 +148,8 @@ async function renderUserBadges() {
           </div>
         </div>
       </nav>
+      <div class="alert">
+          <div class="container-xxl justify-content-center pt-5">
       `;
 
   if (allBadgesByUser.length === 0) {
@@ -157,8 +159,7 @@ async function renderUserBadges() {
             </div>`;
   } else {
     mainUserBadges += `
-          <div class="alert">
-          <div class="container-xxl justify-content-center pt-5">
+          
             <div class="card shadow-lg">
               <div class="card-body p-5"> 
               <div class="row mt-3">`;
