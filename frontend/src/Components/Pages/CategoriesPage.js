@@ -86,7 +86,7 @@ function getImageForCategory(categoryLabel) {
   if (categoryLabel === 'Sciences') return scienceImage;
   if (categoryLabel === 'Géographie') return geographyImage;
   if (categoryLabel === 'Culture Générale') return generalCultureImage;
-  if (categoryLabel === 'Jeux Vidéo') return videoGamesImage;
+  if (categoryLabel === 'Jeux Vidéos') return videoGamesImage;
   if (categoryLabel === 'Economie') return economyImage;
   if (categoryLabel === 'Cinéma') return cinemaImage;
   if (categoryLabel === 'Autre') return otherImage;
