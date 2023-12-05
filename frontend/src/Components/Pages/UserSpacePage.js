@@ -104,14 +104,11 @@ function attachDeleteEventListeners() {
 
   deleteButtons.forEach((btn) => {
     btn.addEventListener('click', async (e) => {
-      console.log('front btn ');
       e.preventDefault();
       const deleteQuiz = e.target.dataset.id;
       const message = document.querySelector('#deletedResponse');
       try {
         const reponse = await deleteOneQuiz(deleteQuiz);
-        console.log(`la reponse du frontttttttttttttttt  ::    ${reponse.status}`);
-
         if (!reponse.ok) {
           message.className = 'text-danger';
           message.innerHTML = `Votre quiz n'a pas été supprimé`;
@@ -119,13 +116,11 @@ function attachDeleteEventListeners() {
         } else {
           message.className = 'text-success';
           message.innerHTML = `Votre quiz a été supprimé`;
-          console.log('Votre quiz a été supprimé dans le front');
 
           Navigate('/register');
         }
         renderUserQuiz();
       } catch (error) {
-        console.error('Erreur lors de la suppression du quiz:', error);
         Navigate('/login');
       }
     });
