@@ -1,0 +1,4 @@
+@baseUrl = http://localhost:3000
+
+### Delete the quiz with ID == 1
+DELETE {{baseUrl}}/quizzes/1
