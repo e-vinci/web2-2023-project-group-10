@@ -3,6 +3,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-undef */
 /* eslint-disable consistent-return */
+const escape = require('escape-html');
 const pool = require('../db');
 
 /**
@@ -52,7 +53,7 @@ async function readAllCategories() {
 async function addOneQuiz(categoryId, title, user) {
   const quiz = await pool.query(
     'INSERT INTO project.quizzes (user_id, category, title) VALUES ($1, $2, $3) RETURNING  quiz_id, title, category',
-    [user, categoryId, title],
+    [user, categoryId, escape(title)],
   );
   console.log('API- models- quizzes.js');
   console.log(user);
@@ -62,14 +63,16 @@ async function addOneQuiz(categoryId, title, user) {
   }
   return undefined;
 }
-
+/*
+questions : a table that contains questions and answers
+*/
 async function addQuestionsAnswers(questions, quizId) {
   console.log('questions.lenght : ', questions.length);
   for (let index = 0; index < questions.length; index++) {
     console.log('the question is : ', questions[index][0]);
     const question = await pool.query(
       'INSERT INTO project.questions (quiz_id, question) VALUES ($1, $2) RETURNING  question_id ',
-      [quizId, questions[index][0]],
+      [quizId, escape(questions[index][0])],
     );
     if (question.rowCount <= 0) {
       return undefined;
@@ -80,7 +83,7 @@ async function addQuestionsAnswers(questions, quizId) {
       if (j === 1) {
         const answer = await pool.query(
           'INSERT INTO project.answers (answer, question, is_correct) VALUES ($1, $2, $3) RETURNING  answer ',
-          [questions[index][j], questionId, 1],
+          [escape(questions[index][j]), questionId, 1],
         );
         if (answer.rowCount <= 0) {
           return undefined;
@@ -88,7 +91,7 @@ async function addQuestionsAnswers(questions, quizId) {
       } else {
         const answer = await pool.query(
           'INSERT INTO project.answers (answer, question, is_correct) VALUES ($1, $2, $3) RETURNING  answer ',
-          [questions[index][j], questionId, 0],
+          [escape(questions[index][j]), questionId, 0],
         );
         if (answer.rowCount <= 0) {
           return undefined;
@@ -135,7 +138,10 @@ async function deleteOneQuiz(quizId) {
  * categoryName : The label of the category.
  */
 async function readAllQuizzesByCategory(categoryName) {
-  const quizzesInCategory = await pool.query('SELECT q.title, u.pseudo, c.label, q.quiz_id FROM project.quizzes q, project.users u,project.categories c WHERE c.category_id = q.category AND u.user_id = q.user_id AND c.label = $1', [categoryName]);
+  const quizzesInCategory = await pool.query(
+    'SELECT q.title, u.pseudo, c.label, q.quiz_id FROM project.quizzes q, project.users u,project.categories c WHERE c.category_id = q.category AND u.user_id = q.user_id AND c.label = $1',
+    [categoryName],
+  );
   if (quizzesInCategory.rows.length > 0) {
     console.log('quizzes par catégorie OK');
     return quizzesInCategory.rows;
