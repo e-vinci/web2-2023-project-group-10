@@ -222,6 +222,7 @@ function attachEventListenersQuizQuestions() {
       renderQuizQuestions();
     }
   });
+  
   nextQuestion.addEventListener('click', async (e) => {
     e.preventDefault();
     if (questionCount <= numberOfQuestions) {
