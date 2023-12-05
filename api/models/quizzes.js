@@ -116,18 +116,15 @@ async function deleteOneQuiz(quizId) {
         WHERE quiz_id = $1
       )`;
     let quizResult = await pool.query(deleteAnswersQuery, [quizId]);
-    console.log(`Nombre de réponses supprimées : ${quizResult.rowCount}`);
 
-    console.log('effacer les questions du quiz');
     const deleteQuestionsQuery = 'DELETE FROM project.questions WHERE quiz_id = $1';
     quizResult = await pool.query(deleteQuestionsQuery, [quizId]);
-    console.log(`Nombre de questions supprimées : ${quizResult.rowCount}`);
 
     const deleteQuizQuery = 'DELETE FROM project.quizzes WHERE quiz_id = $1';
     quizResult = await pool.query(deleteQuizQuery, [quizId]);
     return quizResult.rowCount;
   } catch (err) {
-    console.error('Erreur lors de la suppression du quiz:', err);
+    console.error('Deletion failed:', err);
   }
 }
 

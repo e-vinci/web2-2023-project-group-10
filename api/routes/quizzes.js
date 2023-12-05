@@ -133,14 +133,10 @@ router.delete('/:quizId', async (req, res) => {
     const { quizId } = req.params;
     console.log('ID du quiz à supprimer:', quizId);
     const rowCount = await deleteOneQuiz(quizId);
-    console.log('cest greg');
-    console.log(rowCount);
 
     if (rowCount === 0) {
-      // Si aucune ligne n'a été affectée, le quiz n'existe pas.
       res.status(404).send('Quiz non trouvé.');
     } else {
-      // Si des lignes ont été affectées, la suppression a réussi.
       res.status(200).json({ message: 'Quiz supprimé avec succès.' });
     }
   } catch (err) {
