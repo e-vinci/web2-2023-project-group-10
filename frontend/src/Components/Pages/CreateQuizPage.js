@@ -31,7 +31,7 @@ const CreateQuizPage = async () => {
   numberOfQuestions = 0;
   questionCount = 0;
   currentCount = 0;
-  await renderFormInfoQuiz(); // wait for renderFormInfoQuiz to finish before continuing
+  await renderFormInfoQuiz(); 
   attachEventListenersFromInfoQuiz();
 };
 
@@ -126,7 +126,7 @@ function attachEventListenersFromInfoQuiz() {
     console.log('titre', title.value);
     if (!isNaN(numberOfQuestions) && numberOfQuestions > 0 && title.value && category.value)
       renderQuizQuestions();
-    else showError('Tous les champs du formulaire sont obligatoires'); // verif
+    else showError('Tous les champs du formulaire sont obligatoires');
   });
 }
 
@@ -222,7 +222,7 @@ function attachEventListenersQuizQuestions() {
       renderQuizQuestions();
     }
   });
-  
+
   nextQuestion.addEventListener('click', async (e) => {
     e.preventDefault();
     if (questionCount <= numberOfQuestions) {
@@ -231,7 +231,7 @@ function attachEventListenersQuizQuestions() {
       const goodAnswer = document.querySelector('#goodAnswer');
 
       if (!question.value || !goodAnswer.value) {
-        showError('Tous les champs du formulaire sont obligatoires'); // verif
+        showError('Tous les champs du formulaire sont obligatoires'); 
         return renderQuizQuestions();
       }
       console.log('question : ', question.value);
@@ -240,7 +240,7 @@ function attachEventListenersQuizQuestions() {
       const answersBad = [];
       for (const answer of badAnswers) {
         if (!answer.value) {
-          showError('Tous les champs du formulaire sont obligatoires'); // verif
+          showError('Tous les champs du formulaire sont obligatoires'); 
           console.log('erreur');
           return renderQuizQuestions();
         }
@@ -285,7 +285,6 @@ function attachEventListenersQuizQuestions() {
           console.log('quizToBeCreated : ', quizToBeCreated);
           await addOneQuiz(quizToBeCreated);
           Navigate('/userSpace');
-          console.log(`Ici, on va direct être rediriger vers la page du jeu du quiz`); // A MODIF
         } else {
           questionCount--;
           currentCount--;
