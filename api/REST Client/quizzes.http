@@ -1,17 +1,15 @@
 @baseUrl = http://localhost:3000
 
-### Read all quizzes of a user
-GET {{baseUrl}}/userSpace
-
-### Read all of a certain category
-GET {{baseUrl}}/categories/quizzes
-
 ### Read a certain category (Histoire)
-GET {{baseUrl}}/list?label=Histoire
+GET {{baseUrl}}/quizzes/categories/list?label=Histoire
 
 ### Read categories
 GET {{baseUrl}}/quizzes/categories
 
-### Delete the quiz with ID == 1
-DELETE {{baseUrl}}/quizzes/1
+### Delete the quiz with ID == 3
+DELETE {{baseUrl}}/quizzes/3
 
+######### ERROR OPERATION  ###########
+
+### Read quiz which does not exists
+GET {{baseUrl}}/quizzes/200
