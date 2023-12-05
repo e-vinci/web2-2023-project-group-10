@@ -96,7 +96,6 @@ async function renderUserQuiz() {
   linkBadge.addEventListener('click', () => {
     renderUserBadges();
   });
-
   attachDeleteEventListeners();
 }
 
