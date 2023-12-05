@@ -283,7 +283,7 @@ function attachEventListenersQuizQuestions() {
           };
           console.log('quizToBeCreated : ', quizToBeCreated);
           await addOneQuiz(quizToBeCreated);
-          Navigate('/categories');
+          Navigate('/userSpace');
           console.log(`Ici, on va direct être rediriger vers la page du jeu du quiz`); // A MODIF
         } else {
           questionCount--;

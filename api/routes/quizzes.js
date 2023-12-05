@@ -82,7 +82,6 @@ router.post('/', async (req, res) => {
   console.log(currentUser);
 
   if (!title || !category || !questions || questions.length === 0) {
-    // nécessaire du coté client et serveur
     return res.status(400).json({ message: 'Tous les champs du formulaire sont obligatoires' });
   }
 

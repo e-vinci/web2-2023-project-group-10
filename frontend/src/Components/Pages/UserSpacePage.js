@@ -57,6 +57,9 @@ async function renderUserQuiz() {
   } else {
     allQuizzesByUser.forEach((quiz) => {
       mainListQuiz += `   
+      <a href="/quiz?id=${quiz.quiz_id}" data-uri="/quiz?id=${
+        quiz.quiz_id
+      }" class="text-decoration-none">
      <div class="row">
      <div class="card shadow cardMyQuiz">
          <div class="card-body">
@@ -77,7 +80,8 @@ async function renderUserQuiz() {
              </div>
          </div>
      </div>
- </div>`;
+ </div>
+ </a>`;
     });
   }
   mainListQuiz += `   

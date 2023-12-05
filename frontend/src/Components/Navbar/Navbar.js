@@ -24,7 +24,7 @@ const Navbar = () => {
     createLink = `<li class="nav-item"><a class="nav-link" aria-current="page" href="#" data-uri="/create">Créer</a></li>`;
     userSpace = `<a class="nav-link" href="#" data-uri="/userSpace">Mon espace</a>`;
   } else {
-    loginOrLogoutLink = `<a class="nav-link text-white btn-purple" href="#" data-uri="/login">Connexion</a>`;
+    loginOrLogoutLink = `<a class="nav-link text-white btn-purple text-center" href="#" data-uri="/login">Connexion</a>`;
     createLink = '';
     userSpace = '';
   }
