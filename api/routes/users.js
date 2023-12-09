@@ -1,4 +1,5 @@
 /* eslint-disable consistent-return */
+const escape = require('escape-html');
 const express = require('express');
 const jwt = require('jsonwebtoken');
 
@@ -45,7 +46,7 @@ router.post('/login', async (req, res) => {
   }
 
   try {
-    const user = await loginUser(username, password);
+    const user = await loginUser(escape(username), password);
 
     if (user.rows.length > 0) {
       const userID = user.rows[0].user_id;
@@ -72,12 +73,12 @@ router.post('/register', async (req, res) => {
   if (!username || username.trim() === '') {
     return res.status(400).send('Le champ username est vide');
   }
-  if (!password || password.trim() === '') {
+  if (!password) {
     return res.status(400).send('Le champ password est vide');
   }
 
   try {
-    const user = await registerUser(username, password);
+    const user = await registerUser(escape(username), password);
     if (user.rowCount > 0) {
       res.status(200).json({ message: 'Connexion réussie register' });
     } else {

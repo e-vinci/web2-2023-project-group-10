@@ -3,6 +3,7 @@ import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 
 
+
 function renderRegister() {
     const main = document.querySelector('main');
 
