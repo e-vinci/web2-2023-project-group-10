@@ -3,26 +3,25 @@ import Navbar from '../Navbar/Navbar';
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 
-function logout(){
-    localStorage.removeItem("token");
-    
-    Swal.fire({
-        title: "Deconnexion réussie!",
-        icon: "success",
-        timer: 1000,
-        showConfirmButton: false
-      });
+function logout() {
+  localStorage.removeItem('token');
+  sessionStorage.removeItem('token');
 
-      Navbar();
+  Swal.fire({
+    title: 'Deconnexion réussie!',
+    icon: 'success',
+    timer: 1000,
+    showConfirmButton: false,
+  });
 
-      Navigate('/');
+  Navbar();
 
+  Navigate('/');
 }
 
 const LogOutPage = () => {
   clearPage();
   logout();
-
 };
 
 export default LogOutPage;

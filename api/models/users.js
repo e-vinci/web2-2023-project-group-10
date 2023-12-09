@@ -8,6 +8,7 @@ module.exports = {
   getAllUsers,
   loginUser,
   registerUser,
+  currentUser,
 };
 
 async function getAllUsers() {
@@ -44,5 +45,15 @@ async function registerUser(username, password) {
   if (user.rowCount > 0) {
     return user;
   }
+  return user;
+}
+
+async function currentUser(username) {
+  const user = await pool.query('SELECT pseudo FROM project.users WHERE pseudo = $1', [username]);
+
+  if (user.rows.length > 0) {
+    return user;
+  }
+
   return user;
 }

@@ -2,15 +2,12 @@
 const escape = require('escape-html');
 const express = require('express');
 const jwt = require('jsonwebtoken');
+// const { authorize } = require('../utils/auths');
 
 const router = express.Router();
-const secretToken = 'soislechangementquetuveuxvoirdanslemonde ';
+const secretToken = 'soislechangementquetuveuxvoirdanslemonde';
 
-const {
-  getAllUsers,
-  loginUser,
-  registerUser,
-} = require('../models/users');
+const { getAllUsers, loginUser, registerUser } = require('../models/users');
 
 /* GET users listing. */
 router.get('/', async (req, res) => {

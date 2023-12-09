@@ -13,13 +13,14 @@ const Navbar = () => {
   const navbarWrapper = document.querySelector('#navbarWrapper');
 
 
-  const isLoggedIn = localStorage.getItem("token") !== null;
+  const isLoggedLocal = localStorage.getItem("token") !== null;
+  const isLoggedSession = sessionStorage.getItem("token") !== null;
 
   let loginOrLogoutLink;
   let createLink;
   let userSpace;
 
-  if (isLoggedIn) {
+  if (isLoggedLocal || isLoggedSession) {
     loginOrLogoutLink = `<a class="nav-link" href="#" data-uri="/logout">Déconnexion</a>`;
     createLink = `<li class="nav-item"><a class="nav-link" aria-current="page" href="#" data-uri="/create">Créer</a></li>`;
     userSpace = `<a class="nav-link" href="#" data-uri="/userSpace">Mon espace</a>`;
