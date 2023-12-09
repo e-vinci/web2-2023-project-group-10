@@ -36,6 +36,14 @@ router.get('/details', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
+
+  if (!username || username.trim() === '') {
+    return res.status(400).send('Le champ username est vide');
+  }
+  if (!password) {
+    return res.status(400).send('Le champ password est vide');
+  }
+
   try {
     const user = await loginUser(username, password);
 
@@ -60,6 +68,14 @@ router.post('/login', async (req, res) => {
 
 router.post('/register', async (req, res) => {
   const { username, password } = req.body;
+
+  if (!username || username.trim() === '') {
+    return res.status(400).send('Le champ username est vide');
+  }
+  if (!password || password.trim() === '') {
+    return res.status(400).send('Le champ password est vide');
+  }
+
   try {
     const user = await registerUser(username, password);
     if (user.rowCount > 0) {

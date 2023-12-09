@@ -1,0 +1,75 @@
+@baseUrl = http://localhost:3000
+
+
+
+### Enregistrement d'un utilisateur avec un nom d'utilisateur et un mot de passe vides
+POST {{baseUrl}}/users/register
+Content-Type: application/json
+
+{
+    "username":"",
+    "password":""
+}
+
+
+### Enregistrement d'un utilisateur avec un nom d'utilisateur mais sans mot de passe
+POST {{baseUrl}}/users/register
+Content-Type: application/json
+
+{
+    "username":"jean",
+    "password":""
+}
+
+
+### Enregistrement d'un utilisateur avec un mot de passe mais sans nom d'utilisateur
+POST {{baseUrl}}/users/register
+Content-Type: application/json
+
+{
+    "username":"",
+    "password":"jean"
+}
+
+
+### Enregistrer un nouvel utilisateur
+POST {{baseUrl}}/users/register
+Content-Type: application/json
+
+{
+    "username":"jean",
+    "password":"jean"
+}
+
+
+### Connexion avec un utilisateur existant
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+    "username":"jean",
+    "password":"jean"
+}
+
+### Connexion d'un utilisateur avec un mot de passe mais sans nom d'utilisateur
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+    "username":"",
+    "password":"jean"
+}
+
+### Connexion d'un utilisateur avec un nom d'utilisateur mais sans mot de passe
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+    "username":"hello",
+    "password":""
+}
+
+
+
+
+
