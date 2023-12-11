@@ -56,9 +56,14 @@ main {
 /************************** HomePage ****************************/
 
 
-.banner {
+.btn-style {
+  background-color: #d598e691;
+  width: 100%; 
+}
+
+.banner{
   background-color:  #F4EEFF;
-  height: 600px;
+  max-height: 600px;
   background-size: cover;
 }
 
@@ -72,10 +77,6 @@ main {
   background-color: #e6f5ff;
 }
 
-.btn-style {
-  background-color: #d598e691;
-  width: 600px;
-}
 
 .color-purple {
   background-color: #f4eeff;
