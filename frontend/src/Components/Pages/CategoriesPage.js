@@ -67,7 +67,7 @@ async function renderCategories() {
           </a>
         </div>
       `;
-    count++;
+    count += 1;
   });
 
   mainCategory += `
