@@ -1,12 +1,14 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-plusplus */
 // eslint-disable-next-line no-unused-vars
+import Swal from 'sweetalert2';
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import getConnectedUserDetails from '../../utils/auths';
 import trophee from '../../img/badge1.jpg';
 import { readAllQuizzesByUser, deleteOneQuiz } from '../../models/quizzes';
 import { readAllBadgesByUser } from '../../models/badges';
+
 
 const main = document.querySelector('main');
 let userID;
@@ -106,22 +108,27 @@ function attachDeleteEventListeners() {
     btn.addEventListener('click', async (e) => {
       e.preventDefault();
       const deleteQuiz = e.target.dataset.id;
-      const message = document.querySelector('#deletedResponse');
       try {
         const reponse = await deleteOneQuiz(deleteQuiz);
         if (!reponse.ok) {
-          message.className = 'text-danger';
-          message.innerHTML = `Votre quiz n'a pas été supprimé`;
-          Navigate('/login');
+          Swal.fire({
+            title: 'Un problème est survenu lors de votre opération',
+            icon: 'error',
+            showConfirmButton: true,
+          });
+          
         } else {
-          message.className = 'text-success';
-          message.innerHTML = `Votre quiz a été supprimé`;
-
-          Navigate('/register');
+          Swal.fire({
+            title: 'Votre quiz a bien été supprimé',
+            icon: 'error',
+            showConfirmButton: true,
+          });
+          
         }
+        Navigate('/userSpace');
         renderUserQuiz();
       } catch (error) {
-        Navigate('/login');
+        Navigate('/userSpace');
       }
     });
   });
