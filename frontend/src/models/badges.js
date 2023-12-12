@@ -35,4 +35,26 @@ const readAllBadges = async () => {
   }
 };
 
-export { readAllBadgesByUser, readAllBadges };
+const addOneBadgeToUser = async (id, label) => {
+  try {
+    const options = {
+      method: 'POST',
+      body: JSON.stringify({ label, id }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const response = await fetch('http://localhost:3000/badges', options);
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP: ${response.status}`);
+    }
+    const createdBadgeUser = await response.json();
+    return createdBadgeUser;
+  } catch (err) {
+    console.error('addOneBadgeToUser::error: ', err);
+    throw err;
+  }
+};
+
+export { readAllBadgesByUser, addOneBadgeToUser, readAllBadges };
+
