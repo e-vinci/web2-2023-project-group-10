@@ -1,15 +1,8 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-const-assign */
-/* eslint-disable consistent-return */
-/* eslint-disable no-alert */
-/* eslint-disable no-restricted-globals */
-/* eslint-disable no-plusplus */
-/* eslint-disable no-console */
 import Swal from 'sweetalert2';
 
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
-import getConnectedUserDetails  from '../../utils/auths';
+import getConnectedUserDetails from '../../utils/auths';
 import { readAllCategories, addOneQuiz } from '../../models/quizzes';
 
 let questions = [];
@@ -105,8 +98,8 @@ async function renderFormInfoQuiz() {
 	</div>
 </section>`;
   main.innerHTML = MainFormInfoQuiz;
-  questionCount++;
-  currentCount++;
+  questionCount += 1;
+  currentCount += 1;
 }
 
 function attachEventListenersFromInfoQuiz() {
@@ -124,7 +117,7 @@ function attachEventListenersFromInfoQuiz() {
     numberOfQuestions = parseInt(document.querySelector('#numberQuestion').value, 10);
     console.log(numberOfQuestions);
     console.log('titre', title.value);
-    if (!isNaN(numberOfQuestions) && numberOfQuestions > 0 && title.value && category.value)
+    if (!Number.isNaN(numberOfQuestions) && numberOfQuestions > 0 && title.value && category.value)
       renderQuizQuestions();
     else showError('Tous les champs du formulaire sont obligatoires');
   });
@@ -159,7 +152,7 @@ function renderQuizQuestions() {
               </div>
             </div>`;
   let j = 2;
-  for (let index = 0; index < numberBadAnswer; index++) {
+  for (let index = 0; index < numberBadAnswer; index += 1) {
     quizHTML += `
     <div class="row mb-3">
       <div class="col">
@@ -169,7 +162,7 @@ function renderQuizQuestions() {
         }" required autofocus>
       </div>
     </div>`;
-    j++;
+    j += 1;
   }
   if (questionCount === 1) {
     quizHTML += `
@@ -218,11 +211,12 @@ function attachEventListenersQuizQuestions() {
   previousQuestion.addEventListener('click', (e) => {
     e.preventDefault();
     if (questionCount > 1) {
-      questionCount--;
+      questionCount -= 1;
       renderQuizQuestions();
     }
   });
 
+  // eslint-disable-next-line consistent-return
   nextQuestion.addEventListener('click', async (e) => {
     e.preventDefault();
     if (questionCount <= numberOfQuestions) {
@@ -238,15 +232,17 @@ function attachEventListenersQuizQuestions() {
       console.log('goodAnswer : ', goodAnswer.value);
 
       const answersBad = [];
-      for (const answer of badAnswers) {
+
+      badAnswers.forEach((answer) => {
         if (!answer.value) {
           showError('Tous les champs du formulaire sont obligatoires');
           console.log('erreur');
-          return renderQuizQuestions();
+          renderQuizQuestions();
+          return;
         }
         answersBad.push(answer.value);
-      }
-      console.log('on est dans le reste');
+      });
+
       const questAnsw = [question.value, goodAnswer.value, ...answersBad];
 
       console.log('questAnsw : ', questAnsw);
@@ -254,11 +250,11 @@ function attachEventListenersQuizQuestions() {
 
       if (questionCount === currentCount) {
         questions.push(questAnsw);
-        questionCount++;
-        currentCount++;
+        questionCount += 1;
+        currentCount += 1;
       } else {
         questions[questionCount - 1] = questAnsw;
-        questionCount++;
+        questionCount += 1;
       }
 
       if (questionCount <= numberOfQuestions) {
@@ -274,7 +270,6 @@ function attachEventListenersQuizQuestions() {
           cancelButtonText: 'Annuler',
         });
         if (result.isConfirmed) {
-          // hello
           console.log(userID);
           quizToBeCreated = {
             title: title.value,
@@ -286,8 +281,8 @@ function attachEventListenersQuizQuestions() {
           await addOneQuiz(quizToBeCreated);
           Navigate('/userSpace');
         } else {
-          questionCount--;
-          currentCount--;
+          questionCount -= 1;
+          currentCount -= 1;
           console.log('current', currentCount);
           return renderQuizQuestions();
         }

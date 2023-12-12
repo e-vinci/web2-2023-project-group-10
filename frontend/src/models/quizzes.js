@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-console */
 import Swal from 'sweetalert2';
 
 const readAllCategories = async () => {
@@ -18,9 +16,6 @@ const readAllCategories = async () => {
 };
 
 const addOneQuiz = async (quiz) => {
-  console.log('I am in models/quizzes.js, in the function addOneQuiz');
-  console.log('param quiz : ', quiz);
-
   const main = document.querySelector('main');
   main.innerHTML = `
   <div class="text-center" id="loadingSpinner" style="display: none;">
@@ -57,7 +52,6 @@ const addOneQuiz = async (quiz) => {
   } catch (err) {
     loadingSpinner.style.display = 'none';
     Swal.fire({
-      // nécessaire ??
       title: 'Erreur lors de la création du quiz',
       text: err.message,
       icon: 'error',
@@ -86,9 +80,6 @@ const readAllQuizzesByUser = async (id) => {
 };
 
 const deleteOneQuiz = async (quiz) => {
-  console.log('I am in models/quizzes.js, in the function deleteOneQuiz');
-  console.log('param quiz : ', quiz);
-
   const main = document.querySelector('main');
   main.innerHTML = `
   <div class="text-center" id="loadingSpinner" style="display: none;">
@@ -124,16 +115,15 @@ const deleteOneQuiz = async (quiz) => {
   }
 };
 
-
 const readAllQuizzesByCategory = async (categoryName) => {
   try {
     console.log('url :', `http://localhost:3000/quizzes/?label=${categoryName}`);
     const response = await fetch(`http://localhost:3000/quizzes/?label=${categoryName}`);
 
-    console.log('response',response)
+    console.log('response', response);
     if (!response.ok) {
-      if(response.status === 400) {
-        console.log("je suis dans la verification");
+      if (response.status === 400) {
+        console.log('je suis dans la verification');
         return [];
       }
       console.error(`Erreur HTTP: ${response.status}`);
@@ -146,7 +136,12 @@ const readAllQuizzesByCategory = async (categoryName) => {
     console.error('readAllQuizzesByCategory::error:', err);
     throw err;
   }
-
 };
 
-export { readAllCategories, addOneQuiz, readAllQuizzesByUser, deleteOneQuiz, readAllQuizzesByCategory };
+export {
+  readAllCategories,
+  addOneQuiz,
+  readAllQuizzesByUser,
+  deleteOneQuiz,
+  readAllQuizzesByCategory,
+};

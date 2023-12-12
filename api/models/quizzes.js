@@ -13,7 +13,10 @@ const pool = require('../db');
  * userId : The user's ID.
  */
 async function readAllQuizzesByUser(userId) {
-  const quizzes = await pool.query('SELECT * FROM project.quizzes WHERE user_id=$1', [userId]);
+  const quizzes = await pool.query(
+    'SELECT * FROM project.quizzes WHERE user_id=$1 ORDER BY date_creation DESC',
+    [userId],
+  );
   if (quizzes.rows.length > 0) {
     console.log('quizzes ok');
     return quizzes.rows;

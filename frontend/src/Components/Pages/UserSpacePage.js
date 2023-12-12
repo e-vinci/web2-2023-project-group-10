@@ -1,5 +1,3 @@
-/* eslint-disable no-plusplus */
-// eslint-disable-next-line no-unused-vars
 import Swal from 'sweetalert2';
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
@@ -182,7 +180,6 @@ async function renderUserBadges() {
       }
     });
     if (isWinned === true) {
-      console.log('TRUUUE');
       mainUserBadges += ` <div class="col-12 col-lg-3 col-md-6">
         <img src="${getImageForBadge(badge.label)}"  alt="${badge.label}" class="img-fluid ">
       </div>`;
@@ -193,7 +190,7 @@ async function renderUserBadges() {
       }" class="img-fluid badges_disabled">
     </div>`;
     }
-    count++;
+    count += 1;
   });
   mainUserBadges += `
         </div>
@@ -215,7 +212,7 @@ function getImageForBadge(badgeLabel) {
   if (badgeLabel === `Médaille d'or`) return medalGold;
   if (badgeLabel === `Médaille de bronze`) return medalBronze;
   if (badgeLabel === `Médaille d'argent`) return medalSilver;
-   if (badgeLabel === `Médaille de platine`) return medalPlatine;
-   return medalPlatine; 
+  if (badgeLabel === `Médaille de platine`) return medalPlatine;
+  return medalPlatine;
 }
 export default UserSpacePage;

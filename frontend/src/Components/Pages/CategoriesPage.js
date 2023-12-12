@@ -1,7 +1,3 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable no-param-reassign */
-/* eslint-disable consistent-return */
-// eslint-disable-next-line no-unused-vars
 import { clearPage } from '../../utils/render';
 import scienceImage from '../../img/science.jpg';
 import historyImage from '../../img/history.jpg';
@@ -24,14 +20,15 @@ const CategoriesPage = async () => {
   const cards = document.querySelectorAll('.card');
   /* manages category hover events */
   cards.forEach((card) => {
-    card.addEventListener('mouseover', () => {
-      card.style.borderWidth = '2px';
-      card.classList.add('border-primary');
+    const currentCard = card;
+    currentCard.addEventListener('mouseover', () => {
+      currentCard.style.borderWidth = '2px';
+      currentCard.classList.add('border-primary');
     });
 
-    card.addEventListener('mouseout', () => {
-      card.style.borderWidth = '1px';
-      card.classList.remove('border-primary');
+    currentCard.addEventListener('mouseout', () => {
+      currentCard.style.borderWidth = '1px';
+      currentCard.classList.remove('border-primary');
     });
   });
 };
@@ -75,15 +72,15 @@ async function renderCategories() {
     </div>
   </section>`;
   main.innerHTML = mainCategory;
-  categoryEventListeners ();
+  categoryEventListeners();
 }
 
-function categoryEventListeners (){
+function categoryEventListeners() {
   const btnCategory = document.querySelectorAll('.category');
 
   btnCategory.forEach((categoryLink) => {
     categoryLink.addEventListener('click', (e) => {
-      e.preventDefault(); 
+      e.preventDefault();
       const categoryName = e.currentTarget.getAttribute('category_label');
       Navigate(`/list?label=${categoryName}`);
       console.log('Catégorie choisie:', categoryName);
@@ -104,5 +101,6 @@ function getImageForCategory(categoryLabel) {
   if (categoryLabel === 'Economie') return economyImage;
   if (categoryLabel === 'Cinéma') return cinemaImage;
   if (categoryLabel === 'Autre') return otherImage;
+  return undefined;
 }
 export default CategoriesPage;
