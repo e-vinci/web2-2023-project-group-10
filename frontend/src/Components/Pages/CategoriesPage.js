@@ -2,7 +2,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable consistent-return */
 // eslint-disable-next-line no-unused-vars
-import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import scienceImage from '../../img/science.jpg';
 import historyImage from '../../img/history.jpg';

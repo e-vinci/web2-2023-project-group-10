@@ -1,6 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable no-plusplus */
-// import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import { readAllUsers } from '../../models/users';
 
@@ -35,7 +32,7 @@ function renderRankingTable() {
       <td>  ${user.pseudo} </td>
       <td> ${user.total_point} </td>
     </tr>`;
-    ranking++;
+    ranking += 1;
   });
   mainRanking += `    
   </tbody>
