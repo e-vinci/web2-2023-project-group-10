@@ -1,4 +1,4 @@
-import { clearPage} from '../../utils/render';
+import { clearPage } from '../../utils/render';
 import quizLinkEventListeners from '../../utils/quiz';
 // eslint-disable-next-line import/named
 // import {categoryName} from "./CategoriesPage";
@@ -24,6 +24,8 @@ async function renderQuizListInCategory() {
   let QuizList = '';
   const cardsInRow = 3; // nbre de carte par row;
   let counter = 0;
+  const numberOfQuiz = quizzesInCategory.length;
+
   QuizList = `
     <section>
         <div class="headerLabel">
@@ -35,7 +37,7 @@ async function renderQuizListInCategory() {
     <div class="container ">
     <div class="row mt-3 lowPart">
   `;
-  if (quizzesInCategory.length === 0) {
+  if (numberOfQuiz === 0) {
     console.log('aucun quiz trouvé');
     QuizList += `   
     <div class="alert alert-light text-center alertQuizListPage" role="alert">
@@ -44,9 +46,7 @@ async function renderQuizListInCategory() {
     </p>
   </div>
  `;
-
-    const btnCreateQuiz = document.getElementById('createQuiz');
-    btnCreateQuiz.addEventListener('click', renderCreateQuiz);
+    
   } else {
     quizzesInCategory.forEach((q) => {
       if (counter === cardsInRow) {
@@ -81,11 +81,16 @@ async function renderQuizListInCategory() {
 </section>
 `;
   main.innerHTML = QuizList;
+
+  if(numberOfQuiz === 0){
+    const btnCreateQuiz = document.getElementById('createQuiz');
+    btnCreateQuiz.addEventListener('click', renderCreateQuiz);
+  }
   quizLinkEventListeners();
   console.log('Categorie:');
 }
 
-function renderCreateQuiz (){
+function renderCreateQuiz() {
   Navigate('/create');
 }
 

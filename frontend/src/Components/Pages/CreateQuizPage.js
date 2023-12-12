@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
-import getConnectedUserDetails from '../../utils/auths';
+import getConnectedUserDetails  from '../../utils/auths';
 import { readAllCategories, addOneQuiz } from '../../models/quizzes';
 
 let questions = [];
@@ -31,7 +31,7 @@ const CreateQuizPage = async () => {
   numberOfQuestions = 0;
   questionCount = 0;
   currentCount = 0;
-  await renderFormInfoQuiz(); 
+  await renderFormInfoQuiz();
   attachEventListenersFromInfoQuiz();
 };
 
@@ -231,7 +231,7 @@ function attachEventListenersQuizQuestions() {
       const goodAnswer = document.querySelector('#goodAnswer');
 
       if (!question.value || !goodAnswer.value) {
-        showError('Tous les champs du formulaire sont obligatoires'); 
+        showError('Tous les champs du formulaire sont obligatoires');
         return renderQuizQuestions();
       }
       console.log('question : ', question.value);
@@ -240,7 +240,7 @@ function attachEventListenersQuizQuestions() {
       const answersBad = [];
       for (const answer of badAnswers) {
         if (!answer.value) {
-          showError('Tous les champs du formulaire sont obligatoires'); 
+          showError('Tous les champs du formulaire sont obligatoires');
           console.log('erreur');
           return renderQuizQuestions();
         }
