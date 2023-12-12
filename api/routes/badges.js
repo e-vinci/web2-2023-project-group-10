@@ -4,16 +4,23 @@ const express = require('express');
 
 const router = express.Router();
 
-const { getUserBadges } = require('../models/badges');
+const { getUserBadges, getAllBadges } = require('../models/badges');
 
-/* GET badges for a user */
 router.get('/', async (req, res) => {
   const userId = req?.query ? Number(req.query['user-id']) : undefined;
   try {
-    const badges = await getUserBadges(userId);
-    if (badges !== undefined) {
-      console.log('Badges retrieved successfully.');
-      return res.json(badges);
+    if (userId) {
+      const badges = await getUserBadges(userId);
+      if (badges !== undefined) {
+        console.log('Badges retrieved successfully.');
+        return res.json(badges);
+      }
+    } else {
+      const badges = await getAllBadges();
+      if (badges !== undefined) {
+        console.log('Badges retrieved successfully.');
+        return res.json(badges);
+      }
     }
     return res.sendStatus(400);
   } catch (error) {

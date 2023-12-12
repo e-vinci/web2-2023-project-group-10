@@ -18,6 +18,21 @@ async function getUserBadges(id) {
   }
 }
 
+async function getAllBadges() {
+  try {
+    console.log('getAllBadges');
+    const allBadges = await pool.query('SELECT * FROM  project.badges ORDER BY badge_id  ASC');
+    if (allBadges.rows.length > 0) {
+      console.log('Badges retrieved successfully');
+      return allBadges.rows;
+    }
+    return undefined; //  []
+  } catch (error) {
+    console.error('Error fetching badges:', error);
+    throw error;
+  }
+}
 module.exports = {
   getUserBadges,
+  getAllBadges,
 };

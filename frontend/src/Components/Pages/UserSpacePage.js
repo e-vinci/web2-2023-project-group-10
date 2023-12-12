@@ -1,14 +1,16 @@
-/* eslint-disable consistent-return */
 /* eslint-disable no-plusplus */
 // eslint-disable-next-line no-unused-vars
 import Swal from 'sweetalert2';
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import getConnectedUserDetails from '../../utils/auths';
-import trophee from '../../img/badge1.jpg';
 import { readAllQuizzesByUser, deleteOneQuiz } from '../../models/quizzes';
-import { readAllBadgesByUser } from '../../models/badges';
+import { readAllBadgesByUser, readAllBadges } from '../../models/badges';
 import quizLinkEventListeners from '../../utils/quiz';
+import medalGold from '../../img/medal_gold.png';
+import medalSilver from '../../img/medal_silver.png';
+import medalBronze from '../../img/medal_bronze.png';
+import medalPlatine from '../../img/medal.png';
 
 const main = document.querySelector('main');
 let userID;
@@ -134,6 +136,7 @@ function attachDeleteEventListeners() {
 
 async function renderUserBadges() {
   clearPage();
+  const allBadges = await readAllBadges();
   const allBadgesByUser = await readAllBadgesByUser(userID);
   let mainUserBadges = `
     <section>
@@ -158,35 +161,47 @@ async function renderUserBadges() {
           <div class="container-xxl justify-content-center pt-5">
       `;
 
-  if (allBadgesByUser.length === 0) {
-    mainUserBadges += `   
-              <div class="alert alert-light text-center">
-              <p>Vous n'avez pas encore gagné de badge !</p>
-            </div>`;
-  } else {
-    mainUserBadges += `
+  mainUserBadges += `
           
             <div class="card shadow-lg">
               <div class="card-body p-5"> 
               <div class="row mt-3">`;
-    let count = 0;
-    allBadgesByUser.forEach((badge) => {
-      if (count % 3 === 0 && count !== 0) {
-        mainUserBadges += ' </div>  <div class="row mt-3">';
+  let count = 0;
+  allBadges.forEach((badge) => {
+    let isWinned = false;
+    console.log('allBadgesByUser', allBadgesByUser);
+    console.log('badge', badge);
+    if (count % 4 === 0 && count !== 0) {
+      mainUserBadges += ' </div>  <div class="row mt-3">';
+    }
+    console.log('allBadgesByUser', allBadgesByUser);
+
+    allBadgesByUser.forEach((b) => {
+      if (b.badge_id === badge.badge_id) {
+        isWinned = true;
       }
-      mainUserBadges += ` <div class="col-12 col-lg-3 col-md-6">
-                <img src="${getImageForBadge(badge.label)}"  alt="${badge.label}" class="img-fluid">
-              </div>`;
-      count += 1;
     });
-    mainUserBadges += `
+    if (isWinned === true) {
+      console.log('TRUUUE');
+      mainUserBadges += ` <div class="col-12 col-lg-3 col-md-6">
+        <img src="${getImageForBadge(badge.label)}"  alt="${badge.label}" class="img-fluid ">
+      </div>`;
+    } else {
+      mainUserBadges += ` <div class="col-12 col-lg-3 col-md-6">
+      <img src="${getImageForBadge(badge.label)}"  alt="${
+        badge.label
+      }" class="img-fluid badges_disabled">
+    </div>`;
+    }
+    count++;
+  });
+  mainUserBadges += `
         </div>
             </div>
           </div>
         </div>
       </div>
     </section>`;
-  }
 
   main.innerHTML = mainUserBadges;
   const linkListQuiz = document.querySelector('#linkListQuiz');
@@ -197,6 +212,10 @@ async function renderUserBadges() {
 }
 
 function getImageForBadge(badgeLabel) {
-  if (badgeLabel === `Trophée d'or`) return trophee;
+  if (badgeLabel === `Médaille d'or`) return medalGold;
+  if (badgeLabel === `Médaille de bronze`) return medalBronze;
+  if (badgeLabel === `Médaille d'argent`) return medalSilver;
+   if (badgeLabel === `Médaille de platine`) return medalPlatine;
+   return medalPlatine; 
 }
 export default UserSpacePage;
