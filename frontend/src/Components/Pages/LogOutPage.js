@@ -2,7 +2,6 @@ import Swal from 'sweetalert2';
 import Navbar from '../Navbar/Navbar';
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
-import { isConnected } from '../../utils/auths';
 
 function logout() {
   localStorage.removeItem('token');
@@ -21,7 +20,6 @@ function logout() {
 }
 
 const LogOutPage = () => {
-  isConnected();
   clearPage();
   logout();
 };

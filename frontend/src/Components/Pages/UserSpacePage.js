@@ -61,7 +61,7 @@ async function renderUserQuiz() {
   } else {
     allQuizzesByUser.forEach((quiz) => {
       mainListQuiz += `   
-      <a id_quiz="${quiz.quiz_id}" class="quiz text-decoration-none">
+      <a id_quiz="${quiz.quiz_id}" class="quiz text-decoration-none" style="cursor: pointer">
      <div class="row">
      <div class="card shadow cardMyQuiz">
          <div class="card-body">
@@ -70,7 +70,7 @@ async function renderUserQuiz() {
                  <div class="col-md-4">
                     ${quiz.title}
                  </div>
-                 <div class="col-md-4 text-center">
+                 <div class="col-md-4 text-center" >
                  ${new Date(quiz.date_creation).toLocaleDateString()}
                  </div>
                  <div class="col-md-4 text-end">
@@ -151,7 +151,7 @@ async function renderUserBadges() {
                 <a class="nav-link styleLinkHover" id="linkListQuiz" >Mes quiz</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link styleLink styleLinkHover" id="linkBadge">Mes badges</a>
+                <a class="nav-link styleLink styleLinkHover" id="linkBadge" >Mes badges</a>
               </li>
             </ul>
           </div>

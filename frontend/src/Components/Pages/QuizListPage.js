@@ -42,11 +42,10 @@ async function renderQuizListInCategory() {
     QuizList += `   
     <div class="alert alert-light text-center alertQuizListPage" role="alert">
     <p>Aucun quiz n'a été créé pour cette catégorie.
-    <a id = "createQuiz" class="alert-link">Sois le premier à en créer un !</a>
+    <a id = "createQuiz" class="alert-link" style="cursor: pointer">Sois le premier à en créer un !</a>
     </p>
   </div>
  `;
-    
   } else {
     quizzesInCategory.forEach((q) => {
       if (counter === cardsInRow) {
@@ -82,7 +81,7 @@ async function renderQuizListInCategory() {
 `;
   main.innerHTML = QuizList;
 
-  if(numberOfQuiz === 0){
+  if (numberOfQuiz === 0) {
     const btnCreateQuiz = document.getElementById('createQuiz');
     btnCreateQuiz.addEventListener('click', renderCreateQuiz);
   }
