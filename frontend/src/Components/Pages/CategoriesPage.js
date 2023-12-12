@@ -16,6 +16,7 @@ import geographyImage from '../../img/georaphy.jpg';
 import sportImage from '../../img/sport.jpg';
 import otherImage from '../../img/other.jpg';
 import { readAllCategories } from '../../models/quizzes';
+import Navigate from '../Router/Navigate';
 
 const CategoriesPage = async () => {
   clearPage();
@@ -54,7 +55,7 @@ async function renderCategories() {
     }
     mainCategory += `
         <div class="col-12 col-lg-3 col-md-6">
-          <a href="/list?label=${category.label}" data-uri="/" class="text-center text-decoration-none category">
+          <a category_label = "${category.label}"class="category text-center text-decoration-none">
             <div class="card highlight-card">
               <img class="custom-img img-fluid" src="${getImageForCategory(
                 category.label,
@@ -74,6 +75,20 @@ async function renderCategories() {
     </div>
   </section>`;
   main.innerHTML = mainCategory;
+  categoryEventListeners ();
+}
+
+function categoryEventListeners (){
+  const btnCategory = document.querySelectorAll('.category');
+
+  btnCategory.forEach((categoryLink) => {
+    categoryLink.addEventListener('click', (e) => {
+      e.preventDefault(); 
+      const categoryName = e.currentTarget.getAttribute('category_label');
+      Navigate(`/list?label=${categoryName}`);
+      console.log('Catégorie choisie:', categoryName);
+    });
+  });
 }
 
 function getImageForCategory(categoryLabel) {

@@ -1,6 +1,7 @@
 // ----------------------------------------- HOME PAGE -----------------------------------------
 
 // ----------------------------------------- IMPORTS -----------------------------------------
+import Navigate from '../Router/Navigate';
 
 import image1 from '../../img/homePage.png';
 import image2 from '../../img/homePage2.png';
@@ -18,7 +19,7 @@ const HomePage = () => {
             <h1 class="text-area">
               Prêt à explorer l'univers des quiz ? Découvrez une multitude de catégories et mettez vos connaissances à l'épreuve !
               <div>
-                <a class="btn btn-style" href="/categories" data-uri="">Explorer les catégories</a> <!--href ou data-uri????-->
+                <a id = "categories" class="btn btn-style">Explorer les catégories</a> <!--href ou data-uri????-->
               </div>
             </h1>
           </div>
@@ -43,7 +44,7 @@ const HomePage = () => {
             <h3>
             Partager vos connaissances avec le monde ?<br>Laissez-vous emporter par votre imagination et créez votre propre QuizWiz !
             <div>
-            <a class="btn btn-style" href="/register" data-uri="">Inscrivez vous gratuitement</a> <!--href ou data-uri????-->
+            <a class="btn btn-style" id = "register">Inscrivez vous gratuitement</a> <!--href ou data-uri????-->
             </div>
               </h3>
               </div>
@@ -51,6 +52,21 @@ const HomePage = () => {
           </div>
       </section>
         </section>`;
+
+        const btnCategories = document.getElementById('categories');
+        btnCategories.addEventListener('click',renderCategories);
+
+        const btnRegister = document.getElementById('register');
+        btnRegister.addEventListener('click',renderRegister);
+
 };
+
+function renderCategories(){
+  Navigate('/categories');
+}
+
+function renderRegister(){
+  Navigate('/register');
+}
 
 export default HomePage;
