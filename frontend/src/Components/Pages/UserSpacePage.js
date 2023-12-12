@@ -179,7 +179,7 @@ async function renderUserBadges() {
       mainUserBadges += ` <div class="col-12 col-lg-3 col-md-6">
                 <img src="${getImageForBadge(badge.label)}"  alt="${badge.label}" class="img-fluid">
               </div>`;
-      count++;
+      count += 1;
     });
     mainUserBadges += `
         </div>
