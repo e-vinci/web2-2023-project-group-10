@@ -49,7 +49,7 @@ async function registerUser(username, password) {
 }
 
 async function currentUser(username) {
-  const user = await pool.query('SELECT pseudo FROM project.users WHERE pseudo = $1', [username]);
+  const user = await pool.query('SELECT * FROM project.users WHERE pseudo = $1', [username]);
 
   if (user.rows.length > 0) {
     return user;
