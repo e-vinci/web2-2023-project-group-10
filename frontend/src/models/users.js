@@ -34,4 +34,47 @@ const updateUserPoint = async (id, score) => {
   }
 };
 
-export { readAllUsers, updateUserPoint };
+async function logIn(username, password) {
+  try {
+    const options = {
+      method: 'POST',
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const response = await fetch('http://localhost:3000/users/login', options);
+
+    return response;
+  } catch (err) {
+    console.error('Login::error: ', err);
+    throw err;
+  }
+}
+
+async function register(username, password) {
+  try {
+    const options = {
+      method: 'POST',
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const response = await fetch('http://localhost:3000/users/register', options);
+    return response;
+  } catch (err) {
+    console.error('Register::error: ', err);
+    throw err;
+  }
+}
+
+export { readAllUsers, updateUserPoint, logIn, register };

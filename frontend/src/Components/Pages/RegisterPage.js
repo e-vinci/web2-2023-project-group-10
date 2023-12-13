@@ -1,11 +1,13 @@
 import Swal from 'sweetalert2';
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
+import { logIn, register } from '../../models/users';
+import Navbar from '../Navbar/Navbar';
 
 function renderRegister() {
-    const main = document.querySelector('main');
+  const main = document.querySelector('main');
 
-    main.innerHTML = `
+  main.innerHTML = `
     <div id="containerAuthentification" class="container-xxl d-flex justify-content-center align-items-center pt-5">
     <div id="squareRegister" class="w-75">
         <div class="card shadow-lg ">
@@ -43,68 +45,75 @@ function renderRegister() {
             </div>
         </div>
     </div>
-</div>`
+</div>`;
 
-    const btnRegister = document.getElementById('register');
-    btnRegister.addEventListener('click',handleRegisterClick);
+  const btnRegister = document.getElementById('register');
+  btnRegister.addEventListener('click', handleRegisterClick);
 }
 
 async function handleRegisterClick() {
- 
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-  const verifPassword = document.getElementById('conf-password').value;
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const verifPassword = document.getElementById('conf-password').value.trim();
 
   console.log('les password du client ', password, verifPassword);
 
-  if(password !== verifPassword){
-    Swal.fire({
-      title: "Les mots de passe ne correspondent pas",
-      icon: "error",
-      showConfirmButton: true
-    });
-  }else{
-    const options = {
-      method: 'POST',
-      body: JSON.stringify({
-        username,
-        password,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-  
-    const response = await fetch('http://localhost:3000/users/register', options);
-  
-    if (!response.ok) {
-      Swal.fire({
-        title: "Le pseudo existe deja",
-        icon: "error",
-        showConfirmButton: true
-      });
-    }else{
-      Swal.fire({
-        title: "Inscription réussie!",
-        text: "Votre compte a été créé avec succès.",
-        icon: "success",
-        timer: 1000,
-        showConfirmButton: false
-      });
+  if (!username || !password || !verifPassword) {
+    showError('Tous les champs du formulaire sont obligatoires');
+    return;
+  }
+  if (password !== verifPassword) {
+    showError('Les mots de passe ne correspondent pas');
+    return;
+  }
+  try {
+    const response = await register(username, password);
 
-      Navigate('/login');
+    if (!response.ok) {
+      showError('Le pseudo existe deja');
+      return;
+    }
+    const responseLogin = await logIn(username, password);
+
+    const responseData = await responseLogin.json();
+
+    if (responseData && responseData.token) {
+      sessionStorage.setItem('token', responseData.token);
+      showSucces('Vous etes connecter');
+    } else {
+      showError('Une erreurs est survenue');
+      return;
     }
 
-
+    Navbar();
+    Navigate('/categories');
+  } catch (err) {
+    showError("Une erreur est survenue lors de l'inscription");
+    console.error('Register Error:', err);
   }
-  Navigate('/categories');
 }
-
 
 const RegisterPage = () => {
   clearPage();
   renderRegister();
 };
 
+function showError(message) {
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: message,
+    showConfirmButton: true,
+  });
+}
+
+function showSucces(message) {
+  Swal.fire({
+    icon: 'success',
+    text: message,
+    timer: 1000,
+    showConfirmButton: false,
+  });
+}
 
 export default RegisterPage;

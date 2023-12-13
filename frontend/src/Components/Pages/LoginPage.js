@@ -2,6 +2,7 @@ import Swal from 'sweetalert2';
 import Navbar from '../Navbar/Navbar';
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
+import { logIn } from '../../models/users';
 
 let isRememberMeChecked = false;
 let isConditionGeneralChecked = false;
@@ -119,55 +120,64 @@ function handleRegisterClick() {
 async function handleLoginClick(e) {
   e.preventDefault();
 
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  if (!username || !password) {
+    showError('Tous les champs du formulaire sont obligatoires');
+    return;
+  }
   if (!isConditionGeneralChecked) {
-    Swal.fire({
-      title: 'Accepter les conditions générales',
-      icon: 'error',
-      showConfirmButton: true,
-    });
-  } else {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    showError('Accepter les conditions générales');
+    return;
+  }
 
-    const options = {
-      method: 'POST',
-      body: JSON.stringify({
-        username,
-        password,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    const response = await fetch('http://localhost:3000/users/login', options);
+  try {
+    const response = await logIn(username, password);
 
     if (!response.ok) {
-      Swal.fire({
-        title: 'Le pseudo ou le mot de passe est incorrect',
-        icon: 'error',
-        showConfirmButton: true,
-      });
-    } else {
+      showError('Le pseudo ou le mot de passe est incorrect');
+      return;
+    }
+
+    const responseData = await response.json();
+
+    if (responseData && responseData.token) {
       if (isRememberMeChecked) {
-        const responseData = await response.json();
         localStorage.setItem('token', responseData.token);
       } else {
-        const responseData = await response.json();
         sessionStorage.setItem('token', responseData.token);
       }
-
-      Swal.fire({
-        title: 'Connexion réussie!',
-        icon: 'success',
-        timer: 1000,
-        showConfirmButton: false,
-      });
-
-      Navbar();
-      Navigate('/categories');
+      showSucces('Connexion réussie!');
+    } else {
+      showError('Une erreurs est survenue');
+      return;
     }
+
+    Navbar();
+    Navigate('/categories');
+  } catch (err) {
+    showError('Une erreur est survenue lors de la connexion');
+    console.error('Connexion Error:', err);
   }
+}
+
+function showError(message) {
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: message,
+    showConfirmButton: true,
+  });
+}
+
+function showSucces(message) {
+  Swal.fire({
+    icon: 'success',
+    text: message,
+    timer: 1000,
+    showConfirmButton: false,
+  });
 }
 
 const LoginPage = () => {
