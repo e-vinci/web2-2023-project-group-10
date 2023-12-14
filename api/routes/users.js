@@ -7,7 +7,9 @@ const jwt = require('jsonwebtoken');
 const router = express.Router();
 const secretToken = 'soislechangementquetuveuxvoirdanslemonde';
 
-const { getAllUsers, loginUser, registerUser } = require('../models/users');
+const {
+  getAllUsers, loginUser, registerUser, updateUserPoint,
+} = require('../models/users');
 
 /* GET users listing. */
 router.get('/', async (req, res) => {
@@ -86,4 +88,13 @@ router.post('/register', async (req, res) => {
   }
 });
 
+router.patch('/:id', async (req, res) => {
+  try {
+    const updatedPoint = await updateUserPoint(req?.params?.id, req?.body);
+    if (!updatedPoint) return res.sendStatus(404);
+    return res.json(updatedPoint);
+  } catch (err) {
+    res.status(500).send('Erreur serveur');
+  }
+});
 module.exports = router;
