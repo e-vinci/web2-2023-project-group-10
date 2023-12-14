@@ -122,6 +122,29 @@ main {
   background-color : #d598e691;
 }
 
+ .answer {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .answer:hover {
+    background-color: #f5f5f5;
+  }
+
+  #btnContinue {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+
+  #btnContinue:hover {
+    background-color: #45a049;
+  }
+
 /************************** QuizLisPage ****************************/
 
 .cardQuizzes{
