@@ -23,25 +23,40 @@ const { authorize } = require('../utils/auths');
 /**
  *  Return all quizzes for a user.
  *  user-id: The user's ID passed as a query parameter.
- *  Return all quizzes for a category.
  *  label : The label's category passed as a query parameter
  * */
-router.get('/', async (req, res) => {
-  const userId = req?.query ? Number(req.query['user-id']) : undefined;
+router.get('/', authorize, async (req, res) => {
+  const currentUser = req.user;
+  const userId = currentUser.rows[0].user_id;
+  // const userId = req?.query ? Number(req.query['user-id']) : undefined;
+  // const categoryName = req?.query ? req.query.label : undefined;
+  // const quizId = req?.query ? Number(req.query['quiz-id']) : undefined;
+
+  try {
+    if (!Number.isNaN(userId)) {
+      const quizzes = await readAllQuizzesByUser(userId);
+      console.log(quizzes);
+      if (quizzes !== undefined) return res.json(quizzes);
+      return res.sendStatus(400);
+    }
+    return res.sendStatus(400);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Erreur serveur');
+  }
+});
+
+router.get('/readAllQuizzesByCategories', async (req, res) => {
+  console.log('readAllQuizzesByCategories');
   const categoryName = req?.query ? req.query.label : undefined;
   const quizId = req?.query ? Number(req.query['quiz-id']) : undefined;
-
+  console.log('categorie name dans le back ', categoryName);
+  console.log('Number of quiz ', quizId);
   try {
     if (Number.isInteger(quizId)) {
       const quiz = await readOneQuizDetailsByID(quizId);
       console.log(quiz);
       if (quiz !== undefined) return res.json(quiz);
-      return res.sendStatus(400);
-    }
-    if (!Number.isNaN(userId)) {
-      const quizzes = await readAllQuizzesByUser(userId);
-      console.log(quizzes);
-      if (quizzes !== undefined) return res.json(quizzes);
       return res.sendStatus(400);
     }
     if (categoryName !== undefined) {

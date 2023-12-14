@@ -113,14 +113,14 @@ function attachDeleteEventListeners() {
           Swal.fire({
             title: `Un problème est survenu lors de l'opération`,
             icon: 'error',
-            timer: 1500,
+            timer: 1000,
             showConfirmButton: true,
           });
         } else {
           Swal.fire({
             title: 'Votre quiz a bien été supprimé',
             icon: 'success',
-            timer: 1500,
+            timer: 1000,
             showConfirmButton: false,
           });
         }

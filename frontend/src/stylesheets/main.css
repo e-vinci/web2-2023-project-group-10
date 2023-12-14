@@ -168,3 +168,9 @@ footer {
   margin-top: 20px;
   background-color: rgba(0, 0, 0, 0.05);
 }
+
+
+/************************* cursor *****************************/
+.nav-link:hover, .nav-link:active {
+  cursor: pointer;
+}

@@ -65,9 +65,21 @@ const addOneQuiz = async (quiz) => {
   }
 };
 
-const readAllQuizzesByUser = async (id) => {
+const readAllQuizzesByUser = async () => {
+
+ 
   try {
-    const response = await fetch(`http://localhost:3000/quizzes/?user-id=${id}`);
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    console.log(token);
+    const options = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `${token}`,
+      },
+    };
+    
+    const response = await fetch(`http://localhost:3000/quizzes/`,options);
     if (!response.ok) {
       if (response.status === 400) {
         return [];
@@ -94,19 +106,24 @@ const deleteOneQuiz = async (quiz) => {
 `;
 
   const loadingSpinner = document.querySelector('#loadingSpinner');
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
   try {
     loadingSpinner.style.display = 'block';
     const options = {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        authorization: `${token}`,
+      
       },
     };
     console.log(options);
     const response = await fetch(`http://localhost:3000/quizzes/${quiz}`, options);
+    console.log(response.status)
     if (!response.ok) {
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
+    
     loadingSpinner.style.display = 'none';
     const deletedQuiz = await response.json();
     console.log('deletedQuiz :', deletedQuiz);
@@ -121,8 +138,8 @@ const deleteOneQuiz = async (quiz) => {
 
 const readAllQuizzesByCategory = async (categoryName) => {
   try {
-    console.log('url :', `http://localhost:3000/quizzes/?label=${categoryName}`);
-    const response = await fetch(`http://localhost:3000/quizzes/?label=${categoryName}`);
+    console.log('url :', `http://localhost:3000/quizzes/readAllQuizzesByCategories/?label=${categoryName}`);
+    const response = await fetch(`http://localhost:3000/quizzes/readAllQuizzesByCategories/?label=${categoryName}`);
 
     console.log('response', response);
     if (!response.ok) {
@@ -142,8 +159,6 @@ const readAllQuizzesByCategory = async (categoryName) => {
   }
 };
 const readOneQuizById = async (id) => {
-  console.log('function readOneQuizById');
-  console.log('id', id);
   const main = document.querySelector('main');
   main.innerHTML += `
   <div class="text-center" id="loadingSpinner" style="display: none;">
@@ -155,11 +170,10 @@ const readOneQuizById = async (id) => {
   const loadingSpinner = document.querySelector('#loadingSpinner');
   try {
     loadingSpinner.style.display = 'block';
-    const response = await fetch(`http://localhost:3000/quizzes/?quiz-id=${id}`);
+    console.log('igo on me demande tous de aide');
+    console.log(id);
+    const response = await fetch(`http://localhost:3000/quizzes/readAllQuizzesByCategories/?quiz-id=${id}`);
     if (!response.ok) {
-      if (response.status === 400) {
-        return undefined;
-      }
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
     loadingSpinner.style.display = 'none';
