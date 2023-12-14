@@ -3,6 +3,7 @@ import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import { logIn, register } from '../../models/users';
 import Navbar from '../Navbar/Navbar';
+import { checkAuthentication } from '../../utils/auths';
 
 
 
@@ -119,7 +120,14 @@ async function handleRegisterClick() {
   }
 }
 
-const RegisterPage = () => {
+const RegisterPage = async () => {
+  const isConnected = await checkAuthentication();
+
+  if(isConnected){
+    Navigate('/categories');
+    return;
+
+  }
   clearPage();
   renderRegister();
 };

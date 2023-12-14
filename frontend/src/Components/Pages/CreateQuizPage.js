@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import { readAllCategories, addOneQuiz } from '../../models/quizzes';
+import { checkAuthentication } from '../../utils/auths';
 
 let questions = [];
 let questionCount = 0;
@@ -14,7 +15,17 @@ let category;
 let quizToBeCreated;
 const main = document.querySelector('main');
 
+checkAuthentication('/create');
+
 const CreateQuizPage = async () => {
+  const isConnected = await checkAuthentication();
+
+  if(!isConnected){
+    Navigate('/login');
+    return;
+
+  }
+  
   clearPage();
   questions = [];
   numberOfQuestions = 0;

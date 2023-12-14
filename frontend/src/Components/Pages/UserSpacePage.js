@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2';
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
-import getConnectedUserDetails from '../../utils/auths';
+import { getConnectedUserDetails, checkAuthentication } from '../../utils/auths';
 import { readAllQuizzesByUser, deleteOneQuiz } from '../../models/quizzes';
 import { readAllBadgesByUser, readAllBadges } from '../../models/badges';
 import quizLinkEventListeners from '../../utils/quiz';
@@ -15,6 +15,14 @@ let userID;
 let userName;
 
 const UserSpacePage = async () => {
+  const isConnected = await checkAuthentication();
+
+  if(!isConnected){
+    Navigate('/login');
+    return;
+
+  }
+
   await getConnectedUserDetails().then((userDetails) => {
     console.log(userDetails);
     userID = userDetails.userID;

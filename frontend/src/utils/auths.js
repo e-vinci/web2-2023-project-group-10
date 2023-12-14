@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 
-export default async function getConnectedUserDetails() {
+async function getConnectedUserDetails() {
   try {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     const options = {
@@ -30,3 +30,12 @@ export default async function getConnectedUserDetails() {
     return null;
   }
 }
+
+async function checkAuthentication () {
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+  
+  return !!token;
+  
+}
+
+export {getConnectedUserDetails, checkAuthentication}

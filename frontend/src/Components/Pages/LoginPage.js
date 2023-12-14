@@ -3,6 +3,7 @@ import Navbar from '../Navbar/Navbar';
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import { logIn } from '../../models/users';
+import { checkAuthentication } from '../../utils/auths';
 
 let isRememberMeChecked = false;
 
@@ -162,7 +163,14 @@ function showSucces(message) {
   });
 }
 
-const LoginPage = () => {
+ const LoginPage = async () => {
+  const isConnected = await checkAuthentication();
+
+  if(isConnected){
+    Navigate('/userSpace');
+    return;
+
+  }
   clearPage();
   renderLoginForm();
 };
