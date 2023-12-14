@@ -4,6 +4,8 @@ import { clearPage } from '../../utils/render';
 import { logIn, register } from '../../models/users';
 import Navbar from '../Navbar/Navbar';
 
+
+
 function renderRegister() {
   const main = document.querySelector('main');
 
@@ -42,11 +44,14 @@ function renderRegister() {
                             J'accepte les <a href="https://www.privacypolicies.com/live/57c23a50-18c6-4d2b-9bc6-79fda5cc263d" target="_blank">termes & conditions</a>
                           </div>
                         </div>
-                        
+
+
                     <div class="mb-3">
                         <input id="register" type="button" class="btn btn-authentification mn-3  w-100"
-                            value="S'inscrire" />
+                            value="S'inscrire" disabled/>
                     </div>
+                  
+                    <span id="errorMessage"></span>
 
                 </form>
             </div>
@@ -56,7 +61,21 @@ function renderRegister() {
 
   const btnRegister = document.getElementById('register');
   btnRegister.addEventListener('click', handleRegisterClick);
-}
+
+  const msgError = document.getElementById('errorMessage');
+  const acceptCheckbox = document.getElementById('rgpd');
+
+  acceptCheckbox.addEventListener('change', () => {
+    if(acceptCheckbox.checked){
+      btnRegister.removeAttribute('disabled');
+      msgError.innerHTML = ``
+    }else if(!acceptCheckbox.checked){
+      btnRegister.setAttribute('disabled', 'true');
+      msgError.innerHTML = `*Afin de continuer, veuillez accepter la politique de confidentialité de QuiWiz.`
+    }
+  });
+ }
+
 
 async function handleRegisterClick() {
   const username = document.getElementById('username').value.trim();
