@@ -5,7 +5,6 @@ import { clearPage } from '../../utils/render';
 import { logIn } from '../../models/users';
 
 let isRememberMeChecked = false;
-let isConditionGeneralChecked = false;
 
 function renderLoginForm() {
   const main = document.querySelector('main');
@@ -48,13 +47,6 @@ function renderLoginForm() {
                             <label class="form-check-label" for="rememberMe">Se souvenir de moi</label>
                         </div>
 
-                        <div class="mb-3 text-center">
-                          <div class="accept">
-                            J'accepte les <a href="https://www.privacypolicies.com/live/57c23a50-18c6-4d2b-9bc6-79fda5cc263d" target="_blank">termes & conditions</a>
-                          </div>
-                          <input type="checkbox" id="rgpd" class="form-check-input mt-2">
-                        </div>
-
                         <div class="mb-3">
                             <input id="login" type="button" class="btn btn-authentification mn-3  w-100"
                                 value="Se connecter" />
@@ -82,9 +74,6 @@ function renderLoginForm() {
   const souvenir = document.getElementById('rememberMe');
   souvenir.addEventListener('change', remember);
 
-  const condition = document.getElementById('rgpd');
-  condition.addEventListener('change', conditionGeneral);
-
   const passswordInput = document.querySelector('#password');
   const passwordBtn = document.querySelector('#hidePassword');
 
@@ -108,10 +97,6 @@ function remember() {
   console.log('se souvenir de moi : ', isRememberMeChecked);
 }
 
-function conditionGeneral() {
-  isConditionGeneralChecked = document.getElementById('rgpd').checked;
-  console.log('Condition general : ', isConditionGeneralChecked);
-}
 
 function handleRegisterClick() {
   Navigate('/register');
@@ -127,10 +112,7 @@ async function handleLoginClick(e) {
     showError('Tous les champs du formulaire sont obligatoires');
     return;
   }
-  if (!isConditionGeneralChecked) {
-    showError('Accepter les conditions générales');
-    return;
-  }
+
 
   try {
     const response = await logIn(username, password);

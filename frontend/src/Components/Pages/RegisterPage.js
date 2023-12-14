@@ -36,6 +36,13 @@ function renderRegister() {
                             placeholder="••••••••" />
                     </div>
 
+                    <div class="mb-3 text-center">
+                          <div class="accept">
+                          <input type="checkbox" id="rgpd" class="form-check-input mt-2">
+                            J'accepte les <a href="https://www.privacypolicies.com/live/57c23a50-18c6-4d2b-9bc6-79fda5cc263d" target="_blank">termes & conditions</a>
+                          </div>
+                        </div>
+                        
                     <div class="mb-3">
                         <input id="register" type="button" class="btn btn-authentification mn-3  w-100"
                             value="S'inscrire" />
