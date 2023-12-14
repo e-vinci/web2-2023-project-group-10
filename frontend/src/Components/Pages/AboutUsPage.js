@@ -1,5 +1,13 @@
+// ----------------------------------------- HOME PAGE -----------------------------------------
+
+// ----------------------------------------- IMPORTS -----------------------------------------
+
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
+import image1 from '../../img/aboutUs1Bispng.png';
+import image2 from '../../img/aboutUs2.jpg';
+
+// ----------------------------------------- HOME PAGE MIDDLEWARE  -----------------------------------------
 
 const aboutUs = () => {
   clearPage();
@@ -10,15 +18,16 @@ const aboutUs = () => {
 
   <section id="SectionMain">
     <section class="banner pt-5 d-flex justify-content-center align-items-center ">
-      <div class="container my-5 py-5">
+      <div class="container my-5 py-5 text-center">
         <div class="row">
-          <div class="col-md-12 col-12 col-lg-6 text-center d-flex align-items-center justify-content-center">
-            <h1 class="titleAU"> L'EQUIPE </h1>
+          <h1 class="center-text-area"> NOTRE EQUIPE </h1>
+          <div text-center d-flex align-items-center justify-content-center">
+            <img class="about-us-img" src="${image1}" alt="image about us">
           </div>
-          <div class="col-12 col-lg-6 col-md-12">
+          <div class="text-center d-flex align-items-center justify-content-center">
             <h3 class="textAU"> Nous sommes cinq étudiants en deuxième année en informatique
-                                spécialisés dans le développement d'applications 
-                                à la Haute Ecole Léonard de Vinci. 
+                spécialisés dans le développement d'applications 
+                à la Haute Ecole Léonard de Vinci. 
             </h3>
           </div>
         </div>
@@ -30,12 +39,13 @@ const aboutUs = () => {
       </svg>
       
       <section class="pt-5 d-flex justify-content-center align-items-center ">
-        <div class="container my-5 py-5">
+        <div class="container my-5 py-5 text-center">
           <div class="row">
-            <div class="col-12 col-lg-6 col-md-12 text-center mb-4">
-            <h1 class="titleAU"> NOTRE PROJET </h1>
+            <div> <h1 class="center-text-area"> NOTRE PROJET </h1></div>
+            <div text-center d-flex align-items-center justify-content-center">
+              <img class="about-us-img" src="${image2}" alt="image about us">
             </div>
-            <div class="col-md-12 col-12 col-lg-6 text-center d-flex align-items-center">
+            <div class="text-center d-flex align-items-center">
               <h3 class="textAU">Dans le cadre de notre cours, nous avons conçu et développé un jeu de quiz éducatif. 
                                  Lors cette expérience interactive, les utilisateurs peuvent choisir parmi des catégories prédéfinies ou même 
                                  créer leurs propres quiz. Qu'ils préfèrent tester leurs connaissances ou défier leurs amis, notre plateforme 
@@ -55,10 +65,10 @@ const aboutUs = () => {
       <section class="banner pt-5 d-flex justify-content-center align-items-center ">
         <div class="container my-5 py-5 ">
           <div class="row">
-            <div class="col-md-12 col-12 col-lg-6 text-center d-flex align-items-center justify-content-center">
+            <div class="text-center d-flex align-items-center justify-content-center">
             <h1 class="titleAU"> CONTACTER NOUS </h1>
             </div>
-            <div class="col-12 col-lg-6 col-md-12">
+            <div class="text-center d-flex align-items-center justify-content-center">
               <h3 class="textAU"> Nous sommes cinq étudiants en deuxième année en informatique
                                   spécialisés dans le développement d'applications 
                                   à la Haute Ecole Léonard de Vinci. 
