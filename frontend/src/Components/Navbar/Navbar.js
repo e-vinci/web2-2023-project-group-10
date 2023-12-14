@@ -1,6 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 import { Navbar as BootstrapNavbar } from 'bootstrap';
+import Swal from 'sweetalert2';
 import logo from '../../img/logo.png';
+import Navigate from '../Router/Navigate';
 
 /**
  * Render the Navbar which is styled by using Bootstrap
@@ -74,6 +76,27 @@ const Navbar = () => {
       </nav>
   `;
   navbarWrapper.innerHTML = navbar;
+
+  const btnLogOut = document.getElementById('logOut');
+  if(btnLogOut !== null){
+    btnLogOut.addEventListener('click', handleLogout);
+  }
+  
 };
+
+function handleLogout() {
+  localStorage.removeItem('token');
+  sessionStorage.removeItem('token');
+
+  Navbar();
+  Swal.fire({
+    title: 'Deconnexion reussie',
+    icon: 'success',
+    timer: 1000,
+    showConfirmButton: false,
+  });
+
+  Navigate('/categories');
+}
 
 export default Navbar;
