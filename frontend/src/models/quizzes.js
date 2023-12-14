@@ -141,11 +141,37 @@ const readAllQuizzesByCategory = async (categoryName) => {
     throw err;
   }
 };
-
+const readOneQuizById = async (id) => {
+  const main = document.querySelector('main');
+  main.innerHTML += `
+  <div class="text-center" id="loadingSpinner" style="display: none;">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+`;
+  const loadingSpinner = document.querySelector('#loadingSpinner');
+  try {
+    loadingSpinner.style.display = 'block';
+    const response = await fetch(`http://localhost:3000/quizzes/?quiz-id=${id}`);
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP: ${response.status}`);
+    }
+    loadingSpinner.style.display = 'none';
+    const quiz = await response.json();
+    console.log('Quiz :', quiz);
+    return quiz;
+  } catch (err) {
+    loadingSpinner.style.display = 'none';
+    console.error('readOneQuizById::error: ', err);
+    throw err;
+  }
+};
 export {
   readAllCategories,
   addOneQuiz,
   readAllQuizzesByUser,
   deleteOneQuiz,
   readAllQuizzesByCategory,
+  readOneQuizById,
 };
