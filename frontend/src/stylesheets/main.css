@@ -141,19 +141,30 @@ main {
     font-size: larger;
 
   }
-  
-/************************** UserSpacePage ****************************/
-.badges_disabled{
-  opacity : 0.06;
+
+/************************* About us *****************************/
+
+.center-text-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+
+.about-us-img {
+  width: 500px;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: inline-block;
+}
+
+  
+
 /************************* Footer *****************************/
 
 footer {
   margin-top: 20px;
   background-color: rgba(0, 0, 0, 0.05);
-}
-
-/************************* cursor *****************************/
-.nav-link:hover, .nav-link:active {
-  cursor: pointer;
 }
