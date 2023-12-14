@@ -25,9 +25,8 @@ const UserSpacePage = async () => {
 
 async function renderUserQuiz() {
   clearPage();
-  let mainListQuiz = '';
   const allQuizzesByUser = await readAllQuizzesByUser(userID);
-  mainListQuiz = `
+  let mainListQuiz = `
     <section>
       <div class="alert color-purple">
         <p>Bienvenue ${userName}</p>
@@ -91,14 +90,13 @@ async function renderUserQuiz() {
 
   main.innerHTML = mainListQuiz;
 
-  quizLinkEventListeners();
-
   const linkBadge = document.querySelector('#linkBadge');
 
   linkBadge.addEventListener('click', () => {
     renderUserBadges();
   });
   attachDeleteEventListeners();
+  quizLinkEventListeners();
 }
 
 function attachDeleteEventListeners() {
@@ -106,6 +104,7 @@ function attachDeleteEventListeners() {
 
   deleteButtons.forEach((btn) => {
     btn.addEventListener('click', async (e) => {
+      e.stopPropagation(); // va empêcher d'autres gestionnaires d'événements de s'éxecuter
       e.preventDefault();
       const deleteQuiz = e.target.dataset.id;
       try {
@@ -125,6 +124,7 @@ function attachDeleteEventListeners() {
             showConfirmButton: false,
           });
         }
+
         renderUserQuiz();
       } catch (error) {
         Navigate('/userSpace');
@@ -222,7 +222,7 @@ async function renderUserBadges() {
 function showBadgeInfo(badgeLabel) {
   Swal.fire({
     title: badgeLabel,
-    text:`Gagne ce badge après avoir accumulé ${getPointForBadge(badgeLabel)} point`,
+    text: `Gagne ce badge après avoir accumulé ${getPointForBadge(badgeLabel)} points`,
     imageUrl: getImageForBadge(badgeLabel),
     imageAlt: badgeLabel,
     imageWidth: 150,
