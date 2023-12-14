@@ -9,7 +9,6 @@ import AboutusPage from '../Pages/AboutUsPage';
 import CategoriesPage from '../Pages/CategoriesPage';
 import UserSpacePage from '../Pages/UserSpacePage';
 import quizPage from '../Pages/QuizPage';
-import logOutPage from '../Pages/LogOutPage';
 import QuizListPage from '../Pages/QuizListPage';
 
 
@@ -25,7 +24,6 @@ const routes = {
   '/categories': CategoriesPage,
   '/userSpace': UserSpacePage,
   '/quiz' : quizPage,
-  '/logout' : logOutPage,
   '/list' : QuizListPage,
 
 }

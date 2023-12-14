@@ -33,7 +33,6 @@ async function getConnectedUserDetails() {
 
 async function checkAuthentication () {
   const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-  
   return !!token;
   
 }

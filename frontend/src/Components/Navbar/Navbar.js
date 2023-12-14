@@ -12,16 +12,14 @@ import logo from '../../img/logo.png';
 const Navbar = () => {
   const navbarWrapper = document.querySelector('#navbarWrapper');
 
-
-  const isLoggedLocal = localStorage.getItem("token") !== null;
-  const isLoggedSession = sessionStorage.getItem("token") !== null;
+  const isLogged = localStorage.getItem('token') || sessionStorage.getItem('token');
 
   let loginOrLogoutLink;
   let createLink;
   let userSpace;
 
-  if (isLoggedLocal || isLoggedSession) {
-    loginOrLogoutLink = `<a class="nav-link" href="#" data-uri="/logout">Déconnexion</a>`;
+  if (isLogged) {
+    loginOrLogoutLink = `<a id = "logOut"class="nav-link">Déconnexion</a>`;
     createLink = `<li class="nav-item"><a class="nav-link" aria-current="page" href="#" data-uri="/create">Créer</a></li>`;
     userSpace = `<a class="nav-link" href="#" data-uri="/userSpace">Mon espace</a>`;
   } else {
