@@ -27,11 +27,15 @@ const addOneQuiz = async (quiz) => {
   const loadingSpinner = document.querySelector('#loadingSpinner');
   try {
     loadingSpinner.style.display = 'block';
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    console.log('je suis le token');
+    console.log(token);
     const options = {
       method: 'POST',
       body: JSON.stringify(quiz),
       headers: {
         'Content-Type': 'application/json',
+        authorization: `${token}`,
       },
     };
     const response = await fetch('http://localhost:3000/quizzes', options);

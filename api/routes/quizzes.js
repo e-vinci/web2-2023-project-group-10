@@ -17,6 +17,8 @@ const {
   readAllQuizzesByCategory,
 } = require('../models/quizzes');
 
+const { authorize } = require('../utils/auths');
+
 /**
  *  Return all quizzes for a user.
  *  user-id: The user's ID passed as a query parameter.
@@ -70,16 +72,19 @@ router.get('/', async (req, res) => {
  * category : The category label for the quiz.
  * questions : An array of questions and their corresponding answers.
  */
-router.post('/', async (req, res) => {
+router.post('/', authorize, async (req, res) => {
   console.log('POST routes/quizzes');
   const {
     title,
     category,
     questions,
-    currentUser,
   } = req.body;
 
-  console.log(currentUser);
+  const currentUser = req.user;
+  console.log('currentUser', currentUser);
+
+  const userID = currentUser.rows[0].user_id;
+  console.log('userID', userID);
 
   if (!title || !category || !questions || questions.length === 0) {
     return res.status(400).json({ message: 'Tous les champs du formulaire sont obligatoires' });
@@ -94,7 +99,7 @@ router.post('/', async (req, res) => {
     const categoryId = categorySelected[0].category_id;
     console.log(`id category :  ${categoryId}`);
     // add the quiz to the quiz table
-    const quiz = await addOneQuiz(categoryId, title, currentUser);
+    const quiz = await addOneQuiz(categoryId, title, userID);
     const quizId = quiz[0].quiz_id;
     if (!quizId) {
       return res.status(400).send('Erreur lors de l’enregistrement du quiz');

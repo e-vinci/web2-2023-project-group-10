@@ -9,6 +9,7 @@ module.exports = {
   loginUser,
   registerUser,
   currentUser,
+  updateUserPoint,
 };
 
 async function getAllUsers() {
@@ -49,11 +50,25 @@ async function registerUser(username, password) {
 }
 
 async function currentUser(username) {
-  const user = await pool.query('SELECT pseudo FROM project.users WHERE pseudo = $1', [username]);
+  const user = await pool.query('SELECT * FROM project.users WHERE pseudo = $1', [username]);
 
   if (user.rows.length > 0) {
     return user;
   }
 
   return user;
+}
+
+async function updateUserPoint(id, score) {
+  console.log('score', score.score);
+
+  const points = await pool.query(
+    'UPDATE project.users SET total_point = total_point + $1 WHERE user_id = $2 RETURNING total_point',
+    [score.score, id],
+  );
+  console.log('points', points.rows[0].total_point);
+  if (points.rowCount > 0) {
+    return points.rows[0].total_point;
+  }
+  return undefined;
 }
