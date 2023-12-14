@@ -32,7 +32,30 @@ async function getAllBadges() {
     throw error;
   }
 }
+async function addOneBadgeToUser(currentUser, label) {
+  console.log('je suis dans addOneBadgeToUser ');
+  const idBadgeResult = await pool.query('SELECT badge_id FROM project.badges WHERE label = $1', [
+    label,
+  ]);
+
+  if (idBadgeResult.rows.length > 0) {
+    const idBadge = idBadgeResult.rows[0].badge_id;
+    console.log('idBadge', idBadge);
+
+    const insertResult = await pool.query(
+      'INSERT INTO project.user_badges (user_id, badge_id) VALUES ($1, $2)',
+      [currentUser, idBadge],
+    );
+
+    if (insertResult.rowCount > 0) {
+      console.log('Badge added successfully.');
+      return insertResult.rows;
+    }
+  }
+  return undefined;
+}
 module.exports = {
   getUserBadges,
   getAllBadges,
+  addOneBadgeToUser,
 };
