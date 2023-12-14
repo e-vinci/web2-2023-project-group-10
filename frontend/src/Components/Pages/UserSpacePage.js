@@ -182,13 +182,15 @@ async function renderUserBadges() {
     });
     if (isWinned === true) {
       mainUserBadges += ` <div class="col-12 col-lg-3 col-md-6">
-        <img src="${getImageForBadge(badge.label)}"  alt="${badge.label}" class="img-fluid ">
+        <img src="${getImageForBadge(badge.label)}"  alt="${
+        badge.label
+      }" class="img-fluid badge-image" data-badge="${badge.label}">
       </div>`;
     } else {
       mainUserBadges += ` <div class="col-12 col-lg-3 col-md-6">
       <img src="${getImageForBadge(badge.label)}"  alt="${
         badge.label
-      }" class="img-fluid badges_disabled">
+      }" class="img-fluid badges_disabled badge-image" data-badge="${badge.label}">
     </div>`;
     }
     count += 1;
@@ -202,13 +204,40 @@ async function renderUserBadges() {
     </section>`;
 
   main.innerHTML = mainUserBadges;
-  const linkListQuiz = document.querySelector('#linkListQuiz');
+  const badgeImages = document.querySelectorAll('.badge-image');
+  badgeImages.forEach((badgeImage) => {
+    badgeImage.addEventListener('click', () => {
+      const badgeLabel = badgeImage.dataset.badge;
+      console.log(badgeLabel, 'badgeLabel');
+      showBadgeInfo(badgeLabel);
+    });
+  });
 
+  const linkListQuiz = document.querySelector('#linkListQuiz');
   linkListQuiz.addEventListener('click', () => {
     renderUserQuiz();
   });
 }
 
+function showBadgeInfo(badgeLabel) {
+  Swal.fire({
+    title: badgeLabel,
+    text:`Gagne ce badge après avoir accumulé ${getPointForBadge(badgeLabel)} point`,
+    imageUrl: getImageForBadge(badgeLabel),
+    imageAlt: badgeLabel,
+    imageWidth: 150,
+    imageHeight: 150,
+    confirmButtonText: 'Fermer',
+  });
+}
+
+function getPointForBadge(badgeLabel) {
+  if (badgeLabel === `Médaille d'or`) return 600;
+  if (badgeLabel === `Médaille de bronze`) return 200;
+  if (badgeLabel === `Médaille d'argent`) return 400;
+  if (badgeLabel === `Médaille de platine`) return 800;
+  return medalPlatine;
+}
 function getImageForBadge(badgeLabel) {
   if (badgeLabel === `Médaille d'or`) return medalGold;
   if (badgeLabel === `Médaille de bronze`) return medalBronze;
