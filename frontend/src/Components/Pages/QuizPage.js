@@ -137,7 +137,7 @@ async function renderQuizPage() {
             <div class="card shadow-lg">
                 <div class="card-body p-5">
                     <div class="alert  text-center">
-                        <h2 class="fs-4 mt-1 card-title">${question}</h2>
+                        <h2 class="fs-4 mt-1 card-title question">${question}</h2>
                     </div>
                     <form>
                     `;
