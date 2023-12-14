@@ -15,6 +15,7 @@ const {
   addQuestionsAnswers,
   deleteOneQuiz,
   readAllQuizzesByCategory,
+  readOneQuizDetailsByID,
 } = require('../models/quizzes');
 
 const { authorize } = require('../utils/auths');
