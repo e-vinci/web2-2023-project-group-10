@@ -142,6 +142,8 @@ const readAllQuizzesByCategory = async (categoryName) => {
   }
 };
 const readOneQuizById = async (id) => {
+  console.log('function readOneQuizById');
+  console.log('id', id);
   const main = document.querySelector('main');
   main.innerHTML += `
   <div class="text-center" id="loadingSpinner" style="display: none;">
@@ -155,6 +157,9 @@ const readOneQuizById = async (id) => {
     loadingSpinner.style.display = 'block';
     const response = await fetch(`http://localhost:3000/quizzes/?quiz-id=${id}`);
     if (!response.ok) {
+      if (response.status === 400) {
+        return undefined;
+      }
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
     loadingSpinner.style.display = 'none';

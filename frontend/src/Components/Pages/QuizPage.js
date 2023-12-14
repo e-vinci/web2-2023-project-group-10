@@ -6,7 +6,9 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-param-reassign */
 /* eslint-disable prefer-const */
-import navigate from '../Router/Navigate';
+import Swal from 'sweetalert2';
+import Navigate from '../Router/Navigate';
+
 import { clearPage } from '../../utils/render';
 import { readOneQuizById } from '../../models/quizzes';
 import getConnectedUserDetails from '../../utils/auths';
@@ -21,15 +23,26 @@ let nbQuestion;
 let newPoint;
 let userID;
 
+function showError() {
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: `Le quiz n'existe pas`,
+  });
+  Navigate('/categories');
+}
 const quizPage = async () => {
   clearPage();
   const url = new URLSearchParams(window.location.search);
   const quizId = url.get('id');
   allQuestionsAnswers = await readOneQuizById(quizId);
+  if (allQuestionsAnswers === undefined) {
+    return showError();
+  }
   randomTab(allQuestionsAnswers);
   nbQuestion = allQuestionsAnswers.length;
   console.log('The quiz', allQuestionsAnswers);
-  renderQuizPage();
+  return renderQuizPage();
 };
 
 async function renderScore() {

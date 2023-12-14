@@ -59,7 +59,7 @@ async function renderUserQuiz() {
   } else {
     allQuizzesByUser.forEach((quiz) => {
       mainListQuiz += `   
-      <a id_quiz="${quiz.quiz_id}" class="quiz text-decoration-none" style="cursor: pointer">
+      <a id_quiz="${quiz.quiz_id}" class=" quiz text-decoration-none" style="cursor: pointer">
      <div class="row">
      <div class="card shadow cardMyQuiz">
          <div class="card-body">
@@ -125,7 +125,7 @@ function attachDeleteEventListeners() {
             showConfirmButton: false,
           });
         }
-        Navigate('/userSpace');
+        renderUserQuiz();
       } catch (error) {
         Navigate('/userSpace');
       }
