@@ -188,7 +188,7 @@ async function readOneQuizDetailsByID(quizId) {
     AllquestionsAnswers.push(questionAnswers);
   }
 
-  if (AllquestionsAnswers.length >= 2) {
+  if (AllquestionsAnswers.length >= 0) {
     return AllquestionsAnswers;
   }
 
