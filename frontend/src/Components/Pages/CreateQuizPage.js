@@ -126,9 +126,7 @@ function renderQuizQuestions() {
     <div class="container-xxl justify-content-center pt-5">
       <div class="card shadow-lg">
         <div class="card-body p-5">
-        <h2 class="fs-4 card-title text-center mb-4">Question ${questionCount}</h2>
-       <!-- <h2 class="fs-4 fw-bold mb-4 text-end">${title.value}</h2> -->
-         
+        <h2 class="fs-4 card-title text-center mb-4">Question ${questionCount}</h2>         
           <form>
             <div class="row mb-3">
               <div class="col">
@@ -220,24 +218,16 @@ function attachEventListenersQuizQuestions() {
       const badAnswers = document.querySelectorAll('.badAnswers');
       const goodAnswer = document.querySelector('#goodAnswer');
 
-      if (!question.value || !goodAnswer.value) {
+      if (!question.value || !goodAnswer.value || [...badAnswers].some((answer) => !answer.value)) {
         showError('Tous les champs du formulaire sont obligatoires');
-        return renderQuizQuestions();
+        return renderQuizQuestions;
       }
       console.log('question : ', question.value);
       console.log('goodAnswer : ', goodAnswer.value);
 
-      const answersBad = [];
+      let answersBad = [];
 
-      badAnswers.forEach((answer) => {
-        if (!answer.value) {
-          showError('Tous les champs du formulaire sont obligatoires');
-          console.log('erreur');
-          renderQuizQuestions();
-          return;
-        }
-        answersBad.push(answer.value);
-      });
+      answersBad = Array.from(badAnswers).map((answer) => answer.value);
 
       const questAnsw = [question.value, goodAnswer.value, ...answersBad];
 
