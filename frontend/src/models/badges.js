@@ -36,6 +36,7 @@ const readAllBadges = async () => {
 };
 
 const addOneBadgeToUser = async (id, label) => {
+  console.log(" id dans adDOne front", id);
   try {
     const options = {
       method: 'POST',

@@ -21,7 +21,6 @@ let allQuestionsAnswers = [];
 let currentQuestion = 0;
 let nbQuestion;
 let newPoint;
-let userID;
 
 function showError() {
   Swal.fire({
@@ -80,24 +79,37 @@ async function renderScore() {
     user_id = currentUser.userID;
     newPoint = await updateUserPoint(user_id, score);
 
-    console.log('userIDDDDD', user_id);
+    console.log('user_id', user_id);
     // Modifier les conditions
-    if (newPoint > 200 && newPoint < 400) {
+    if (newPoint === 16) {
       winABadge('Médaille de bronze');
-    } else if (newPoint > 400 && newPoint < 600) {
+    } else if (newPoint === 17) {
       winABadge("Médaille d'argent");
-    } else if (newPoint > 600 && newPoint < 800) {
+    } else if (newPoint === 100) {
       winABadge("Médaille d'or");
-    } else if (newPoint > 800 && newPoint < 1000) {
+    } else if (newPoint === 400) {
       winABadge('medal');
-    } else if (newPoint > 1000) {
-      winABadge('');
+    } else if (newPoint === 15) {
+      winABadge('Médaille de platine');
     }
   }
+  score = 0; // à changer par fenetre de fin de jeu
 }
 
 async function winABadge(label) {
-  await addOneBadgeToUser(userID, label);
+  await addOneBadgeToUser(user_id, label);
+  Swal.fire({
+    title: `🎉 Bravo ! Tu vient de remporter le badge : ${label} ! 🏅 Va vite le découvrire dans ton espace`,
+    width: 600,
+    padding: '3em',
+    color: '#716add',
+    background: '#fff url(/images/trees.png)',
+    backdrop: `
+      rgba(0,0,123,0.4)
+      left top
+      no-repeat
+    `,
+  });
 }
 
 function randomTab(tab) {
