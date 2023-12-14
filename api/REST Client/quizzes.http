@@ -1,13 +1,14 @@
 @baseUrl = http://localhost:3000
 
-### Read a certain category (Histoire)
-GET {{baseUrl}}/quizzes/categories/list?label=Histoire
-
-### Read categories
+### Read all categories
 GET {{baseUrl}}/quizzes/categories
+
+### Read all quizzes by category
+GET {{baseUrl}}/quizzes/readAllQuizzesByCategories/?label=Mathématiques
 
 ### Delete the quiz with ID == 3
 DELETE {{baseUrl}}/quizzes/3
+
 
 ######### ERROR OPERATION  ###########
 
