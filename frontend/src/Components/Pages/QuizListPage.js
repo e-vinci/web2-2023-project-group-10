@@ -1,11 +1,8 @@
 import { clearPage } from '../../utils/render';
 import quizLinkEventListeners from '../../utils/quiz';
-// eslint-disable-next-line import/named
-// import {categoryName} from "./CategoriesPage";
 import { readAllQuizzesByCategory } from '../../models/quizzes';
 import Navigate from '../Router/Navigate';
 
-// const numberOfQuizInCategory = 10; // voir dans la db
 
 let categoryName;
 
@@ -17,12 +14,11 @@ const QuizListPage = async () => {
   renderQuizListInCategory();
 };
 
-// eslint-disable-next-line no-shadow
 async function renderQuizListInCategory() {
   const quizzesInCategory = await readAllQuizzesByCategory(categoryName);
   const main = document.querySelector('main');
   let QuizList = '';
-  const cardsInRow = 3; // nbre de carte par row;
+  const cardsInRow = 3; 
   let counter = 0;
   const numberOfQuiz = quizzesInCategory.length;
 
@@ -57,9 +53,9 @@ async function renderQuizListInCategory() {
       }
 
       QuizList += `
-    <div class="col-12 col-lg-3 col-md-6 mt-3">
-    <a id_quiz = "${q.quiz_id}" class= quiz "text-decoration-none">
-        <div class="card cardQuizzes  style="width: 10rem;">
+    <div class="col-12 col-lg-3 mt-3">
+    <a id_quiz = "${q.quiz_id}" class= "quiz text-decoration-none">
+        <div class="card cardQuizzes">
             <div class="card-body">
                <h5 class="card-title">${q.title}</h5>
                 <p class="card-text"> ${q.pseudo}</p>
@@ -68,8 +64,7 @@ async function renderQuizListInCategory() {
         </a>
         </div>
   `;
-      // eslint-disable-next-line no-plusplus
-      counter++;
+      counter+=1;
       console.log('compteur apres incrementation', counter);
     });
   }
