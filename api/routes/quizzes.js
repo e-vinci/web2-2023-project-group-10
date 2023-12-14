@@ -22,38 +22,28 @@ const { authorize } = require('../utils/auths');
 /**
  *  Return all quizzes for a user.
  *  user-id: The user's ID passed as a query parameter.
-router.get('/', async (req, res) => {
-  const userId = req?.query ? Number(req.query['user-id']) : undefined;
-  try {
-    const quizzes = await readAllQuizzesByUser(userId);
-    console.log(quizzes);
-    if (quizzes !== undefined) return res.json(quizzes);
-    return res.sendStatus(400);
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send('Erreur serveur');
-  }
-});
-*/
-
-// faut encore ameliorer //
-
-/**
- *  Return all quizzes for a user.
- *  user-id: The user's ID passed as a query parameter.
  *  Return all quizzes for a category.
  *  label : The label's category passed as a query parameter
  * */
 router.get('/', async (req, res) => {
   const userId = req?.query ? Number(req.query['user-id']) : undefined;
   const categoryName = req?.query ? req.query.label : undefined;
+  const quizId = req?.query ? Number(req.query['quiz-id']) : undefined;
+
   try {
+    if (Number.isInteger(quizId)) {
+      const quiz = await readOneQuizDetailsByID(quizId);
+      console.log(quiz);
+      if (quiz !== undefined) return res.json(quiz);
+      return res.sendStatus(400);
+    }
     if (!Number.isNaN(userId)) {
       const quizzes = await readAllQuizzesByUser(userId);
       console.log(quizzes);
       if (quizzes !== undefined) return res.json(quizzes);
       return res.sendStatus(400);
-    } if (categoryName !== undefined) {
+    }
+    if (categoryName !== undefined) {
       const quizzesInCategory = await readAllQuizzesByCategory(categoryName);
       console.log('quizzes', quizzesInCategory);
       if (quizzesInCategory !== undefined) return res.json(quizzesInCategory);
@@ -74,11 +64,7 @@ router.get('/', async (req, res) => {
  */
 router.post('/', authorize, async (req, res) => {
   console.log('POST routes/quizzes');
-  const {
-    title,
-    category,
-    questions,
-  } = req.body;
+  const { title, category, questions } = req.body;
 
   const currentUser = req.user;
   console.log('currentUser', currentUser);
