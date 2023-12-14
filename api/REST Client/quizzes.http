@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjc2LCJ1c2VyTmFtZSI6InF1aXp3aXoiLCJpYXQiOjE3MDI1OTI3NDB9.MoAYTE3yVkT2xln5tLvG_6pVU__yFyaPsRtOrFqWnDk
+
 
 ### Read all categories
 GET {{baseUrl}}/quizzes/categories
@@ -10,13 +10,25 @@ GET {{baseUrl}}/quizzes/readAllQuizzesByCategories/?label=Mathématiques
 ### Delete the quiz with ID == 3
 DELETE {{baseUrl}}/quizzes/3
 
+#### Create a quiz by using the user account
+#### First login as the user
+# @name user
+
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+    "username":"quizwiz",
+    "password":"quizwiz"
+}
+
 #### Create a quiz with one question using the user token
 POST {{baseUrl}}/quizzes
 Content-Type: application/json
-authorization: {{token}}
+authorization: {{user.response.body.token}}
 
 {
-    "title": "Calcule",
+    "title": "math quizwiz",
     "category": "Mathématiques",
     "questions": [
         [
