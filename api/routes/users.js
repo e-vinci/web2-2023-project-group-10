@@ -2,7 +2,7 @@
 const escape = require('escape-html');
 const express = require('express');
 const jwt = require('jsonwebtoken');
-// const { authorize } = require('../utils/auths');
+const { authorize } = require('../utils/auths');
 
 const router = express.Router();
 const secretToken = 'soislechangementquetuveuxvoirdanslemonde';
@@ -24,11 +24,15 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/details', async (req, res) => {
+router.get('/details', authorize, async (req, res) => {
+  const currentUser = req.user;
+  console.log('je suis dans details');
+  console.log(currentUser);
+  const userId = currentUser.rows[0].user_id;
+  const username = currentUser.rows[0].pseudo;
+
   try {
-    const token = req.headers.authorization.replace('Bearer ', '');
-    const decoded = jwt.verify(token, secretToken);
-    return res.json({ userID: decoded.userID, userName: decoded.userName });
+    return res.json({ userID: userId, userName: username });
   } catch (error) {
     res.status(500).send('Erreur serveur');
   }

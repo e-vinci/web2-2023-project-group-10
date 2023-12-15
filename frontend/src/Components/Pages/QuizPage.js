@@ -11,7 +11,7 @@ import Navigate from '../Router/Navigate';
 
 import { clearPage } from '../../utils/render';
 import { readOneQuizById } from '../../models/quizzes';
-import getConnectedUserDetails from '../../utils/auths';
+import {getConnectedUserDetails} from '../../utils/auths';
 import { updateUserPoint } from '../../models/users';
 import { addOneBadgeToUser } from '../../models/badges';
 
