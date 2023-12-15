@@ -95,7 +95,6 @@ function renderLoginForm() {
 
 function remember() {
   isRememberMeChecked = document.getElementById('rememberMe').checked;
-  console.log('se souvenir de moi : ', isRememberMeChecked);
 }
 
 
@@ -141,7 +140,6 @@ async function handleLoginClick(e) {
     Navigate('/categories');
   } catch (err) {
     showError('Une erreur est survenue lors de la connexion');
-    console.error('Connexion Error:', err);
   }
 }
 
