@@ -39,7 +39,7 @@ async function renderUserQuiz() {
       <div class="alert color-purple">
         <p>Bienvenue ${userName}</p>
       </div>
-      <nav class="navbar navbar-expand-lg ">
+      <nav class="navbar navbar-expand">
       <div class="container-fluid">
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ">
@@ -150,8 +150,8 @@ async function renderUserBadges() {
     <div class="alert color-purple">
     <p>Bienvenue ${userName}</p>
   </div>
-    <nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
+  <nav class="navbar navbar-expand">
+  <div class="container-fluid">
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
