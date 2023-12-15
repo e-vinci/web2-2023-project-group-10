@@ -11,7 +11,7 @@ import Navigate from '../Router/Navigate';
 
 import { clearPage } from '../../utils/render';
 import { readOneQuizById } from '../../models/quizzes';
-import {getConnectedUserDetails} from '../../utils/auths';
+import { getConnectedUserDetails } from '../../utils/auths';
 import { updateUserPoint } from '../../models/users';
 import { addOneBadgeToUser } from '../../models/badges';
 
@@ -36,6 +36,7 @@ const quizPage = async () => {
   const quizId = url.get('id');
   allQuestionsAnswers = await readOneQuizById(quizId);
   if (allQuestionsAnswers === undefined) {
+    console.log('erreur');
     return showError();
   }
   randomTab(allQuestionsAnswers);
@@ -157,7 +158,7 @@ async function renderQuizPage() {
                             <button type="button" class="btn btn-primary " id="btnValidate"> Valider </button>
                         </div>
                     </form>
-                  
+                    <p class="quiz-progress text-end">${currentQuestion + 1}/${nbQuestion}</p>
                 </div>
             </div>
         </div>

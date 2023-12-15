@@ -66,8 +66,6 @@ const addOneQuiz = async (quiz) => {
 };
 
 const readAllQuizzesByUser = async () => {
-
- 
   try {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     console.log(token);
@@ -78,8 +76,8 @@ const readAllQuizzesByUser = async () => {
         authorization: `${token}`,
       },
     };
-    
-    const response = await fetch(`http://localhost:3000/quizzes/`,options);
+
+    const response = await fetch(`http://localhost:3000/quizzes/`, options);
     if (!response.ok) {
       if (response.status === 400) {
         return [];
@@ -114,16 +112,15 @@ const deleteOneQuiz = async (quiz) => {
       headers: {
         'Content-Type': 'application/json',
         authorization: `${token}`,
-      
       },
     };
     console.log(options);
     const response = await fetch(`http://localhost:3000/quizzes/${quiz}`, options);
-    console.log(response.status)
+    console.log(response.status);
     if (!response.ok) {
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
-    
+
     loadingSpinner.style.display = 'none';
     const deletedQuiz = await response.json();
     console.log('deletedQuiz :', deletedQuiz);
@@ -138,8 +135,13 @@ const deleteOneQuiz = async (quiz) => {
 
 const readAllQuizzesByCategory = async (categoryName) => {
   try {
-    console.log('url :', `http://localhost:3000/quizzes/readAllQuizzesByCategories/?label=${categoryName}`);
-    const response = await fetch(`http://localhost:3000/quizzes/readAllQuizzesByCategories/?label=${categoryName}`);
+    console.log(
+      'url :',
+      `http://localhost:3000/quizzes/readAllQuizzesByCategories/?label=${categoryName}`,
+    );
+    const response = await fetch(
+      `http://localhost:3000/quizzes/readAllQuizzesByCategories/?label=${categoryName}`,
+    );
 
     console.log('response', response);
     if (!response.ok) {
@@ -170,10 +172,15 @@ const readOneQuizById = async (id) => {
   const loadingSpinner = document.querySelector('#loadingSpinner');
   try {
     loadingSpinner.style.display = 'block';
-    console.log('igo on me demande tous de aide');
     console.log(id);
-    const response = await fetch(`http://localhost:3000/quizzes/readAllQuizzesByCategories/?quiz-id=${id}`);
+    const response = await fetch(
+      `http://localhost:3000/quizzes/readAllQuizzesByCategories/?quiz-id=${id}`,
+    );
     if (!response.ok) {
+      if (response.status === 400) {
+        return undefined;
+      }
+      console.error(`Erreur HTTP: ${response.status}`);
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
     loadingSpinner.style.display = 'none';

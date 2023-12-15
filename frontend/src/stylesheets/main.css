@@ -210,3 +210,9 @@ footer {
 .nav-link:hover, .nav-link:active {
   cursor: pointer;
 }
+
+
+.quiz-progress {
+  font-size: 15px;
+  color: #555555; 
+}
