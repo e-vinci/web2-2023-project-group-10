@@ -59,28 +59,6 @@ const aboutUs = () => {
         </div>
       </section>
 
-
-
-      <section id="SectionMain">
-      <section class="banner pt-5 d-flex justify-content-center align-items-center ">
-        <div class="container my-5 py-5 ">
-          <div class="row">
-            <div class="text-center d-flex align-items-center justify-content-center">
-            <h1 class="titleAU"> CONTACTER NOUS </h1>
-            </div>
-            <div class="text-center d-flex align-items-center justify-content-center">
-              <h3 class="textAU"> Nous sommes cinq étudiants en deuxième année en informatique
-                                  spécialisés dans le développement d'applications 
-                                  à la Haute Ecole Léonard de Vinci. 
-              </h3>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-
-  
 </section>`;
 };
 
