@@ -43,6 +43,10 @@ main {
 .badges_disabled{
   opacity : 0.06;
 }
+.badge-image{
+  cursor: pointer;
+
+}
 
 /*************************** NavBar *********************************/
 

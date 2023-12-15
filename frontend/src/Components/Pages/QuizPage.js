@@ -11,7 +11,7 @@ import Navigate from '../Router/Navigate';
 
 import { clearPage } from '../../utils/render';
 import { readOneQuizById } from '../../models/quizzes';
-import getConnectedUserDetails from '../../utils/auths';
+import { getConnectedUserDetails } from '../../utils/auths';
 import { updateUserPoint } from '../../models/users';
 import { addOneBadgeToUser } from '../../models/badges';
 
@@ -83,13 +83,13 @@ async function renderScore() {
     // Modifier les conditions
     if (newPoint === 16) {
       winABadge('Médaille de bronze');
-    } else if (newPoint === 17) {
+    } else if (newPoint === 200) {
       winABadge("Médaille d'argent");
-    } else if (newPoint === 100) {
-      winABadge("Médaille d'or");
     } else if (newPoint === 400) {
+      winABadge("Médaille d'or");
+    } else if (newPoint === 600) {
       winABadge('medal');
-    } else if (newPoint === 15) {
+    } else if (newPoint === 800) {
       winABadge('Médaille de platine');
     }
   }
