@@ -1,6 +1,8 @@
 const pool = require('../db');
 
 async function getUserBadges(id) {
+  console.log('getUserBadges in api/models/badges.js');
+
   try {
     const badges = await pool.query(
       'SELECT * FROM project.user_badges ub, project.badges b WHERE ub.user_id = $1 AND ub.badge_id = b.badge_id',
@@ -11,7 +13,7 @@ async function getUserBadges(id) {
       console.log(badges.rows);
       return badges.rows;
     }
-    return undefined; //  []
+    return undefined;
   } catch (error) {
     console.error('Error fetching badges:', error);
     throw error;
@@ -19,6 +21,8 @@ async function getUserBadges(id) {
 }
 
 async function getAllBadges() {
+  console.log('getAllBadges in api/models/badges.js');
+
   try {
     console.log('getAllBadges');
     const allBadges = await pool.query('SELECT * FROM  project.badges ORDER BY badge_id  ASC');
@@ -26,14 +30,16 @@ async function getAllBadges() {
       console.log('Badges retrieved successfully');
       return allBadges.rows;
     }
-    return undefined; //  []
+    return undefined;
   } catch (error) {
     console.error('Error fetching badges:', error);
     throw error;
   }
 }
 async function addOneBadgeToUser(currentUser, label) {
-  console.log('je suis dans addOneBadgeToUser ');
+  console.log('addOneBadgeToUser in api/models/badges.js');
+  console.log('Adding badge to user:', currentUser, label);
+
   const idBadgeResult = await pool.query('SELECT badge_id FROM project.badges WHERE label = $1', [
     label,
   ]);

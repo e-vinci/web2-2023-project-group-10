@@ -5,7 +5,7 @@ import { clearPage } from '../../utils/render';
 import { readOneQuizById } from '../../models/quizzes';
 import { getConnectedUserDetails } from '../../utils/auths';
 import { updateUserPoint } from '../../models/users';
-import { addOneBadgeToUser } from '../../models/badges';
+import { addOneBadgeToUser, readAllBadgesByUser } from '../../models/badges';
 
 let score = 0;
 let userID;
@@ -71,22 +71,45 @@ async function renderScore() {
   if (currentUser) {
     userID = currentUser.userID;
     newPoint = await updateUserPoint(userID, score);
+    const userBadges = await readAllBadgesByUser(userID);
+    console.log('userBadges est', userBadges);
 
-    console.log('userID', userID);
-    // Modifier les conditions
-    if (newPoint === 16) {
+    console.log('userID : ', userID);
+    if (
+      newPoint >= 200 &&
+      newPoint < 400 &&
+      !(await badgeIsAlreadyEarned('Médaille de bronze', userBadges))
+    ) {
       winABadge('Médaille de bronze');
-    } else if (newPoint === 200) {
+    } else if (
+      newPoint >= 400 &&
+      newPoint < 600 &&
+      !(await badgeIsAlreadyEarned("Médaille d'argent", userBadges))
+    ) {
       winABadge("Médaille d'argent");
-    } else if (newPoint === 400) {
+    } else if (
+      newPoint >= 600 &&
+      newPoint < 800 &&
+      !(await badgeIsAlreadyEarned("Médaille d'or", userBadges))
+    ) {
       winABadge("Médaille d'or");
-    } else if (newPoint === 600) {
-      winABadge('medal');
-    } else if (newPoint === 800) {
+    } else if (
+      newPoint >= 800 &&
+      newPoint < 1000 &&
+      !(await badgeIsAlreadyEarned('Médaille de platine', userBadges))
+    ) {
       winABadge('Médaille de platine');
+    } else if (newPoint === 800) {
+      winABadge('Médaille de platine'); // à modif
     }
   }
   score = 0; // à changer par fenetre de fin de jeu
+}
+async function badgeIsAlreadyEarned(label, userBadges) {
+  console.log('userbadgezzdzefez', userBadges);
+  console.log('userbadge', userBadges);
+  if (userBadges.length === 0) return false;
+  return userBadges.some((badge) => badge.label === label);
 }
 
 async function winABadge(label) {
@@ -105,9 +128,9 @@ async function winABadge(label) {
   });
 }
 
-function randomTab(tab) { // ici
+function randomTab(tab) {
   const array = tab;
-  for (let i = tab.length - 1; i > 0; i-=1) {
+  for (let i = tab.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [tab[j], tab[i]];
   }
@@ -120,7 +143,7 @@ async function renderQuizPage() {
   } else {
     const currentQuestionAnswers = allQuestionsAnswers[currentQuestion];
     const answers = currentQuestionAnswers.bad_answers;
-    const {question} = currentQuestionAnswers;
+    const { question } = currentQuestionAnswers;
     const goodAnswer = currentQuestionAnswers.correct_answer;
     answers.push(goodAnswer);
     randomTab(answers);
@@ -162,17 +185,17 @@ async function renderQuizPage() {
     let isValidate = false;
     let selectedAnswer = null;
     const errorMessage = document.querySelector('#errorMessage');
-    let answersDisplay = document.querySelectorAll('.answer');
-    answersDisplay.forEach((answer) => {
+    let allAnswers = document.querySelectorAll('.answer');
+    allAnswers.forEach((answer) => {
       const a = answer;
       answer.addEventListener('click', () => {
         errorMessage.innerText = '';
         if (!isValidate) {
-          answersDisplay.forEach((otherAnswer) => {
-            const other = otherAnswer; // ici
+          allAnswers.forEach((otherAnswer) => {
+            const other = otherAnswer;
             other.style.backgroundColor = 'white';
           });
-          a.style.backgroundColor = 'rgba(200, 200, 200, 0.7)'; // ici
+          a.style.backgroundColor = 'rgba(200, 200, 200, 0.7)';
           selectedAnswer = answer.value;
           console.log('selectedAnswer : ', selectedAnswer);
         }
@@ -195,20 +218,20 @@ async function renderQuizPage() {
         errorMessage.innerText = '';
         if (selectedAnswer === goodAnswer) {
           selectedAnswerIsFalse = false;
-          score+=1;
+          score += 1;
         } else {
           selectedAnswerIsFalse = true;
         }
         console.log('score : ', score);
-        answersDisplay = document.querySelectorAll('.answer');
-        answersDisplay.forEach((answer) => {
-          const a = answer;
-          if (selectedAnswerIsFalse && answer.value === selectedAnswer) {
-            a.style.backgroundColor = 'rgba(255, 0, 0, 0.3)';
-          } else if (answer.value === goodAnswer) {
-            a.style.backgroundColor = 'rgba(144, 238, 144, 0.7)';
+        allAnswers = document.querySelectorAll('.answer');
+        allAnswers.forEach((currentAnswer) => {
+          const answer = currentAnswer;
+          if (selectedAnswerIsFalse && currentAnswer.value === selectedAnswer) {
+            answer.style.backgroundColor = 'rgba(255, 0, 0, 0.3)';
+          } else if (currentAnswer.value === goodAnswer) {
+            answer.style.backgroundColor = 'rgba(144, 238, 144, 0.7)';
           } else {
-            a.style.backgroundColor = 'white';
+            answer.style.backgroundColor = 'white';
           }
         });
         validate.replaceWith(continueButton);

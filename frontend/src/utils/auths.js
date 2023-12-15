@@ -15,7 +15,7 @@ async function getConnectedUserDetails() {
 
     if (!response.ok) {
       console.error(`Erreur HTTP: ${response.status}`);
-      return null; // ICI
+      return null; 
     }
 
     const data = response.json();
