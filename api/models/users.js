@@ -17,7 +17,6 @@ async function getAllUsers() {
     'SELECT * FROM project.users ORDER BY total_point DESC, pseudo ASC, user_id ASC',
   );
   if (users.rows.length > 0) {
-    console.log('Users retrieved successfully');
     return users.rows;
   }
   return undefined;
@@ -60,13 +59,10 @@ async function currentUser(username) {
 }
 
 async function updateUserPoint(id, score) {
-  console.log('score', score.score);
-
   const points = await pool.query(
     'UPDATE project.users SET total_point = total_point + $1 WHERE user_id = $2 RETURNING total_point',
     [score.score, id],
   );
-  console.log('points', points.rows[0].total_point);
   if (points.rowCount > 0) {
     return points.rows[0].total_point;
   }

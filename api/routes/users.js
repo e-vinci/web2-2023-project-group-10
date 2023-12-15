@@ -26,8 +26,6 @@ router.get('/', async (req, res) => {
 
 router.get('/details', authorize, async (req, res) => {
   const currentUser = req.user;
-  console.log('je suis dans details');
-  console.log(currentUser);
   const userId = currentUser.rows[0].user_id;
   const username = currentUser.rows[0].pseudo;
 

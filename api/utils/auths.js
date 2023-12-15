@@ -9,7 +9,6 @@ const authorize = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, jwtSecret);
-    console.log('decoded', decoded);
     const { userName } = decoded;
 
     const existingUser = await currentUser(userName);
@@ -19,7 +18,6 @@ const authorize = async (req, res, next) => {
     req.user = existingUser; // request.user object is available in all other middleware functions
     return next();
   } catch (err) {
-    console.error('authorize: ', err);
     return res.sendStatus(401);
   }
 };
