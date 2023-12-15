@@ -1,10 +1,3 @@
-/* eslint-disable camelcase */
-/* eslint-disable import/named */
-/* eslint-disable prefer-destructuring */
-/* eslint-disable no-shadow */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-plusplus */
-/* eslint-disable no-param-reassign */
 /* eslint-disable prefer-const */
 import Swal from 'sweetalert2';
 import Navigate from '../Router/Navigate';
@@ -16,7 +9,7 @@ import { updateUserPoint } from '../../models/users';
 import { addOneBadgeToUser } from '../../models/badges';
 
 let score = 0;
-let user_id;
+let userID;
 let allQuestionsAnswers = [];
 let currentQuestion = 0;
 let nbQuestion;
@@ -77,10 +70,10 @@ async function renderScore() {
   const currentUser = await getConnectedUserDetails();
 
   if (currentUser) {
-    user_id = currentUser.userID;
-    newPoint = await updateUserPoint(user_id, score);
+    userID = currentUser.userID;
+    newPoint = await updateUserPoint(userID, score);
 
-    console.log('user_id', user_id);
+    console.log('userID', userID);
     // Modifier les conditions
     if (newPoint === 16) {
       winABadge('Médaille de bronze');
@@ -98,7 +91,7 @@ async function renderScore() {
 }
 
 async function winABadge(label) {
-  await addOneBadgeToUser(user_id, label);
+  await addOneBadgeToUser(userID, label);
   Swal.fire({
     title: `🎉 Bravo ! Tu vient de remporter le badge : ${label} ! 🏅 Va vite le découvrire dans ton espace`,
     width: 600,
@@ -113,10 +106,11 @@ async function winABadge(label) {
   });
 }
 
-function randomTab(tab) {
-  for (let i = tab.length - 1; i > 0; i--) {
+function randomTab(tab) { // ici
+  const array = tab;
+  for (let i = tab.length - 1; i > 0; i-=1) {
     const j = Math.floor(Math.random() * (i + 1));
-    [tab[i], tab[j]] = [tab[j], tab[i]];
+    [array[i], array[j]] = [tab[j], tab[i]];
   }
 }
 async function renderQuizPage() {
@@ -127,7 +121,7 @@ async function renderQuizPage() {
   } else {
     let currentQuestionAnswers = allQuestionsAnswers[currentQuestion];
     let answers = currentQuestionAnswers.bad_answers;
-    let question = currentQuestionAnswers.question;
+    let {question} = currentQuestionAnswers;
     let goodAnswer = currentQuestionAnswers.correct_answer;
     answers.push(goodAnswer);
     randomTab(answers);
@@ -171,13 +165,15 @@ async function renderQuizPage() {
     const errorMessage = document.querySelector('#errorMessage');
     let answersDisplay = document.querySelectorAll('.answer');
     answersDisplay.forEach((answer) => {
+      const a = answer;
       answer.addEventListener('click', () => {
         errorMessage.innerText = '';
         if (!isValidate) {
           answersDisplay.forEach((otherAnswer) => {
-            otherAnswer.style.backgroundColor = 'white';
+            const other = otherAnswer; // ici
+            other.style.backgroundColor = 'white';
           });
-          answer.style.backgroundColor = 'rgba(200, 200, 200, 0.7)';
+          a.style.backgroundColor = 'rgba(200, 200, 200, 0.7)'; // ici
           selectedAnswer = answer.value;
           console.log('selectedAnswer : ', selectedAnswer);
         }
@@ -200,19 +196,20 @@ async function renderQuizPage() {
         errorMessage.innerText = '';
         if (selectedAnswer === goodAnswer) {
           selectedAnswerIsFalse = false;
-          score++;
+          score+=1;
         } else {
           selectedAnswerIsFalse = true;
         }
         console.log('score : ', score);
         answersDisplay = document.querySelectorAll('.answer');
         answersDisplay.forEach((answer) => {
+          const a = answer;
           if (selectedAnswerIsFalse && answer.value === selectedAnswer) {
-            answer.style.backgroundColor = 'rgba(255, 0, 0, 0.3)';
+            a.style.backgroundColor = 'rgba(255, 0, 0, 0.3)';
           } else if (answer.value === goodAnswer) {
-            answer.style.backgroundColor = 'rgba(144, 238, 144, 0.7)';
+            a.style.backgroundColor = 'rgba(144, 238, 144, 0.7)';
           } else {
-            answer.style.backgroundColor = 'white';
+            a.style.backgroundColor = 'white';
           }
         });
         validate.replaceWith(continueButton);
