@@ -5,8 +5,6 @@ import { logIn, register } from '../../models/users';
 import Navbar from '../Navbar/Navbar';
 import { checkAuthentication } from '../../utils/auths';
 
-
-
 function renderRegister() {
   const main = document.querySelector('main');
 
@@ -67,23 +65,20 @@ function renderRegister() {
   const acceptCheckbox = document.getElementById('rgpd');
 
   acceptCheckbox.addEventListener('change', () => {
-    if(acceptCheckbox.checked){
+    if (acceptCheckbox.checked) {
       btnRegister.removeAttribute('disabled');
-      msgError.innerHTML = ``
-    }else if(!acceptCheckbox.checked){
+      msgError.innerHTML = ``;
+    } else if (!acceptCheckbox.checked) {
       btnRegister.setAttribute('disabled', 'true');
-      msgError.innerHTML = `*Afin de continuer, veuillez accepter la politique de confidentialité de QuiWiz.`
+      msgError.innerHTML = `*Afin de continuer, veuillez accepter la politique de confidentialité de QuiWiz.`;
     }
   });
- }
-
+}
 
 async function handleRegisterClick() {
   const username = document.getElementById('username').value.trim();
   const password = document.getElementById('password').value.trim();
   const verifPassword = document.getElementById('conf-password').value.trim();
-
-  console.log('les password du client ', password, verifPassword);
 
   if (!username || !password || !verifPassword) {
     showError('Tous les champs du formulaire sont obligatoires');
@@ -116,17 +111,15 @@ async function handleRegisterClick() {
     Navigate('/categories');
   } catch (err) {
     showError("Une erreur est survenue lors de l'inscription");
-    console.error('Register Error:', err);
   }
 }
 
 const RegisterPage = async () => {
   const isConnected = await checkAuthentication();
 
-  if(isConnected){
+  if (isConnected) {
     Navigate('/categories');
     return;
-
   }
   clearPage();
   renderRegister();
