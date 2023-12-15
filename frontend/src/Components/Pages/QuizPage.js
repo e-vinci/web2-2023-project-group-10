@@ -1,4 +1,3 @@
-/* eslint-disable prefer-const */
 import Swal from 'sweetalert2';
 import Navigate from '../Router/Navigate';
 
@@ -119,10 +118,10 @@ async function renderQuizPage() {
   if (currentQuestion === nbQuestion) {
     renderScore();
   } else {
-    let currentQuestionAnswers = allQuestionsAnswers[currentQuestion];
-    let answers = currentQuestionAnswers.bad_answers;
-    let {question} = currentQuestionAnswers;
-    let goodAnswer = currentQuestionAnswers.correct_answer;
+    const currentQuestionAnswers = allQuestionsAnswers[currentQuestion];
+    const answers = currentQuestionAnswers.bad_answers;
+    const {question} = currentQuestionAnswers;
+    const goodAnswer = currentQuestionAnswers.correct_answer;
     answers.push(goodAnswer);
     randomTab(answers);
     let mainQuiz = `
@@ -180,12 +179,12 @@ async function renderQuizPage() {
       });
     });
 
-    let continueButton = document.createElement('button');
+    const continueButton = document.createElement('button');
     continueButton.type = 'button';
     continueButton.className = 'btn btn-primary';
     continueButton.id = 'btnContinue';
     continueButton.innerText = 'Continuer';
-    let validate = document.getElementById('btnValidate');
+    const validate = document.getElementById('btnValidate');
     validate.addEventListener('click', () => {
       isValidate = true;
       let selectedAnswerIsFalse = false;
