@@ -166,7 +166,7 @@ async function renderScore() {
   const currentUser = await getConnectedUserDetails();
   if (currentUser) {
     userID = currentUser.userID;
-    newPoint = await updateUserPoint(userID, score);
+    newPoint = await updateUserPoint(score);
     const userBadges = await readAllBadgesByUser(userID);
     console.log('userBadges est', userBadges);
 
@@ -200,7 +200,7 @@ async function renderScore() {
     }
   }
   const restartButton = document.querySelector('.btnRestart');
-
+  score = 0;
   restartButton.addEventListener('click', () => {
     clearInterval(intervalId);
     intervalId = undefined;

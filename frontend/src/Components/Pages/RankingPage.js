@@ -26,13 +26,15 @@ function renderRankingTable() {
         <tbody> 
     `;
   allUsers.forEach((user) => {
-    mainRanking += `
+    if (user.total_point > 0) {
+      mainRanking += `
       <tr>
       <td> ${ranking} </td>
       <td>  ${user.pseudo} </td>
       <td> ${user.total_point} </td>
     </tr>`;
-    ranking += 1;
+      ranking += 1;
+    }
   });
   mainRanking += `    
   </tbody>

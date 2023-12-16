@@ -29,14 +29,17 @@ Content-Type: application/json
 authorization: {{user.response.body.token}}
 
 {
-    "title": "math quizwiz",
+    "title": "pourquoi",
     "category": "Mathématiques",
     "questions": [
-        {
-            "question": "2*2",
-            "options": ["4", "10", "2.5", "3"],
-            "correctOption": "4"
-        }
+        [
+            "2*2",
+            "4", 
+            "10", 
+            "2.5", 
+            "3"
+        ]   
+        
     ]
 }
 
