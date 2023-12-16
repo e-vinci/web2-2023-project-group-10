@@ -1,5 +1,9 @@
 const pool = require('../db');
 
+/**
+ * Return all the badges for a user
+ * id : the id of the user
+ */
 async function getUserBadges(id) {
   console.log('getUserBadges in api/models/badges.js');
 
@@ -10,7 +14,6 @@ async function getUserBadges(id) {
     );
     if (badges && badges.rows.length > 0) {
       console.log('Badges retrieved successfully');
-      console.log(badges.rows);
       return badges.rows;
     }
     return undefined;
@@ -20,6 +23,9 @@ async function getUserBadges(id) {
   }
 }
 
+/**
+ * Return all the badges of the database
+ */
 async function getAllBadges() {
   console.log('getAllBadges in api/models/badges.js');
 
@@ -36,6 +42,12 @@ async function getAllBadges() {
     throw error;
   }
 }
+
+/**
+ * Add a badge to a user
+ * currentUser : the id of the current user
+ * label : the label of the badge to add
+ */
 async function addOneBadgeToUser(currentUser, label) {
   console.log('addOneBadgeToUser in api/models/badges.js');
   console.log('Adding badge to user:', currentUser, label);

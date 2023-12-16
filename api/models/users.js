@@ -12,6 +12,10 @@ module.exports = {
   updateUserPoint,
 };
 
+/**
+ * Retrieves all the users of the database
+ * userId : the id of the user
+ */
 async function getAllUsers() {
   const users = await pool.query(
     'SELECT * FROM project.users ORDER BY total_point DESC, pseudo ASC, user_id ASC',
@@ -58,10 +62,15 @@ async function currentUser(username) {
   return user;
 }
 
-async function updateUserPoint(id, score) {
+/**
+ * Update the user's points
+ * userId: the id of the user
+ * score: the score to be added to the user's total points
+ */
+async function updateUserPoint(userId, score) {
   const points = await pool.query(
     'UPDATE project.users SET total_point = total_point + $1 WHERE user_id = $2 RETURNING total_point',
-    [score.score, id],
+    [score.score, userId],
   );
   if (points.rowCount > 0) {
     return points.rows[0].total_point;
