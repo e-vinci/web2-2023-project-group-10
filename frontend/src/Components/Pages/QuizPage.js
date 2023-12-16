@@ -393,7 +393,6 @@ function printTime() {
 
   startTime -= 1;
   if (startTime === 0 && currentQuestion !== nbQuestion) {
-    displaychrono.innerHTML = `Le temps est écoulé :((`;
     Swal.fire({
       icon: 'warning',
       title: '',
