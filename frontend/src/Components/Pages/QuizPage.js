@@ -1,4 +1,5 @@
 import Swal from 'sweetalert2';
+import { Modal } from 'bootstrap';
 import Navigate from '../Router/Navigate';
 
 import { clearPage } from '../../utils/render';
@@ -6,6 +7,8 @@ import { readOneQuizById } from '../../models/quizzes';
 import { getConnectedUserDetails } from '../../utils/auths';
 import { updateUserPoint } from '../../models/users';
 import { addOneBadgeToUser, readAllBadgesByUser } from '../../models/badges';
+import imageTest from '../../img/checklist_8186431.png';
+
 
 let score = 0;
 let userID;
@@ -13,6 +16,10 @@ let allQuestionsAnswers = [];
 let currentQuestion = 0;
 let nbQuestion;
 let newPoint;
+let startTime; 
+let intervalId; 
+let timerActivated = false; 
+
 
 function showError() {
   Swal.fire({
@@ -34,8 +41,115 @@ const quizPage = async () => {
   randomTab(allQuestionsAnswers);
   nbQuestion = allQuestionsAnswers.length;
   console.log('The quiz', allQuestionsAnswers);
-  return renderQuizPage();
+  renderQuizModal();
+  const modal = document.getElementById('quizModal');
+  const displayQuizModal = new Modal(modal);
+  displayQuizModal.show();
+  console.log('je rentre iciiiiii');
+  return null; // // jsp eslint oblige a return a modif
 };
+
+function renderQuizModal() {
+  clearPage();
+  const main = document.querySelector('main');
+  main.innerHTML = `
+<div class = "modal fade" id="quizModal" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+      <img src=${imageTest}>
+        <h4 class="modal-title fs-5" id="staticBackdropLabel">Prêt à tester vos connaissances ?</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+      <p>Nombre de questions : ${nbQuestion} </p>
+     
+      <div class="input-group">
+      <p>Souhaites-tu utiliser un chronométre ? </p>
+      <div class="form-check form-switch form-check-reverse ">
+      <input class="form-check-input" type="checkbox" id="btnChecked">
+     </div>
+
+     </div>
+
+     <div id="empty">
+     </div>
+      </div>
+
+      <div class="modal-footer">
+      <button type="button" class="btn btn-style btnStart">Commencer</button>
+      </div>
+    
+      </div>
+      </div>
+      </div>
+  `;
+
+  const checkboxSwitch = document.getElementById('btnChecked');
+  const btnStart = document.querySelector('.btnStart');
+
+  const btnClose = document.querySelector('.btn-close');
+  btnClose.addEventListener('click', () => {
+    Navigate('/categories');
+  });
+
+  checkboxSwitch.addEventListener('change', () => {
+    console.log('je suis iciii');
+    const inputTimer = document.getElementById('empty');
+
+    if (checkboxSwitch.checked === true) {
+      timerActivated = true;
+      inputTimer.innerHTML += `<div>
+      <div class="input-group">
+        <input id="timer"
+          type="text"
+          class="form-control"
+          placeholder="Entre le temps en secondes"
+          aria-label=""
+        />
+        <span class="input-group-text" id="basic-addon2">secondes</span>
+        
+
+      </div>
+              <span id="errorMessage"></span>
+
+      </div>
+`;
+
+    } else {
+      timerActivated = false;
+      inputTimer.innerHTML = '';
+    }
+   
+  });
+
+  btnStart.addEventListener('click', () => {
+    const errMsg = document.getElementById('errorMessage');
+
+    if(checkboxSwitch.checked ){
+      timerActivated = true;
+      const timerValue = document.getElementById('timer').value;
+      console.log('CHRONOOO', timerValue);
+      const timerNumber = parseInt(timerValue, 10)
+      if(timerNumber <= 0 || Number.isNaN(timerNumber)){
+        errMsg.innerHTML = '*Veuillez entrer une valeur pour configurer le chronométre';
+      }else{
+        errMsg.innerHTML = '';
+        startTime = timerNumber;
+        startChrono();
+        renderQuizPage();
+      }
+
+    }else{
+      renderQuizPage();
+    }
+  });
+
+  console.log('je suis sorti');
+
+
+}
 
 async function renderScore() {
   currentQuestion = 0;
@@ -156,6 +270,8 @@ async function renderQuizPage() {
                     <div class="alert  text-center">
                         <h2 class="fs-4 mt-1 card-title question">${question}</h2>
                     </div>
+                    <div id= "emptyDiv">
+                    </div>
                     <form>
                     `;
     answers.forEach((answer) => {
@@ -182,6 +298,15 @@ async function renderQuizPage() {
         </section>
         `;
     main.innerHTML = mainQuiz;
+    const emptydiv = document.getElementById('emptyDiv');
+    if(timerActivated===true){
+      emptydiv.innerHTML = `
+      <div class = "container-timer">
+      <div class="display-timer">
+      </div>
+    
+      </div>`
+    }
     let isValidate = false;
     let selectedAnswer = null;
     const errorMessage = document.querySelector('#errorMessage');
@@ -243,6 +368,39 @@ async function renderQuizPage() {
       renderQuizPage();
     });
   }
+}
+
+function startChrono() {
+  intervalId = setInterval(printTime,1000); // 1000 donc tt les sec
+ 
+}
+
+function printTime() {
+
+  const displaychrono = document.querySelector('.display-timer');
+// a verifier si utilisateur fini avant que timer s'écoule
+  if (!displaychrono) {
+    clearInterval(intervalId);
+    intervalId = undefined;
+    return;
+  }
+  
+  if (startTime >= 60) {
+    const minutesTimer = Math.floor(startTime / 60);
+    const secondsTimer = startTime % 60;
+    displaychrono.innerHTML = `Temps restant : ${minutesTimer} min : ${secondsTimer} sec`;
+  } else {
+    displaychrono.innerHTML = `Temps restants : 00 min : ${startTime} sec`;
+  }
+
+  startTime -= 1;
+   if(startTime === 0 && currentQuestion !== nbQuestion) {
+       displaychrono.innerHTML = `Le temps est écoulé :((`
+       renderScore();
+       clearInterval(intervalId);
+       intervalId = undefined;
+   }
+
 }
 
 export default quizPage;

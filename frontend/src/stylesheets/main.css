@@ -155,6 +155,15 @@ main {
     background-color: #45a049;
   }
 
+  .container-timer{
+    border: 2px solid #d598e691;
+    border-radius: 4px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 8px;
+  }
+
 /************************** QuizLisPage ****************************/
 
 .cardQuizzes{
