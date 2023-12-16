@@ -1,6 +1,4 @@
-import GamePage from '../Pages/GamePage';
 import HomePage from '../Pages/HomePage';
-import NewPage from '../Pages/NewPage';
 import LoginPage from '../Pages/LoginPage';
 import RegisterPage from '../Pages/RegisterPage';
 import RankingPage from '../Pages/RankingPage';
@@ -14,8 +12,6 @@ import QuizListPage from '../Pages/QuizListPage';
 
 const routes = {
   '/': HomePage,
-  '/game': GamePage,
-  '/new': NewPage,
   '/login':LoginPage,
   '/register':RegisterPage,
   '/ranking': RankingPage,
@@ -25,7 +21,6 @@ const routes = {
   '/userSpace': UserSpacePage,
   '/quiz' : quizPage,
   '/list' : QuizListPage,
-
 }
   
 
