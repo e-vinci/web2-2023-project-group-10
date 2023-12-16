@@ -105,11 +105,11 @@ async function renderUserQuiz() {
   linkBadge.addEventListener('click', () => {
     renderUserBadges();
   });
-  attachDeleteEventListeners();
+  deleteEventListeners();
   quizLinkEventListeners();
 }
 
-function attachDeleteEventListeners() {
+function deleteEventListeners() {
   const deleteButtons = document.querySelectorAll('.delete-quiz-btn');
 
   deleteButtons.forEach((btn) => {
