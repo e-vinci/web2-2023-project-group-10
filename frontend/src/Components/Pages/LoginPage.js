@@ -1,9 +1,9 @@
-import Swal from 'sweetalert2';
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import { logIn } from '../../models/users';
 import { checkAuthentication } from '../../utils/auths';
 import {createBalloons, animateBalloons} from '../../utils/animation';
+import {showError} from '../../utils/customAlerts';
 
 
 let isRememberMeChecked = false;
@@ -144,16 +144,6 @@ async function handleLoginClick(e) {
   } catch (err) {
     showError('Une erreur est survenue lors de la connexion');
   }
-}
-
-
-function showError(message) {
-  Swal.fire({
-    icon: 'error',
-    title: 'Oops...',
-    text: message,
-    showConfirmButton: true,
-  });
 }
 
 

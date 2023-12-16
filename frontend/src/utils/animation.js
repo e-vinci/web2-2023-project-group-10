@@ -1,5 +1,5 @@
 import anime from 'animejs';
-import Swal from 'sweetalert2';
+import {showSuccess} from './customAlerts';
 import Navigate from "../Components/Router/Navigate";
 import Navbar from '../Components/Navbar/Navbar';
 import image1 from '../img/ballons1.png';
@@ -62,13 +62,4 @@ function animateBalloons() {
     };
   }
 
-  function showSuccess(message) {
-    Swal.fire({
-      icon: 'success',
-      text: message,
-      timer: 1000,
-      showConfirmButton: false,
-    });
-  }
-  
   export{createBalloons, animateBalloons}
