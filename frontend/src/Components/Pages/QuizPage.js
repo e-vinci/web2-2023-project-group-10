@@ -200,7 +200,7 @@ async function renderScore() {
     }
   }
   const restartButton = document.querySelector('.btnRestart');
-
+  score = 0;
   restartButton.addEventListener('click', () => {
     clearInterval(intervalId);
     intervalId = undefined;
