@@ -135,8 +135,6 @@ function renderQuizModal() {
 
     renderQuizPage();
   });
-
-  console.log('je suis sorti');
 }
 
 async function renderScore() {
@@ -168,32 +166,32 @@ async function renderScore() {
     console.log('userBadges est', userBadges);
 
     console.log('userID : ', userID);
-    if (
-      newPoint >= 200 &&
-      newPoint < 400 &&
-      !(await badgeIsAlreadyEarned('Médaille de bronze', userBadges))
-    ) {
-      winABadge('Médaille de bronze');
-    } else if (
-      newPoint >= 400 &&
-      newPoint < 600 &&
-      !(await badgeIsAlreadyEarned("Médaille d'argent", userBadges))
-    ) {
-      winABadge("Médaille d'argent");
-    } else if (
-      newPoint >= 600 &&
-      newPoint < 800 &&
-      !(await badgeIsAlreadyEarned("Médaille d'or", userBadges))
-    ) {
-      winABadge("Médaille d'or");
-    } else if (
-      newPoint >= 800 &&
-      newPoint < 1000 &&
-      !(await badgeIsAlreadyEarned('Médaille de platine', userBadges))
-    ) {
-      winABadge('Médaille de platine');
-    } else if (newPoint === 800) {
-      winABadge('Médaille de platine'); // à modif
+    if (userBadges.length < 4) {
+      if (
+        newPoint >= 200 &&
+        newPoint < 400 &&
+        !userBadges.some((badge) => badge.label === 'Médaille de bronze')
+      ) {
+        winABadge('Médaille de bronze');
+      } else if (
+        newPoint >= 400 &&
+        newPoint < 600 &&
+        !userBadges.some((badge) => badge.label === "Médaille d'argent")
+      ) {
+        winABadge("Médaille d'argent");
+      } else if (
+        newPoint >= 600 &&
+        newPoint < 800 &&
+        !userBadges.some((badge) => badge.label === "Médaille d'or")
+      ) {
+        winABadge("Médaille d'or");
+      } else if (
+        newPoint >= 800 &&
+        newPoint < 1000 &&
+        !userBadges.some((badge) => badge.label === 'Médaille de platine')
+      ) {
+        winABadge('Médaille de platine');
+      }
     }
   }
   const restartButton = document.querySelector('.btnRestart');
@@ -215,12 +213,6 @@ async function renderScore() {
   const modal = document.getElementById('quizModal2');
   const displayQuizModal = new Modal(modal);
   displayQuizModal.show();
-}
-async function badgeIsAlreadyEarned(label, userBadges) {
-  console.log('userbadgezzdzefez', userBadges);
-  console.log('userbadge', userBadges);
-  if (userBadges.length === 0) return false;
-  return userBadges.some((badge) => badge.label === label);
 }
 
 async function winABadge(label) {
