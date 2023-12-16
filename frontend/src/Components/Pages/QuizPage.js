@@ -376,7 +376,6 @@ function startChrono() {
 
 function printTime() {
   const displaychrono = document.querySelector('.display-timer');
-  // a verifier si utilisateur fini avant que timer s'écoule
   if (!displaychrono) {
     clearInterval(intervalId);
     intervalId = undefined;
