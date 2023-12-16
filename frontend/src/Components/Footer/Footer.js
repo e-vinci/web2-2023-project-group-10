@@ -1,18 +1,15 @@
-
 const Footer = () => {
-    renderFooter();
+  renderFooter();
 };
-
 
 function renderFooter() {
   const footer = document.querySelector('footer');
   const footerHtml = `
       <div class="text-center text-lg-start">
         <div class="text-center p-3">
-        COPYRIGHT © 2023 - 2024 - TOUS DROITS RESERVES
-        <a class="text-body" href="http://localhost:8080">QuizWiz</a>
-      </div>
-       
+          COPYRIGHT © 2023 - 2024 - TOUS DROITS RESERVES
+          <a class="text-body">QuizWiz</a>
+        </div>
       </div>  
   `;
 
