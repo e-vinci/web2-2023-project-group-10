@@ -1,0 +1,7 @@
+@baseUrl = http://localhost:3000
+
+### Read a question by its ID
+GET {{baseUrl}}/questions/1
+
+### Read all questions of a quiz by its ID
+GET {{baseUrl}}/questions/quiz/1

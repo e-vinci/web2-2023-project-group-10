@@ -1,5 +1,16 @@
 @baseUrl = http://localhost:3000
 
+### Liste de tous les utilisateurs
+GET {{baseUrl}}/users
+
+### Modification d'un champ d'un utilisateur, ici l'username
+PATCH {{baseUrl}}/users/123
+Content-Type: application/json
+
+{
+    "username": "nouveau pseudo"
+}
+
 ### Enregistrer un nouvel utilisateur
 POST {{baseUrl}}/users/register
 Content-Type: application/json

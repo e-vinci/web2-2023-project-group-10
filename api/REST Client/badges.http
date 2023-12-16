@@ -1,0 +1,13 @@
+@baseUrl = http://localhost:3000
+
+### Read all badges of a user or all badges
+GET {{baseUrl}}/badges?user-id=1
+
+### Add a badge to a user
+POST {{baseUrl}}/badges
+Content-Type: application/json
+
+{
+    "label": "Badge Example",
+    "id": 1
+}

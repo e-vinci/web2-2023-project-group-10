@@ -1,5 +1,6 @@
 @baseUrl = http://localhost:3000
 
+### 
 
 ### Read all categories
 GET {{baseUrl}}/quizzes/categories
@@ -31,19 +32,15 @@ authorization: {{user.response.body.token}}
     "title": "math quizwiz",
     "category": "Mathématiques",
     "questions": [
-        [
-            "2*2",
-            "4",
-            "10",
-            "2.5",
-            "3"
-        ]
+        {
+            "question": "2*2",
+            "options": ["4", "10", "2.5", "3"],
+            "correctOption": "4"
+        }
     ]
 }
 
-
-
 ######### ERROR OPERATION  ###########
 
-### Read quiz which does not exists
+### Read quiz which does not exist
 GET {{baseUrl}}/quizzes/200
