@@ -33,7 +33,7 @@ const UserSpacePage = async () => {
 
 async function renderUserQuiz() {
   clearPage();
-  const allQuizzesByUser = await readAllQuizzesByUser(userID);
+  const allQuizzesByUser = await readAllQuizzesByUser();
   let mainListQuiz = `
     <section>
       <div class="alert color-purple">
