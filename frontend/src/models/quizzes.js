@@ -77,7 +77,7 @@ const readAllQuizzesByUser = async () => {
       },
     };
 
-    const response = await fetch(`http://localhost:3000/quizzes/`, options);
+    const response = await fetch(`http://localhost:3000/quizzes`, options);
     if (!response.ok) {
       if (response.status === 400) {
         return [];
