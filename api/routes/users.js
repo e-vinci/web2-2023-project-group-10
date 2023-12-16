@@ -90,9 +90,11 @@ router.post('/register', async (req, res) => {
   }
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/', authorize, async (req, res) => {
+  const currentUser = req.user;
+  const userId = currentUser.rows[0].user_id;
   try {
-    const updatedPoint = await updateUserPoint(req?.params?.id, req?.body);
+    const updatedPoint = await updateUserPoint(userId, req?.body);
     if (!updatedPoint) return res.sendStatus(404);
     return res.json(updatedPoint);
   } catch (err) {
