@@ -216,3 +216,36 @@ footer {
   font-size: 15px;
   color: #555555; 
 }
+
+/*********************annimation ballon***********************/
+
+#containerAuthentification {
+  position: relative;
+  /* Autres styles... */
+}
+
+.balloon-container {
+  position: fixed; /* Utiliser un positionnement fixe */
+  top: 0;
+  left: 0;
+  width: 100vw; /* Définir la largeur à la largeur complète de la fenêtre */
+  height: 100vh; /* Définir la hauteur à la hauteur complète de la fenêtre */
+  z-index: -1; /* Assure qu'il se trouve derrière d'autres contenus comme votre formulaire */
+}
+
+.balloon {
+  position: absolute;
+  bottom: -50px; /* Commence depuis le bas du conteneur de ballons */
+  width: 100px; /* Ajuster la taille selon les besoins */
+  height: auto;
+}
+
+.balloon:before {
+  content: '';
+  position: absolute;
+  bottom: -15px; 
+  left: 50%;
+  width: 2px;
+  height: 20px;
+  background-color: black;
+}

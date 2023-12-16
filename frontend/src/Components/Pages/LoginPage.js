@@ -1,9 +1,10 @@
 import Swal from 'sweetalert2';
-import Navbar from '../Navbar/Navbar';
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import { logIn } from '../../models/users';
 import { checkAuthentication } from '../../utils/auths';
+import {createBalloons, animateBalloons} from '../../utils/animation';
+
 
 let isRememberMeChecked = false;
 
@@ -59,10 +60,14 @@ function renderLoginForm() {
                             <input id="register" type="button" class="btn btn-outline-secondary mn-3  w-100"
                                 value="Nouveau sur QUIZWIZ ? Créer un compte">
                         </div>
+                        
 
                     </form>
                 </div>
             </div>
+        </div>
+        <div class="balloon-container">
+          <!-- Balloons will be added here -->
         </div>
     </div>`;
 
@@ -97,7 +102,6 @@ function remember() {
   isRememberMeChecked = document.getElementById('rememberMe').checked;
 }
 
-
 function handleRegisterClick() {
   Navigate('/register');
 }
@@ -112,7 +116,6 @@ async function handleLoginClick(e) {
     showError('Tous les champs du formulaire sont obligatoires');
     return;
   }
-
 
   try {
     const response = await logIn(username, password);
@@ -130,18 +133,19 @@ async function handleLoginClick(e) {
       } else {
         sessionStorage.setItem('token', responseData.token);
       }
-      showSucces('Connexion réussie!');
+    
     } else {
       showError('Une erreurs est survenue');
       return;
     }
+    createBalloons();
+    animateBalloons();
 
-    Navbar();
-    Navigate('/categories');
   } catch (err) {
     showError('Une erreur est survenue lors de la connexion');
   }
 }
+
 
 function showError(message) {
   Swal.fire({
@@ -152,22 +156,13 @@ function showError(message) {
   });
 }
 
-function showSucces(message) {
-  Swal.fire({
-    icon: 'success',
-    text: message,
-    timer: 1000,
-    showConfirmButton: false,
-  });
-}
 
- const LoginPage = async () => {
+const LoginPage = async () => {
   const isConnected = await checkAuthentication();
 
-  if(isConnected){
+  if (isConnected) {
     Navigate('/userSpace');
     return;
-
   }
   clearPage();
   renderLoginForm();

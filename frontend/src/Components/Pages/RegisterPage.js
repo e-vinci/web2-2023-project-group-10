@@ -2,8 +2,8 @@ import Swal from 'sweetalert2';
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import { logIn, register } from '../../models/users';
-import Navbar from '../Navbar/Navbar';
 import { checkAuthentication } from '../../utils/auths';
+import {createBalloons, animateBalloons} from '../../utils/animation';
 
 function renderRegister() {
   const main = document.querySelector('main');
@@ -56,6 +56,9 @@ function renderRegister() {
             </div>
         </div>
     </div>
+    <div class="balloon-container">
+          <!-- Balloons will be added here -->
+    </div>
 </div>`;
 
   const btnRegister = document.getElementById('register');
@@ -101,14 +104,12 @@ async function handleRegisterClick() {
 
     if (responseData && responseData.token) {
       sessionStorage.setItem('token', responseData.token);
-      showSucces('Vous etes connecter');
     } else {
       showError('Une erreurs est survenue');
       return;
     }
-
-    Navbar();
-    Navigate('/categories');
+    createBalloons();
+    animateBalloons();
   } catch (err) {
     showError("Une erreur est survenue lors de l'inscription");
   }
@@ -134,13 +135,6 @@ function showError(message) {
   });
 }
 
-function showSucces(message) {
-  Swal.fire({
-    icon: 'success',
-    text: message,
-    timer: 1000,
-    showConfirmButton: false,
-  });
-}
+
 
 export default RegisterPage;
