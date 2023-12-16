@@ -163,7 +163,7 @@ async function renderScore() {
   const currentUser = await getConnectedUserDetails();
   if (currentUser) {
     userID = currentUser.userID;
-    newPoint = await updateUserPoint(score);
+    newPoint = await updateUserPoint(score, userID);
     const userBadges = await readAllBadgesByUser(userID);
     console.log('userBadges est', userBadges);
 
