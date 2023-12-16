@@ -128,16 +128,16 @@ function renderQuizModal() {
       const timerNumber = parseInt(timerValue, 10);
       if (timerNumber <= 0 || Number.isNaN(timerNumber)) {
         errMsg.innerHTML = '*Veuillez entrer une valeur pour configurer le chronométre';
-      } else {
-        errMsg.innerHTML = '';
-        startTime = timerNumber;
-        startChrono();
-        renderQuizPage();
+        return;
       }
-    } else {
-      renderQuizPage();
+      errMsg.innerHTML = '';
+      startTime = timerNumber;
+      
     }
+
+    renderQuizPage();
   });
+
 
   console.log('je suis sorti');
 }
@@ -252,6 +252,14 @@ function randomTab(tab) {
 async function renderQuizPage() {
   clearPage();
   const main = document.querySelector('main');
+  const minutes = Math.floor(startTime / 60);
+  const seconds = startTime % 60;
+  let renderTime = '';
+  if (timerActivated) {
+    renderTime = `<div class = "container-timer">
+                   <div class="display-timer"> ${minutes} ${seconds} </div>
+                 </div>`;
+  }
   if (currentQuestion === nbQuestion) {
     renderScore();
   } else {
@@ -267,6 +275,7 @@ async function renderQuizPage() {
         <div class="w-75">
             <div class="card shadow-lg">
                 <div class="card-body p-5">
+                ${renderTime}
                     <div class="alert  text-center">
                         <h2 class="fs-4 mt-1 card-title question">${question}</h2>
                     </div>
@@ -297,16 +306,15 @@ async function renderQuizPage() {
     </div>
         </section>
         `;
+
+        
     main.innerHTML = mainQuiz;
-    const emptydiv = document.getElementById('emptyDiv');
-    if (timerActivated === true) {
-      emptydiv.innerHTML = `
-      <div class = "container-timer">
-      <div class="display-timer">
-      </div>
     
-      </div>`;
+    if (timerActivated === true) {
+      printTime();
+      startChrono();
     }
+    
     let isValidate = false;
     let selectedAnswer = null;
     const errorMessage = document.querySelector('#errorMessage');
@@ -371,6 +379,10 @@ async function renderQuizPage() {
 }
 
 function startChrono() {
+  if (intervalId) {
+    clearInterval(intervalId);
+  }
+
   intervalId = setInterval(printTime, 1000); // 1000 donc tt les sec
 }
 
