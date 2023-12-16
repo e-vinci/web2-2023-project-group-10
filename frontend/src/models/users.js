@@ -1,3 +1,5 @@
+import Navbar from '../Components/Navbar/Navbar';
+
 const readAllUsers = async () => {
   try {
     const response = await fetch('http://localhost:3000/users');
@@ -14,7 +16,7 @@ const readAllUsers = async () => {
 };
 
 const updateUserPoint = async (score) => {
-  const token = localStorage.getItem('token') || sessionStorage.getItem('token')
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
   try {
     const options = {
       method: 'PATCH',
@@ -29,6 +31,7 @@ const updateUserPoint = async (score) => {
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
     const updatedPoint = await response.json();
+    Navbar();
     return updatedPoint;
   } catch (err) {
     console.error('updateUserPoint::error: ', err);
