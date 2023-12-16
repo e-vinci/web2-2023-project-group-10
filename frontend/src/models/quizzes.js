@@ -1,5 +1,6 @@
 import Swal from 'sweetalert2';
 
+
 const readAllCategories = async () => {
   try {
     const response = await fetch('http://localhost:3000/quizzes/categories');
