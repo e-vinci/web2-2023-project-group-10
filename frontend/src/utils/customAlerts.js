@@ -19,5 +19,13 @@ function showSuccess(message) {
     });
   }
 
+  function showInfo(message) {
+    Swal.fire({
+      icon: 'info',
+      title: 'Information',
+      text: message,
+    });
+  }
 
-  export{showSuccess, showError}
+
+  export{showSuccess, showError, showInfo}

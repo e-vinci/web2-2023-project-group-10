@@ -9,6 +9,7 @@ import medalGold from '../../img/medal_gold.png';
 import medalSilver from '../../img/medal_silver.png';
 import medalBronze from '../../img/medal_bronze.png';
 import medalPlatine from '../../img/medal.png';
+import { showError } from '../../utils/customAlerts';
 
 const main = document.querySelector('main');
 let userID;
@@ -18,6 +19,7 @@ const UserSpacePage = async () => {
   const isConnected = await checkAuthentication();
 
   if(!isConnected){
+    showError('Veuillez vous connecter');
     Navigate('/login');
     return;
 
