@@ -4,7 +4,8 @@ const logger = require('morgan');
 const cors = require('cors');
 
 const corsOptions = {
-  origin: ['http://localhost:8080', 'https://e-baron.github.io'],
+  origin: ['http://localhost:8080', 'https://e-vinci.github.io/Quizwiz'],
+  Credential: true,
 };
 
 const usersRouter = require('./routes/users');
