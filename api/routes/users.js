@@ -29,7 +29,6 @@ router.get('/details', authorize, async (req, res) => {
   const userId = currentUser.rows[0].user_id;
   const username = currentUser.rows[0].pseudo;
   const totalPoint = currentUser.rows[0].total_point;
-  console.log('routeee la', totalPoint);
   try {
     return res.json({ userID: userId, userName: username, userPoint: totalPoint });
   } catch (error) {

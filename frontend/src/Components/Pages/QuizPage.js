@@ -8,6 +8,7 @@ import { getConnectedUserDetails } from '../../utils/auths';
 import { updateUserPoint } from '../../models/users';
 import { addOneBadgeToUser, readAllBadgesByUser } from '../../models/badges';
 import imageTest from '../../img/checklist_8186431.png';
+import { showError } from '../../utils/customAlerts';
 
 let score = 0;
 let userID;
@@ -18,14 +19,12 @@ let newPoint;
 let startTime;
 let intervalId;
 let timerActivated = false;
-function showError() {
-  Swal.fire({
-    icon: 'error',
-    title: 'Oops...',
-    text: `Le quiz n'existe pas`,
-  });
+
+function redirect() {
+  showError(`Le quiz n'existe pas`);
   Navigate('/categories');
 }
+
 const quizPage = async () => {
   clearPage();
   const url = new URLSearchParams(window.location.search);
@@ -33,7 +32,7 @@ const quizPage = async () => {
   allQuestionsAnswers = await readOneQuizById(quizId);
   if (allQuestionsAnswers === undefined) {
     console.log('erreur');
-    return showError();
+    return redirect();
   }
   randomTab(allQuestionsAnswers);
   nbQuestion = allQuestionsAnswers.length;
@@ -132,12 +131,10 @@ function renderQuizModal() {
       }
       errMsg.innerHTML = '';
       startTime = timerNumber;
-      
     }
 
     renderQuizPage();
   });
-
 
   console.log('je suis sorti');
 }
@@ -307,14 +304,13 @@ async function renderQuizPage() {
         </section>
         `;
 
-        
     main.innerHTML = mainQuiz;
-    
+
     if (timerActivated === true) {
       printTime();
       startChrono();
     }
-    
+
     let isValidate = false;
     let selectedAnswer = null;
     const errorMessage = document.querySelector('#errorMessage');

@@ -1,9 +1,9 @@
-import Swal from 'sweetalert2';
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import { logIn, register } from '../../models/users';
 import { checkAuthentication } from '../../utils/auths';
-import {createBalloons, animateBalloons} from '../../utils/animation';
+import { createBalloons, animateBalloons } from '../../utils/animation';
+import { showError, showSuccess } from '../../utils/customAlerts';
 
 function renderRegister() {
   const main = document.querySelector('main');
@@ -119,22 +119,12 @@ const RegisterPage = async () => {
   const isConnected = await checkAuthentication();
 
   if (isConnected) {
+    showSuccess('Vous êtes déjà connecté');
     Navigate('/categories');
     return;
   }
   clearPage();
   renderRegister();
 };
-
-function showError(message) {
-  Swal.fire({
-    icon: 'error',
-    title: 'Oops...',
-    text: message,
-    showConfirmButton: true,
-  });
-}
-
-
 
 export default RegisterPage;

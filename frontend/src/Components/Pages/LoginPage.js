@@ -3,7 +3,7 @@ import { clearPage } from '../../utils/render';
 import { logIn } from '../../models/users';
 import { checkAuthentication } from '../../utils/auths';
 import {createBalloons, animateBalloons} from '../../utils/animation';
-import {showError} from '../../utils/customAlerts';
+import {showError,showSuccess} from '../../utils/customAlerts';
 
 
 let isRememberMeChecked = false;
@@ -151,6 +151,7 @@ const LoginPage = async () => {
   const isConnected = await checkAuthentication();
 
   if (isConnected) {
+    showSuccess('Vous êtes déjà connecté');
     Navigate('/userSpace');
     return;
   }

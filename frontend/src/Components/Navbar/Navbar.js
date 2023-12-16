@@ -1,10 +1,9 @@
-// eslint-disable-next-line no-unused-vars
-import { Navbar as BootstrapNavbar } from 'bootstrap';
 import Swal from 'sweetalert2';
 import logo from '../../img/logo.png';
 import Navigate from '../Router/Navigate';
 import { getConnectedUserDetails } from '../../utils/auths';
 import imgScore from '../../img/score.png';
+import { showSuccess } from '../../utils/customAlerts';
 
 /**
  * Render the Navbar which is styled by using Bootstrap
@@ -106,13 +105,7 @@ function handleLogout() {
   sessionStorage.removeItem('token');
 
   Navbar();
-  Swal.fire({
-    title: 'Deconnexion reussie',
-    icon: 'success',
-    timer: 1000,
-    showConfirmButton: false,
-  });
-
+  showSuccess('Deconnexion reussie')
   Navigate('/categories');
 }
 
