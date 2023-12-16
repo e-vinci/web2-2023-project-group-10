@@ -11,7 +11,7 @@ async function getConnectedUserDetails() {
       },
     };
 
-    const response = await fetch('http://localhost:3000/users/details', options);
+    const response = await fetch(`http://localhost:3000/users/details`, options);
 
     if (!response.ok) {
       console.error(`Erreur HTTP: ${response.status}`);

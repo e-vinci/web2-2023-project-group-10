@@ -45,7 +45,7 @@ const addOneBadgeToUser = async (id, label) => {
         'Content-Type': 'application/json',
       },
     };
-    const response = await fetch('http://localhost:3000/badges', options);
+    const response = await fetch(`http://localhost:3000/badges`, options);
     if (!response.ok) {
       throw new Error(`Erreur HTTP: ${response.status}`);
     }

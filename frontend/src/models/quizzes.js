@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 
 const readAllCategories = async () => {
   try {
-    const response = await fetch('http://localhost:3000/quizzes/categories');
+    const response = await fetch(`http://localhost:3000/quizzes/categories`);
     if (!response.ok) {
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
@@ -39,7 +39,7 @@ const addOneQuiz = async (quiz) => {
         authorization: `${token}`,
       },
     };
-    const response = await fetch('http://localhost:3000/quizzes', options);
+    const response = await fetch(`http://localhost:3000/quizzes`, options);
     if (!response.ok) {
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
