@@ -9,18 +9,15 @@ import { updateUserPoint } from '../../models/users';
 import { addOneBadgeToUser, readAllBadgesByUser } from '../../models/badges';
 import imageTest from '../../img/checklist_8186431.png';
 
-
 let score = 0;
 let userID;
 let allQuestionsAnswers = [];
 let currentQuestion = 0;
 let nbQuestion;
 let newPoint;
-let startTime; 
-let intervalId; 
-let timerActivated = false; 
-
-
+let startTime;
+let intervalId;
+let timerActivated = false;
 function showError() {
   Swal.fire({
     icon: 'error',
@@ -45,7 +42,6 @@ const quizPage = async () => {
   const modal = document.getElementById('quizModal');
   const displayQuizModal = new Modal(modal);
   displayQuizModal.show();
-  console.log('je rentre iciiiiii');
   return null; // // jsp eslint oblige a return a modif
 };
 
@@ -116,72 +112,58 @@ function renderQuizModal() {
 
       </div>
 `;
-
     } else {
       timerActivated = false;
       inputTimer.innerHTML = '';
     }
-   
   });
 
   btnStart.addEventListener('click', () => {
     const errMsg = document.getElementById('errorMessage');
 
-    if(checkboxSwitch.checked ){
+    if (checkboxSwitch.checked) {
       timerActivated = true;
       const timerValue = document.getElementById('timer').value;
       console.log('CHRONOOO', timerValue);
-      const timerNumber = parseInt(timerValue, 10)
-      if(timerNumber <= 0 || Number.isNaN(timerNumber)){
+      const timerNumber = parseInt(timerValue, 10);
+      if (timerNumber <= 0 || Number.isNaN(timerNumber)) {
         errMsg.innerHTML = '*Veuillez entrer une valeur pour configurer le chronométre';
-      }else{
+      } else {
         errMsg.innerHTML = '';
         startTime = timerNumber;
         startChrono();
         renderQuizPage();
       }
-
-    }else{
+    } else {
       renderQuizPage();
     }
   });
 
   console.log('je suis sorti');
-
-
 }
 
 async function renderScore() {
   currentQuestion = 0;
   const main = document.querySelector('main');
-  let result = '';
-  if (score <= nbQuestion / 2) {
-    result = 'Ne lâche rien, persévère !';
-  } else if (score > nbQuestion * 0.75) {
-    result = 'Bravo ! Tes efforts paient, continue sur cette lancée !';
-  } else {
-    result = "Waooow, tu t'es surpassé !";
-  }
+
   main.innerHTML = `
-  <section>
-  <div class="container-xxl d-flex justify-content-center align-items-center pt-5 ">
-  <div class="w-75">
-      <div class="card shadow-lg">
-          <div class="card-body p-5">
-              <div class="alert  text-center">
-                  <h2 class="fs-4 mt-1 card-title"> Tu as obtenu ${score} ${
-    score === 1 ? 'bonne réponse' : 'bonnes réponses'
-  }</h2>
-                  <h2 class="fs-4 mt-1 card-title">${result}</h2>
-              </div>
-              </div>
-              </div>
-          </div>
+<div class = "modal fade" id="quizModal2" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title fs-5" id="staticBackdropLabel">Ton score</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-          </section>`;
-
+      <div class="modal-body color-modal-score">
+      <h2 class="fs-4 mt-1 card-title text-center"> ${score}/${nbQuestion}</h2>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-style btnRestart">Recommencer</button>
+      </div>
+      </div>
+      </div>
+      </div>`;
   const currentUser = await getConnectedUserDetails();
-
   if (currentUser) {
     userID = currentUser.userID;
     newPoint = await updateUserPoint(userID, score);
@@ -217,7 +199,25 @@ async function renderScore() {
       winABadge('Médaille de platine'); // à modif
     }
   }
-  score = 0; // à changer par fenetre de fin de jeu
+  const restartButton = document.querySelector('.btnRestart');
+
+  restartButton.addEventListener('click', () => {
+    clearInterval(intervalId);
+    intervalId = undefined;
+    score = 0;
+    currentQuestion = 0;
+    startTime = undefined;
+    timerActivated = false;
+    quizPage();
+  });
+
+  const btnClose = document.querySelector('.btn-close');
+  btnClose.addEventListener('click', () => {
+    Navigate('/categories');
+  });
+  const modal = document.getElementById('quizModal2');
+  const displayQuizModal = new Modal(modal);
+  displayQuizModal.show();
 }
 async function badgeIsAlreadyEarned(label, userBadges) {
   console.log('userbadgezzdzefez', userBadges);
@@ -299,13 +299,13 @@ async function renderQuizPage() {
         `;
     main.innerHTML = mainQuiz;
     const emptydiv = document.getElementById('emptyDiv');
-    if(timerActivated===true){
+    if (timerActivated === true) {
       emptydiv.innerHTML = `
       <div class = "container-timer">
       <div class="display-timer">
       </div>
     
-      </div>`
+      </div>`;
     }
     let isValidate = false;
     let selectedAnswer = null;
@@ -371,20 +371,18 @@ async function renderQuizPage() {
 }
 
 function startChrono() {
-  intervalId = setInterval(printTime,1000); // 1000 donc tt les sec
- 
+  intervalId = setInterval(printTime, 1000); // 1000 donc tt les sec
 }
 
 function printTime() {
-
   const displaychrono = document.querySelector('.display-timer');
-// a verifier si utilisateur fini avant que timer s'écoule
+  // a verifier si utilisateur fini avant que timer s'écoule
   if (!displaychrono) {
     clearInterval(intervalId);
     intervalId = undefined;
     return;
   }
-  
+
   if (startTime >= 60) {
     const minutesTimer = Math.floor(startTime / 60);
     const secondsTimer = startTime % 60;
@@ -394,13 +392,25 @@ function printTime() {
   }
 
   startTime -= 1;
-   if(startTime === 0 && currentQuestion !== nbQuestion) {
-       displaychrono.innerHTML = `Le temps est écoulé :((`
-       renderScore();
-       clearInterval(intervalId);
-       intervalId = undefined;
-   }
-
+  if (startTime === 0 && currentQuestion !== nbQuestion) {
+    displaychrono.innerHTML = `Le temps est écoulé :((`;
+    Swal.fire({
+      icon: 'warning',
+      title: '',
+      text: 'Le temps est écoulé',
+      customClass: {
+        popup: 'swal-custom-popup',
+        title: 'swal-custom-title',
+        content: 'swal-custom-content',
+        confirmButton: 'swal-custom-confirm-button',
+      },
+      showCancelButton: false,
+      confirmButtonText: 'OK',
+    });
+    renderScore();
+    clearInterval(intervalId);
+    intervalId = undefined;
+  }
 }
 
 export default quizPage;
