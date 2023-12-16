@@ -37,14 +37,14 @@ router.get('/', async (req, res) => {
  * id : the id of the current user
  */
 router.post('/', async (req, res) => {
-  const { label, userId } = req.body;
+  const { label, id } = req.body;
   console.log('label : ', label);
-  console.log('currentUser : ', userId);
-  if (!label || !userId) {
+  console.log('currentUser : ', id);
+  if (!label || !id) {
     return res.status(400).json({ message: 'Erreur' });
   }
   try {
-    const badges = await addOneBadgeToUser(userId, label);
+    const badges = await addOneBadgeToUser(id, label);
     if (badges !== undefined) {
       console.log('Badges added successfully.');
       return res.json(badges);
