@@ -12,7 +12,7 @@ function animateBalloons() {
       anime({
         targets: balloon,
         translateY: '-200vh', // Fait monter les ballons
-        duration: 10000, 
+        duration: 10100, 
         easing: 'easeOutCubic'
       });
     });
@@ -21,7 +21,7 @@ function animateBalloons() {
       Navbar();
       showSuccess('Vous êtes connecté');
       Navigate('/categories');
-    }, 1000);
+    }, 2300);
   
   }
   
