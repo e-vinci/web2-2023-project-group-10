@@ -376,6 +376,7 @@ function startChrono() {
 
 function printTime() {
   const displaychrono = document.querySelector('.display-timer');
+  const containerTimer = document.querySelector('.container-timer');
   if (!displaychrono) {
     clearInterval(intervalId);
     intervalId = undefined;
@@ -388,6 +389,9 @@ function printTime() {
     displaychrono.innerHTML = `Temps restant : ${minutesTimer} min : ${secondsTimer} sec`;
   } else {
     displaychrono.innerHTML = `Temps restants : 00 min : ${startTime} sec`;
+  }
+  if(startTime <= 10){
+    containerTimer.style.backgroundColor = 'rgba(255, 0, 0, 0.3)'; 
   }
 
   startTime -= 1;
