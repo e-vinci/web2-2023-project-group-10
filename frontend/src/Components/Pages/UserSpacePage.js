@@ -170,8 +170,7 @@ async function renderUserBadges() {
           <div class="container-xxl justify-content-center pt-5">
       `;
 
-  mainUserBadges += `
-          
+  mainUserBadges += `     
             <div class="card shadow-lg">
               <div class="card-body p-5"> 
               <div class="row mt-3">`;
