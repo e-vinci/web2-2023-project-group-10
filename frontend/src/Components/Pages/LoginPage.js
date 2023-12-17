@@ -2,9 +2,8 @@ import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import { logIn } from '../../models/users';
 import { checkAuthentication } from '../../utils/auths';
-import {createBalloons, animateBalloons} from '../../utils/animation';
-import {showError,showSuccess} from '../../utils/customAlerts';
-
+import { showError, showSuccess } from '../../utils/customAlerts';
+import Navbar from '../Navbar/Navbar';
 
 let isRememberMeChecked = false;
 
@@ -48,26 +47,17 @@ function renderLoginForm() {
                             <input type="checkbox" class="form-check-input" id="rememberMe">
                             <label class="form-check-label" for="rememberMe">Se souvenir de moi</label>
                         </div>
-
                         <div class="mb-3">
                             <input id="login" type="button" class="btn btn-authentification mn-3  w-100"
                                 value="Se connecter" />
                         </div>
-
-                        <hr>
-
                         <div class="mb-3">
                             <input id="register" type="button" class="btn btn-outline-secondary mn-3  w-100"
                                 value="Nouveau sur QUIZWIZ ? Créer un compte">
                         </div>
-                        
-
                     </form>
                 </div>
             </div>
-        </div>
-        <div class="balloon-container">
-          <!-- Balloons will be added here -->
         </div>
     </div>`;
 
@@ -133,19 +123,17 @@ async function handleLoginClick(e) {
       } else {
         sessionStorage.setItem('token', responseData.token);
       }
-    
     } else {
       showError('Une erreurs est survenue');
       return;
     }
-    createBalloons();
-    animateBalloons();
-
+    Navbar();
+    showSuccess('Vous êtes connecté');
+    Navigate('/categories');
   } catch (err) {
     showError('Une erreur est survenue lors de la connexion');
   }
 }
-
 
 const LoginPage = async () => {
   const isConnected = await checkAuthentication();
