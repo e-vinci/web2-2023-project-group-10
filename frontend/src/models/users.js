@@ -7,7 +7,6 @@ const readAllUsers = async () => {
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
     const users = await response.json();
-    console.log('Categories :', users);
     return users;
   } catch (err) {
     console.error('readAllUsers::error: ', err);

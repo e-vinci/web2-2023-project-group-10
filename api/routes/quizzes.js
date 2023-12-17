@@ -1,8 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-await-in-loop */
-/* eslint-disable no-plusplus */
-/* eslint-disable consistent-return */
-/* eslint-disable no-console */
 const express = require('express');
 
 const router = express.Router();
@@ -32,40 +27,33 @@ router.get('/', authorize, async (req, res) => {
   try {
     if (!Number.isNaN(userId)) {
       const quizzes = await readAllQuizzesByUser(userId);
-      console.log(quizzes);
       if (quizzes !== undefined) return res.json(quizzes);
       return res.sendStatus(400);
     }
     return res.sendStatus(400);
   } catch (error) {
-    console.error(error.message);
-    res.status(500).send('Erreur serveur');
+    return res.status(500).send('Erreur serveur');
   }
 });
 
 router.get('/readAllQuizzesByCategories', async (req, res) => {
   const categoryName = req?.query ? req.query.label : undefined;
   const quizId = req?.query ? Number(req.query['quiz-id']) : undefined;
-  console.log('categorie name dans le back ', categoryName);
-  console.log('Number of quiz ', quizId);
   try {
     if (Number.isInteger(quizId)) {
       const quiz = await readOneQuizDetailsByID(quizId);
-      console.log(quiz);
       if (quiz !== undefined) return res.json(quiz);
       return res.sendStatus(400);
     }
     if (categoryName !== undefined) {
       const quizzesInCategory = await readAllQuizzesByCategory(categoryName);
-      console.log('quizzes', quizzesInCategory);
       if (quizzesInCategory !== undefined) return res.json(quizzesInCategory);
       if (quizzesInCategory === null) return null;
       return res.sendStatus(400);
     }
     return res.sendStatus(400);
   } catch (error) {
-    console.error(error.message);
-    res.status(500).send('Erreur serveur');
+    return res.status(500).send('Erreur serveur');
   }
 });
 
@@ -91,22 +79,19 @@ router.post('/', authorize, async (req, res) => {
       return res.status(404).json({ message: 'Category not found' });
     }
     const categoryId = categorySelected[0].category_id;
-    console.log(`id category :  ${categoryId}`);
     // add the quiz to the quiz table
     const quiz = await addOneQuiz(categoryId, title, userID);
     const quizId = quiz[0].quiz_id;
     if (!quizId) {
       return res.status(400).send('Erreur lors de l’enregistrement du quiz');
     }
-    console.log('Quiz created with ID:', quizId);
     const questionsAnswers = await addQuestionsAnswers(questions, quizId);
     if (!questionsAnswers) {
       return res.status(400).send('Erreur lors de l’enregistrement des questions-réponses');
     }
     return res.status(201).json(quiz[0]);
   } catch (error) {
-    console.error(error.message);
-    res.status(500).send('Erreur serveur');
+    return res.status(500).send('Erreur serveur');
   }
 });
 
@@ -121,8 +106,7 @@ router.get('/categories', async (req, res) => {
     }
     return res.sendStatus(404);
   } catch (error) {
-    console.error(error.message);
-    res.status(500).send('Erreur serveur');
+    return res.status(500).send('Erreur serveur');
   }
 });
 
@@ -137,7 +121,6 @@ router.delete('/:quizId', authorize, async (req, res) => {
       res.status(200).json({ message: 'Quiz supprimé avec succès.' });
     }
   } catch (err) {
-    console.error('Erreur serveur lors de la suppression du quiz:', err);
     res.status(500).send('Erreur serveur.');
   }
 });
