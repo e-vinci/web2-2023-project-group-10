@@ -17,26 +17,12 @@ import Navigate from '../Router/Navigate';
 const CategoriesPage = async () => {
   clearPage();
   await renderCategories();
-  const cards = document.querySelectorAll('.card');
-  /* manages category hover events */
-  cards.forEach((card) => {
-    const currentCard = card;
-    currentCard.addEventListener('mouseover', () => {
-      currentCard.style.borderWidth = '2px';
-      currentCard.classList.add('border-primary');
-    });
-
-    currentCard.addEventListener('mouseout', () => {
-      currentCard.style.borderWidth = '1px';
-      currentCard.classList.remove('border-primary');
-    });
-  });
 };
-/* returns the categories page */
+
+/* Returns the categories page */
 async function renderCategories() {
   const main = document.querySelector('main');
-  let mainCategory = ``;
-  mainCategory += `
+  let mainCategory = `
     <section>
       <div class="container-xxl">
         <h4>Catégories</h4>
@@ -56,7 +42,7 @@ async function renderCategories() {
             <div class="card highlight-card">
               <img class="custom-img img-fluid" src="${getImageForCategory(
                 category.label,
-              )}" alt="Image category ${category.label}">
+              )}" alt="Image de la catégorie : ${category.label}">
               <div class="card-body">
                 <p class="card-text">${category.label}</p>
               </div>
@@ -75,9 +61,22 @@ async function renderCategories() {
   categoryEventListeners();
 }
 
+/* Event listener for category hover and click events  */
 function categoryEventListeners() {
+  const cards = document.querySelectorAll('.card');
+  /* manages category hover events */
+  cards.forEach((card) => {
+    const currentCard = card;
+    currentCard.addEventListener('mouseover', () => {
+      currentCard.style.borderWidth = '2px';
+      currentCard.classList.add('border-primary');
+    });
+    currentCard.addEventListener('mouseout', () => {
+      currentCard.style.borderWidth = '1px';
+      currentCard.classList.remove('border-primary');
+    });
+  });
   const btnCategory = document.querySelectorAll('.category');
-
   btnCategory.forEach((categoryLink) => {
     categoryLink.addEventListener('click', (e) => {
       e.preventDefault();
@@ -87,6 +86,7 @@ function categoryEventListeners() {
   });
 }
 
+/* Return the name of the image for a given category */
 function getImageForCategory(categoryLabel) {
   if (categoryLabel === 'Mathématiques') return mathematicsImage;
   if (categoryLabel === 'Histoire') return historyImage;
