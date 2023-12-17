@@ -31,5 +31,6 @@ Pour une expérience complète avec toutes les fonctionnalités, y compris celle
 
 - **URL du Frontend :** `https://github.com/e-vinci/Quizwiz`
 - **URL de l'API :** `https://github.com/e-vinci/backendquizwiz`
+- **URL du site :** `https://e-vinci.github.io/Quizwiz/`
 
 Ces versions déployées sont entièrement fonctionnelles et ne nécessitent aucune configuration supplémentaire.

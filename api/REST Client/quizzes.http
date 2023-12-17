@@ -84,7 +84,7 @@ Authorization: {{user.response.body.token}}
 ######### ERROR OPERATION  ###########
 
 ### Read all quizzes by a wrong category label 
-GET {{baseUrl}}/quizzes/readAllQuizzesByCategories/?label=M
+GET {{baseUrl}}/quizzes/readAllQuizzesByCategories
 
 ### Read all quizzes by a user without a connected user
 GET {{baseUrl}}/quizzes
