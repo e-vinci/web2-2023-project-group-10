@@ -18,8 +18,12 @@ GET {{baseUrl}}/quizzes
 Content-Type: application/json
 Authorization: {{user.response.body.token}}
 
-### Read all quizzes by category
+### Read all quizzes by category label
 GET {{baseUrl}}/quizzes/readAllQuizzesByCategories/?label=Mathématiques
+
+### Read all quizzes by a wrong category label 
+GET {{baseUrl}}/quizzes/readAllQuizzesByCategories/?label=M
+
 
 #### Create a quiz with one question using the user token
 POST {{baseUrl}}/quizzes
