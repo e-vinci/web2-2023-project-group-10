@@ -155,6 +155,9 @@ const readAllQuizzesByCategory = async (categoryName) => {
     }
     const quizzesInCategory = await response.json();
     console.log('Quizzes de la catégorie:', quizzesInCategory);
+    if(quizzesInCategory === null){
+      return null;
+    }
     return quizzesInCategory;
   } catch (err) {
     console.error('readAllQuizzesByCategory::error:', err);

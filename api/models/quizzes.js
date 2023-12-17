@@ -146,6 +146,9 @@ async function deleteOneQuiz(quizId) {
  */
 async function readAllQuizzesByCategory(categoryName) {
   console.log('readAllQuizzesByCategory in api/models/quizzes.js');
+  if ((await readCategoryByLabel(categoryName)) === undefined) {
+    return null;
+  }
   const quizzesInCategory = await pool.query(
     'SELECT q.title, u.pseudo, c.label, q.quiz_id FROM project.quizzes q, project.users u,project.categories c WHERE c.category_id = q.category AND u.user_id = q.user_id AND c.label = $1',
     [categoryName],

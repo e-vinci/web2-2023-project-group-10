@@ -2,6 +2,7 @@ import { clearPage } from '../../utils/render';
 import quizLinkEventListeners from '../../utils/quiz';
 import { readAllQuizzesByCategory } from '../../models/quizzes';
 import Navigate from '../Router/Navigate';
+import {showError} from '../../utils/customAlerts'
 
 
 let categoryName;
@@ -16,6 +17,11 @@ const QuizListPage = async () => {
 
 async function renderQuizListInCategory() {
   const quizzesInCategory = await readAllQuizzesByCategory(categoryName);
+  if(quizzesInCategory === null) {
+    showError(`La catégorie specifiée n'existe pas`);
+    Navigate('/categories');
+    return;
+  }
   const main = document.querySelector('main');
   let QuizList = '';
   const cardsInRow = 3; 

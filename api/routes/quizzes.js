@@ -63,6 +63,7 @@ router.get('/readAllQuizzesByCategories', async (req, res) => {
       const quizzesInCategory = await readAllQuizzesByCategory(categoryName);
       console.log('quizzes', quizzesInCategory);
       if (quizzesInCategory !== undefined) return res.json(quizzesInCategory);
+      if (quizzesInCategory === null) return null;
       return res.sendStatus(400);
     }
     return res.sendStatus(400);
