@@ -10,8 +10,6 @@ const corsOptions = {
 
 const usersRouter = require('./routes/users');
 const quizzesRouter = require('./routes/quizzes');
-const questionsRouter = require('./routes/questions');
-const answersRouter = require('./routes/answers');
 const badgesRouter = require('./routes/badges');
 
 const app = express();
@@ -25,8 +23,6 @@ app.use(cors(corsOptions));
 
 app.use('/users', usersRouter);
 app.use('/quizzes', quizzesRouter);
-app.use('/questions', questionsRouter);
-app.use('/answers', answersRouter);
 app.use('/badges', badgesRouter);
 
 module.exports = app;

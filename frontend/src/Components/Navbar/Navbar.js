@@ -105,7 +105,7 @@ function handleLogout() {
   sessionStorage.removeItem('token');
 
   Navbar();
-  showSuccess('Deconnexion reussie')
+  showSuccess('Deconnexion reussie');
   Navigate('/categories');
 }
 
@@ -120,7 +120,6 @@ function handleUserPoint() {
     confirmButtonText: 'Fermer',
   });
   Navbar();
-
 }
 
 export default Navbar;
