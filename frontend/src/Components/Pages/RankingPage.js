@@ -4,6 +4,7 @@ import { readAllUsers } from '../../models/users';
 let allUsers = [];
 let ranking;
 const RankingPage = async () => {
+  // Get all users from the database
   allUsers = await readAllUsers();
   ranking = 1;
   renderRankingTable();
@@ -33,6 +34,7 @@ function renderRankingTable() {
       <td>  ${user.pseudo} </td>
       <td> ${user.total_point} </td>
     </tr>`;
+      // Increment the ranking for the next user
       ranking += 1;
     }
   });

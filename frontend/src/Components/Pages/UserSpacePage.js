@@ -16,6 +16,7 @@ let userID;
 let userName;
 
 const UserSpacePage = async () => {
+  // Check if the user is authenticated
   const isConnected = await checkAuthentication();
 
   if (!isConnected) {
@@ -57,6 +58,7 @@ async function renderUserQuiz() {
         <div class="container-xxl justify-content-center pt-5 "> 
      `;
 
+  // Check if the user has created any quizzes
   if (allQuizzesByUser.length === 0) {
     mainListQuiz += `   
     <div class="alert alert-light text-center">
@@ -112,7 +114,8 @@ function deleteEventListeners() {
 
   deleteButtons.forEach((btn) => {
     btn.addEventListener('click', async (e) => {
-      e.stopPropagation(); // va empêcher d'autres gestionnaires d'événements de s'éxecuter
+      // Prevent other event handlers from executing
+      e.stopPropagation();
       e.preventDefault();
       const deleteQuiz = e.target.dataset.id;
       try {
@@ -234,6 +237,7 @@ function showBadgeInfo(badgeLabel) {
   });
 }
 
+// Get points required for each badge
 function getPointForBadge(badgeLabel) {
   if (badgeLabel === `Médaille d'or`) return 600;
   if (badgeLabel === `Médaille de bronze`) return 200;
@@ -241,6 +245,7 @@ function getPointForBadge(badgeLabel) {
   if (badgeLabel === `Médaille de platine`) return 800;
   return medalPlatine;
 }
+// Define the name of the image for each badge
 function getImageForBadge(badgeLabel) {
   if (badgeLabel === `Médaille d'or`) return medalGold;
   if (badgeLabel === `Médaille de bronze`) return medalBronze;

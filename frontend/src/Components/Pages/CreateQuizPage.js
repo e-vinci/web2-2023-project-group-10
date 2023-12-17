@@ -34,7 +34,6 @@ const CreateQuizPage = async () => {
   attachEventListenersFromInfoQuiz();
 };
 
-// Display quiz information form
 async function renderFormInfoQuiz() {
   clearPage();
   const allCategories = await readAllCategories();
@@ -106,7 +105,6 @@ function attachEventListenersFromInfoQuiz() {
     showInfo('Le nombre maximum de question autorisé est de 70');
   });
 
-  // Event listener for submitting the form
   btnSubmitFormInfo.addEventListener('click', (e) => {
     e.preventDefault();
     numberOfQuestions = parseInt(document.querySelector('#numberQuestion').value, 10);
@@ -117,7 +115,6 @@ function attachEventListenersFromInfoQuiz() {
   });
 }
 
-// Render the form of question ???????
 function renderQuizQuestions() {
   clearPage();
   let quizHTML = `

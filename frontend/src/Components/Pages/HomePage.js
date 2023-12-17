@@ -6,7 +6,6 @@ import Navigate from '../Router/Navigate';
 import image1 from '../../img/homePage.png';
 import image2 from '../../img/homePage2.png';
 
-// ----------------------------------------- HOME PAGE MIDDLEWARE  -----------------------------------------
 
 const HomePage = () => {
   const main = document.querySelector('main');
