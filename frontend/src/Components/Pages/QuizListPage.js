@@ -2,8 +2,7 @@ import { clearPage } from '../../utils/render';
 import quizLinkEventListeners from '../../utils/quiz';
 import { readAllQuizzesByCategory } from '../../models/quizzes';
 import Navigate from '../Router/Navigate';
-import {showError} from '../../utils/customAlerts'
-
+import { showError } from '../../utils/customAlerts';
 
 let categoryName;
 
@@ -18,14 +17,14 @@ const QuizListPage = async () => {
 async function renderQuizListInCategory() {
   // Get all the quizzes for the category specified
   const quizzesInCategory = await readAllQuizzesByCategory(categoryName);
-  if(quizzesInCategory === null) {
+  if (quizzesInCategory === null) {
     showError(`La catégorie specifiée n'existe pas`);
     Navigate('/categories');
     return;
   }
   const main = document.querySelector('main');
   let QuizList = '';
-  const cardsInRow = 3; 
+  const cardsInRow = 3;
   let counter = 0;
   const numberOfQuiz = quizzesInCategory.length;
 
@@ -43,10 +42,10 @@ async function renderQuizListInCategory() {
   if (numberOfQuiz === 0) {
     QuizList += `   
     <div class="alert alert-light text-center alertQuizListPage" role="alert">
-    <p>Aucun quiz n'a été créé pour cette catégorie.
-    <a id = "createQuiz" class="alert-link" style="cursor: pointer">Sois le premier à en créer un !</a>
-    </p>
-  </div>
+      <p>Aucun quiz n'a été créé pour cette catégorie.
+        <a id = "createQuiz" class="alert-link" style="cursor: pointer">Sois le premier à en créer un !</a>
+      </p>
+    </div>
  `;
   } else {
     quizzesInCategory.forEach((q) => {
@@ -59,17 +58,17 @@ async function renderQuizListInCategory() {
       // Display the cards with title and pseudo
       QuizList += `
     <div class="col-12 col-lg-3 mt-3">
-    <a id_quiz = "${q.quiz_id}" class= "quiz text-decoration-none">
+      <a id_quiz = "${q.quiz_id}" class= "quiz text-decoration-none">
         <div class="card cardQuizzes">
             <div class="card-body">
                <h5 class="card-title">${q.title}</h5>
                 <p class="card-text"> ${q.pseudo}</p>
             </div>
         </div>
-        </a>
-        </div>
+      </a>
+    </div>
   `;
-      counter+=1;
+      counter += 1;
     });
   }
   QuizList += `

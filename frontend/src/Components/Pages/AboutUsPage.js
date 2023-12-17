@@ -1,13 +1,8 @@
-// ----------------------------------------- HOME PAGE -----------------------------------------
-
-// ----------------------------------------- IMPORTS -----------------------------------------
-
 import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import image1 from '../../img/aboutUs1Bispng.png';
 import image2 from '../../img/aboutUs2.jpg';
 
-// ----------------------------------------- HOME PAGE MIDDLEWARE  -----------------------------------------
 
 const aboutUs = () => {
   clearPage();

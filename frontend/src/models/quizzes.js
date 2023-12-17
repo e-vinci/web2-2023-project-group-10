@@ -8,7 +8,6 @@ const readAllCategories = async () => {
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
     const categories = await response.json();
-    console.log('Categories :', categories);
     return categories;
   } catch (err) {
     console.error('readAllCategories::error: ', err);
@@ -29,8 +28,6 @@ const addOneQuiz = async (quiz) => {
   try {
     loadingSpinner.style.display = 'block';
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    console.log('je suis le token');
-    console.log(token);
     const options = {
       method: 'POST',
       body: JSON.stringify(quiz),
@@ -45,7 +42,6 @@ const addOneQuiz = async (quiz) => {
     }
     loadingSpinner.style.display = 'none';
     const createdQuiz = await response.json();
-    console.log('createdQuiz :', createdQuiz);
     Swal.fire({
       title: 'Création du quiz réussie!',
       text: 'Votre quiz a été créé avec succès.',
@@ -69,7 +65,6 @@ const addOneQuiz = async (quiz) => {
 const readAllQuizzesByUser = async () => {
   try {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    console.log(token);
     const options = {
       method: 'GET',
       headers: {
@@ -86,7 +81,6 @@ const readAllQuizzesByUser = async () => {
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
     const quizzes = await response.json();
-    console.log('Categories :', quizzes);
     return quizzes;
   } catch (err) {
     console.error('readAllQuizzesByUser::error: ', err);
@@ -115,16 +109,14 @@ const deleteOneQuiz = async (quiz) => {
         Authorization: `${token}`,
       },
     };
-    console.log(options);
+  
     const response = await fetch(`http://localhost:3000/quizzes/${quiz}`, options);
-    console.log(response.status);
+
     if (!response.ok) {
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
 
     loadingSpinner.style.display = 'none';
-    const deletedQuiz = await response.json();
-    console.log('deletedQuiz :', deletedQuiz);
 
     return response;
   } catch (err) {
@@ -136,25 +128,17 @@ const deleteOneQuiz = async (quiz) => {
 
 const readAllQuizzesByCategory = async (categoryName) => {
   try {
-    console.log(
-      'url :',
-      `http://localhost:3000/quizzes/readAllQuizzesByCategories/?label=${categoryName}`,
-    );
     const response = await fetch(
       `http://localhost:3000/quizzes/readAllQuizzesByCategories/?label=${categoryName}`,
     );
 
-    console.log('response', response);
     if (!response.ok) {
       if (response.status === 400) {
-        console.log('je suis dans la verification');
         return [];
       }
-      console.error(`Erreur HTTP: ${response.status}`);
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
     const quizzesInCategory = await response.json();
-    console.log('Quizzes de la catégorie:', quizzesInCategory);
     if(quizzesInCategory === null){
       return null;
     }
@@ -166,7 +150,6 @@ const readAllQuizzesByCategory = async (categoryName) => {
 };
 const readOneQuizById = async (id) => {
   try {
-    console.log(id);
     const response = await fetch(
       `http://localhost:3000/quizzes/readAllQuizzesByCategories/?quiz-id=${id}`,
     );
@@ -174,11 +157,9 @@ const readOneQuizById = async (id) => {
       if (response.status === 400) {
         return undefined;
       }
-      console.error(`Erreur HTTP: ${response.status}`);
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
     const quiz = await response.json();
-    console.log('Quiz :', quiz);
     return quiz;
   } catch (err) {
     console.error('readOneQuizById::error: ', err);

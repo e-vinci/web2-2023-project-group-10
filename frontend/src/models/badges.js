@@ -8,7 +8,6 @@ const readAllBadgesByUser = async (id) => {
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
     const badges = await response.json();
-    console.log('Badges :', badges);
     return badges;
   } catch (err) {
     console.error('readAllUserBadges::error: ', err);

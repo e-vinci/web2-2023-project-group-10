@@ -52,32 +52,30 @@ function renderQuizModal() {
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-      <img src=${imageTest}>
-        <h4 class="modal-title fs-5" id="staticBackdropLabel">Prêt à tester vos connaissances ?</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <img src=${imageTest}>
+          <h4 class="modal-title fs-5" id="staticBackdropLabel">Prêt à tester vos connaissances ?</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
       <div class="modal-body">
-      <p>Nombre de questions : ${nbQuestion} </p>
-     
-      <div class="input-group">
-      <p>Souhaites-tu utiliser un chronométre ? </p>
-      <div class="form-check form-switch form-check-reverse ">
-      <input class="form-check-input" type="checkbox" id="btnChecked">
-     </div>
-     </div>
-
-     <div id="empty">
-     </div>
+        <p>Nombre de questions : ${nbQuestion} </p>
+        <div class="input-group">
+          <p>Souhaites-tu utiliser un chronométre ? </p>
+          <div class="form-check form-switch form-check-reverse ">
+            <input class="form-check-input" type="checkbox" id="btnChecked">
+          </div>
+        </div>
+        <div id="empty">
+        </div>
       </div>
 
       <div class="modal-footer">
-      <button type="button" class="btn btn-style btnStart">Commencer</button>
+        <button type="button" class="btn btn-style btnStart">Commencer</button>
       </div>
     
-      </div>
-      </div>
-      </div>
+    </div>
+  </div>
+</div>
   `;
 
   const checkboxSwitch = document.getElementById('btnChecked');
@@ -146,14 +144,14 @@ async function renderScore() {
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body color-modal-score">
-      <h2 class="fs-4 mt-1 card-title text-center"> ${score}/${nbQuestion}</h2>
+        <h2 class="fs-4 mt-1 card-title text-center"> ${score}/${nbQuestion}</h2>
       </div>
       <div class="modal-footer">
-      <button type="button" class="btn btn-style btnRestart">Recommencer</button>
+        <button type="button" class="btn btn-style btnRestart">Recommencer</button>
       </div>
-      </div>
-      </div>
-      </div>`;
+    </div>
+  </div>
+</div>`;
 
   // Get the current user details
   const currentUser = await getConnectedUserDetails();
