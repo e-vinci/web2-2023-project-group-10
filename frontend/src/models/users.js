@@ -15,18 +15,16 @@ const readAllUsers = async () => {
   }
 };
 
-const updateUserPoint = async (score) => {
-  const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+const updateUserPoint = async (score, id) => {
   try {
     const options = {
       method: 'PATCH',
       body: JSON.stringify({ score }),
       headers: {
         'Content-Type': 'application/json',
-        authorization: `${token}`,
       },
     };
-    const response = await fetch(`http://localhost:3000/users`, options);
+    const response = await fetch(`http://localhost:3000/users/${id}`, options);
     if (!response.ok) {
       throw new Error(`Erreur HTTP: ${response.status}`);
     }

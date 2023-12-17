@@ -4,7 +4,7 @@ import Navigate from '../Router/Navigate';
 import { clearPage } from '../../utils/render';
 import { readAllCategories, addOneQuiz } from '../../models/quizzes';
 import { checkAuthentication } from '../../utils/auths';
-import {showInfo, showError} from '../../utils/customAlerts';
+import { showInfo, showError } from '../../utils/customAlerts';
 
 let questions = [];
 let questionCount = 0;
@@ -21,13 +21,12 @@ checkAuthentication('/create');
 const CreateQuizPage = async () => {
   const isConnected = await checkAuthentication();
 
-  if(!isConnected){
+  if (!isConnected) {
     showError('Veuillez vous connecter');
     Navigate('/login');
     return;
-
   }
-  
+
   clearPage();
   questions = [];
   numberOfQuestions = 0;
@@ -245,8 +244,7 @@ function attachEventListenersQuizQuestions() {
         renderQuizQuestions();
       } else {
         const result = await Swal.fire({
-          title: 'Êtes-vous sûr de vouloir créer ce quiz?',
-          text: 'Une fois créé, le quiz ne pourra pas être modifié.',
+          title: 'Êtes-tu sûr de vouloir créer ce quiz?',
           icon: 'question',
           showCancelButton: true,
           confirmButtonText: 'Oui, créer le quiz!',
@@ -262,10 +260,7 @@ function attachEventListenersQuizQuestions() {
           await addOneQuiz(quizToBeCreated);
           Navigate('/userSpace');
         } else {
-          questionCount -= 1;
-          currentCount -= 1;
-          console.log('current', currentCount);
-          return renderQuizQuestions();
+          return CreateQuizPage();
         }
       }
     }
