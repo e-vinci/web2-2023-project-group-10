@@ -107,8 +107,6 @@ function attachEventListenersFromInfoQuiz() {
   btnSubmitNumber.addEventListener('click', (e) => {
     e.preventDefault();
     numberOfQuestions = parseInt(document.querySelector('#numberQuestion').value, 10);
-    console.log(numberOfQuestions);
-    console.log('titre', title.value);
     if (!Number.isNaN(numberOfQuestions) && numberOfQuestions > 0 && title.value && category.value)
       renderQuizQuestions();
     else showError('Tous les champs du formulaire sont obligatoires');
@@ -218,17 +216,12 @@ function attachEventListenersQuizQuestions() {
         showError('Tous les champs du formulaire sont obligatoires');
         return renderQuizQuestions;
       }
-      console.log('question : ', question.value);
-      console.log('goodAnswer : ', goodAnswer.value);
 
       let answersBad = [];
 
       answersBad = Array.from(badAnswers).map((answer) => answer.value);
 
       const questAnsw = [question.value, goodAnswer.value, ...answersBad];
-
-      console.log('questAnsw : ', questAnsw);
-      console.log('questions : ', questions);
 
       if (questionCount === currentCount) {
         questions.push(questAnsw);
@@ -240,7 +233,6 @@ function attachEventListenersQuizQuestions() {
       }
 
       if (questionCount <= numberOfQuestions) {
-        console.log(`I am in nextQuestion.add ${questionCount}`);
         renderQuizQuestions();
       } else {
         const result = await Swal.fire({
@@ -256,7 +248,6 @@ function attachEventListenersQuizQuestions() {
             category: category.value,
             questions,
           };
-          console.log('quizToBeCreated : ', quizToBeCreated);
           await addOneQuiz(quizToBeCreated);
           Navigate('/userSpace');
         } else {

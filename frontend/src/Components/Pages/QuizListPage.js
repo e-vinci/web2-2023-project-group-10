@@ -11,7 +11,6 @@ const QuizListPage = async () => {
   clearPage();
   const url = new URLSearchParams(window.location.search);
   categoryName = url.get('label');
-  console.log('Le labell', categoryName);
   renderQuizListInCategory();
 };
 
@@ -40,7 +39,6 @@ async function renderQuizListInCategory() {
     <div class="row mt-3 lowPart">
   `;
   if (numberOfQuiz === 0) {
-    console.log('aucun quiz trouvé');
     QuizList += `   
     <div class="alert alert-light text-center alertQuizListPage" role="alert">
     <p>Aucun quiz n'a été créé pour cette catégorie.
@@ -51,7 +49,6 @@ async function renderQuizListInCategory() {
   } else {
     quizzesInCategory.forEach((q) => {
       if (counter === cardsInRow) {
-        console.log('COUNTER:', counter);
         QuizList += `
       </div><div class="row mt-3 lowPart">
     `;
@@ -71,7 +68,6 @@ async function renderQuizListInCategory() {
         </div>
   `;
       counter+=1;
-      console.log('compteur apres incrementation', counter);
     });
   }
   QuizList += `
@@ -87,7 +83,6 @@ async function renderQuizListInCategory() {
     btnCreateQuiz.addEventListener('click', renderCreateQuiz);
   }
   quizLinkEventListeners();
-  console.log('Categorie:');
 }
 
 function renderCreateQuiz() {

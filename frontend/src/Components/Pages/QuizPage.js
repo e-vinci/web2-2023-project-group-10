@@ -31,12 +31,10 @@ const quizPage = async () => {
   const quizId = url.get('id');
   allQuestionsAnswers = await readOneQuizById(quizId);
   if (allQuestionsAnswers === undefined) {
-    console.log('erreur');
     return redirect();
   }
   randomTab(allQuestionsAnswers);
   nbQuestion = allQuestionsAnswers.length;
-  console.log('The quiz', allQuestionsAnswers);
   renderQuizModal();
   const modal = document.getElementById('quizModal');
   const displayQuizModal = new Modal(modal);
@@ -90,7 +88,6 @@ function renderQuizModal() {
   });
 
   checkboxSwitch.addEventListener('change', () => {
-    console.log('je suis iciii');
     const inputTimer = document.getElementById('empty');
 
     if (checkboxSwitch.checked === true) {
@@ -123,7 +120,6 @@ function renderQuizModal() {
     if (checkboxSwitch.checked) {
       timerActivated = true;
       const timerValue = document.getElementById('timer').value;
-      console.log('CHRONOOO', timerValue);
       const timerNumber = parseInt(timerValue, 10);
       if (timerNumber <= 0 || Number.isNaN(timerNumber)) {
         errMsg.innerHTML = '*Veuillez entrer une valeur pour configurer le chronométre';
@@ -163,9 +159,6 @@ async function renderScore() {
     userID = currentUser.userID;
     newPoint = await updateUserPoint(score);
     const userBadges = await readAllBadgesByUser(userID);
-    console.log('userBadges est', userBadges);
-
-    console.log('userID : ', userID);
     if (userBadges.length < 4) {
       if (
         newPoint >= 200 &&
@@ -318,7 +311,6 @@ async function renderQuizPage() {
           });
           a.style.backgroundColor = 'rgba(200, 200, 200, 0.7)';
           selectedAnswer = answer.value;
-          console.log('selectedAnswer : ', selectedAnswer);
         }
       });
     });
@@ -330,7 +322,6 @@ async function renderQuizPage() {
     continueButton.innerText = 'Continuer';
     const validate = document.getElementById('btnValidate');
      if(startTime ===0) { 
-      console.log('cest egal a 0')
       return;
     }
     validate.addEventListener('click', () => {
@@ -347,7 +338,6 @@ async function renderQuizPage() {
         } else {
           selectedAnswerIsFalse = true;
         }
-        console.log('score : ', score);
         allAnswers = document.querySelectorAll('.answer');
         allAnswers.forEach((currentAnswer) => {
           const answer = currentAnswer;

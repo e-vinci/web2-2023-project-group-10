@@ -83,7 +83,6 @@ function categoryEventListeners() {
       e.preventDefault();
       const categoryName = e.currentTarget.getAttribute('category_label');
       Navigate(`/list?label=${categoryName}`);
-      console.log('Catégorie choisie:', categoryName);
     });
   });
 }

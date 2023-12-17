@@ -18,15 +18,13 @@ let userName;
 const UserSpacePage = async () => {
   const isConnected = await checkAuthentication();
 
-  if(!isConnected){
+  if (!isConnected) {
     showError('Veuillez vous connecter');
     Navigate('/login');
     return;
-
   }
 
   await getConnectedUserDetails().then((userDetails) => {
-    console.log(userDetails);
     userID = userDetails.userID;
     userName = userDetails.userName;
     renderUserQuiz();
@@ -177,12 +175,9 @@ async function renderUserBadges() {
   let count = 0;
   allBadges.forEach((badge) => {
     let isWinned = false;
-    console.log('allBadgesByUser', allBadgesByUser);
-    console.log('badge', badge);
     if (count % 4 === 0 && count !== 0) {
       mainUserBadges += ' </div>  <div class="row mt-3">';
     }
-    console.log('allBadgesByUser', allBadgesByUser);
 
     allBadgesByUser.forEach((b) => {
       if (b.badge_id === badge.badge_id) {
@@ -217,7 +212,6 @@ async function renderUserBadges() {
   badgeImages.forEach((badgeImage) => {
     badgeImage.addEventListener('click', () => {
       const badgeLabel = badgeImage.dataset.badge;
-      console.log(badgeLabel, 'badgeLabel');
       showBadgeInfo(badgeLabel);
     });
   });
