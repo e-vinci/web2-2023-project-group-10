@@ -24,7 +24,6 @@ router.get('/', async (req, res) => {
         return res.json(badges);
       }
     }
-    return res.sendStatus(400);
   } catch (error) {
     res.status(500).send('Erreur serveur');
   }
@@ -41,7 +40,7 @@ router.post('/', async (req, res) => {
   console.log('label : ', label);
   console.log('currentUser : ', id);
   if (!label || !id) {
-    return res.status(400).json({ message: 'Erreur' });
+    return res.status(400).json({ message: 'Bad Request: Missing label or ID' });
   }
   try {
     const badges = await addOneBadgeToUser(id, label);
@@ -53,7 +52,7 @@ router.post('/', async (req, res) => {
   } catch (error) {
     res.status(500).send('Erreur serveur');
   }
-  return res.sendStatus(400);
+  return null;
 });
 
 module.exports = router;
