@@ -15,7 +15,6 @@ async function getUserBadges(id) {
     }
     return undefined;
   } catch (error) {
-    console.error('Error fetching badges:', error);
     return undefined;
   }
 }
@@ -31,7 +30,6 @@ async function getAllBadges() {
     }
     return undefined;
   } catch (error) {
-    console.error('Error fetching badges:', error);
     return undefined;
   }
 }
