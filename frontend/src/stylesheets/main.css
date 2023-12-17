@@ -115,6 +115,10 @@ main {
   color: red;
 }
 
+.btn-authentification:disabled{
+  background-color: #d598e691;
+}
+
 
 /*************************** QuizPage  ******************************/
 .answer-label {

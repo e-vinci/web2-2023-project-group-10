@@ -73,7 +73,7 @@ function renderRegister() {
       msgError.innerHTML = ``;
     } else if (!acceptCheckbox.checked) {
       btnRegister.setAttribute('disabled', 'true');
-      msgError.innerHTML = `*Afin de continuer, veuillez accepter la politique de confidentialité de QuiWiz.`;
+      msgError.innerHTML = `*Afin de continuer, veuillez accepter les termes et conditions.`;
     }
   });
 }
