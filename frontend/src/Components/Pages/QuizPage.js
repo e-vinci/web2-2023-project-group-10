@@ -329,6 +329,10 @@ async function renderQuizPage() {
     continueButton.id = 'btnContinue';
     continueButton.innerText = 'Continuer';
     const validate = document.getElementById('btnValidate');
+     if(startTime ===0) { 
+      console.log('cest egal a 0')
+      return;
+    }
     validate.addEventListener('click', () => {
       isValidate = true;
       let selectedAnswerIsFalse = false;
