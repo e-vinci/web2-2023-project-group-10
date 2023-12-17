@@ -25,6 +25,7 @@ GET {{baseUrl}}/quizzes/readAllQuizzesByCategories/?label=Mathématiques
 #### Create a quiz with one question using the user token
 POST {{baseUrl}}/quizzes
 Content-Type: application/json
+Authorization: {{user.response.body.token}}
 
 {
     "title": "Calcule",

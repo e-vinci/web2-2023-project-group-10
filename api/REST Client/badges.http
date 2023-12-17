@@ -45,7 +45,7 @@ Content-Type: application/json
 
     {
     "label": "Médaille de bronze",
-    "id": 10700
+    "id": 10
     }
 
 ### Try to a badge to a user when missing one param
