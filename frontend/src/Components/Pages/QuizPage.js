@@ -29,6 +29,7 @@ const quizPage = async () => {
   clearPage();
   const url = new URLSearchParams(window.location.search);
   const quizId = url.get('id');
+  // Retrieve all questions and answers for the specified quiz
   allQuestionsAnswers = await readOneQuizById(quizId);
   if (allQuestionsAnswers === undefined) {
     return redirect();
@@ -39,9 +40,10 @@ const quizPage = async () => {
   const modal = document.getElementById('quizModal');
   const displayQuizModal = new Modal(modal);
   displayQuizModal.show();
-  return null; // // jsp eslint oblige a return a modif
+  return null;
 };
 
+// Displays the quiz start modal on the page
 function renderQuizModal() {
   clearPage();
   const main = document.querySelector('main');
@@ -63,7 +65,6 @@ function renderQuizModal() {
       <div class="form-check form-switch form-check-reverse ">
       <input class="form-check-input" type="checkbox" id="btnChecked">
      </div>
-
      </div>
 
      <div id="empty">
@@ -87,9 +88,9 @@ function renderQuizModal() {
     Navigate('/categories');
   });
 
+  // Event listener for checkbox to toggle timer configuration
   checkboxSwitch.addEventListener('change', () => {
     const inputTimer = document.getElementById('empty');
-
     if (checkboxSwitch.checked === true) {
       timerActivated = true;
       inputTimer.innerHTML += `<div>
@@ -101,11 +102,8 @@ function renderQuizModal() {
           aria-label=""
         />
         <span class="input-group-text" id="basic-addon2">secondes</span>
-        
-
       </div>
               <span id="errorMessage"></span>
-
       </div>
 `;
     } else {
@@ -114,9 +112,9 @@ function renderQuizModal() {
     }
   });
 
+  // Event listener for start button to validate timer configuration if checked and render quiz page
   btnStart.addEventListener('click', () => {
     const errMsg = document.getElementById('errorMessage');
-
     if (checkboxSwitch.checked) {
       timerActivated = true;
       const timerValue = document.getElementById('timer').value;
@@ -128,11 +126,11 @@ function renderQuizModal() {
       errMsg.innerHTML = '';
       startTime = timerNumber;
     }
-
     renderQuizPage();
   });
 }
 
+// Displays the modal showing the user's score
 async function renderScore() {
   currentQuestion = 0;
   const main = document.querySelector('main');
@@ -154,11 +152,21 @@ async function renderScore() {
       </div>
       </div>
       </div>`;
+
+  // Get the current user details
   const currentUser = await getConnectedUserDetails();
+
+  // If the user is logged in, update points and handle badges
   if (currentUser) {
     userID = currentUser.userID;
+
+    // Update user points based on the score and retrieve the new point value
     newPoint = await updateUserPoint(score);
+
+    // Get all badges earned by the current user
     const userBadges = await readAllBadgesByUser(userID);
+
+    // Check and award badges based on the points of the user
     if (userBadges.length < 4) {
       if (
         newPoint >= 200 &&
@@ -189,6 +197,8 @@ async function renderScore() {
   }
   const restartButton = document.querySelector('.btnRestart');
   score = 0;
+
+  // Event listener for restart button to reset quiz
   restartButton.addEventListener('click', () => {
     clearInterval(intervalId);
     intervalId = undefined;
@@ -198,7 +208,6 @@ async function renderScore() {
     timerActivated = false;
     quizPage();
   });
-
   const btnClose = document.querySelector('.btn-close');
   btnClose.addEventListener('click', () => {
     Navigate('/categories');
@@ -208,6 +217,7 @@ async function renderScore() {
   displayQuizModal.show();
 }
 
+// Adds the specified badge to the user
 async function winABadge(label) {
   await addOneBadgeToUser(userID, label);
   Swal.fire({
@@ -223,7 +233,7 @@ async function winABadge(label) {
     `,
   });
 }
-
+// Randomly shuffles the elements in the given table
 function randomTab(tab) {
   const array = tab;
   for (let i = tab.length - 1; i > 0; i -= 1) {
@@ -231,6 +241,8 @@ function randomTab(tab) {
     [array[i], array[j]] = [tab[j], tab[i]];
   }
 }
+
+// Renders the quiz page
 async function renderQuizPage() {
   clearPage();
   const main = document.querySelector('main');
@@ -242,6 +254,7 @@ async function renderQuizPage() {
                    <div class="display-timer"> ${minutes} ${seconds} </div>
                  </div>`;
   }
+  // If all questions have been answered, render score
   if (currentQuestion === nbQuestion) {
     renderScore();
   } else {
@@ -300,44 +313,51 @@ async function renderQuizPage() {
     let selectedAnswer = null;
     const errorMessage = document.querySelector('#errorMessage');
     let allAnswers = document.querySelectorAll('.answer');
+
     allAnswers.forEach((answer) => {
       const a = answer;
       answer.addEventListener('click', () => {
         errorMessage.innerText = '';
         if (!isValidate) {
+          // Reset background color for all answers
           allAnswers.forEach((otherAnswer) => {
             const other = otherAnswer;
             other.style.backgroundColor = 'white';
           });
+          // Set background color for the selected answer
           a.style.backgroundColor = 'rgba(200, 200, 200, 0.7)';
           selectedAnswer = answer.value;
         }
       });
     });
 
+    // Create a button "Continuer"
     const continueButton = document.createElement('button');
     continueButton.type = 'button';
     continueButton.className = 'btn btn-primary';
     continueButton.id = 'btnContinue';
     continueButton.innerText = 'Continuer';
     const validate = document.getElementById('btnValidate');
-     if(startTime ===0) { 
+    if (startTime === 0) {
       return;
     }
     validate.addEventListener('click', () => {
       isValidate = true;
       let selectedAnswerIsFalse = false;
+      // Check if no answer is selected
       if (selectedAnswer === null) {
         errorMessage.innerText = 'Merci de sélectionner une réponse';
         isValidate = false;
       } else {
         errorMessage.innerText = '';
+        // Check if the selected answer is correct
         if (selectedAnswer === goodAnswer) {
           selectedAnswerIsFalse = false;
           score += 1;
         } else {
           selectedAnswerIsFalse = true;
         }
+        // Apply styles to the answers based on correction
         allAnswers = document.querySelectorAll('.answer');
         allAnswers.forEach((currentAnswer) => {
           const answer = currentAnswer;
@@ -349,6 +369,7 @@ async function renderQuizPage() {
             answer.style.backgroundColor = 'white';
           }
         });
+        // Replace the "Valider" button with the "Continuer" button
         validate.replaceWith(continueButton);
       }
     });
@@ -364,8 +385,7 @@ function startChrono() {
   if (intervalId) {
     clearInterval(intervalId);
   }
-
-  intervalId = setInterval(printTime, 1000); // 1000 donc tt les sec
+  intervalId = setInterval(printTime, 1000); 
 }
 
 function printTime() {
@@ -376,7 +396,6 @@ function printTime() {
     intervalId = undefined;
     return;
   }
-
   if (startTime >= 60) {
     const minutesTimer = Math.floor(startTime / 60);
     const secondsTimer = startTime % 60;
@@ -384,8 +403,8 @@ function printTime() {
   } else {
     displaychrono.innerHTML = `Temps restants : 00 min : ${startTime} sec`;
   }
-  if(startTime <= 10){
-    containerTimer.style.backgroundColor = 'rgba(255, 0, 0, 0.3)'; 
+  if (startTime <= 10) {
+    containerTimer.style.backgroundColor = 'rgba(255, 0, 0, 0.3)';
   }
 
   startTime -= 1;
