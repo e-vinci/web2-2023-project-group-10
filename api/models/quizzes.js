@@ -120,7 +120,6 @@ async function deleteOneQuiz(quizId) {
     }
     return undefined;
   } catch (err) {
-    console.error('Deletion failed:', err);
     return undefined;
   }
 }
