@@ -2,9 +2,9 @@ import anime from 'animejs';
 import {showSuccess} from './customAlerts';
 import Navigate from "../Components/Router/Navigate";
 import Navbar from '../Components/Navbar/Navbar';
-import image1 from '../img/ballons1.png';
-import image2 from '../img/ballons2.png';
-import image3 from '../img/ballons3.png';
+import image1 from '../img/balloon_709355.png'
+import image2 from '../img/balloon_9141296.png';
+import image3 from '../img/balloons_1635039.png'
 
 function animateBalloons() {
     const balloons = document.querySelectorAll('.balloon');
@@ -12,7 +12,7 @@ function animateBalloons() {
       anime({
         targets: balloon,
         translateY: '-200vh', // Fait monter les ballons
-        duration: 5500, 
+        duration: 10000, 
         easing: 'easeOutCubic'
       });
     });
