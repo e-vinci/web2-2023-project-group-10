@@ -1,7 +1,4 @@
-// const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-// const path = require('node:path');
-// const { parse, serialize } = require('../utils/json');
 const pool = require('../db');
 
 module.exports = {
@@ -26,6 +23,12 @@ async function getAllUsers() {
   return undefined;
 }
 
+/**
+ * Authenticates a user by their username and password
+ * username: Name entered by the user for login
+ * password: The login password entered by the user
+ */
+
 async function loginUser(username, password) {
   const user = await pool.query('SELECT * FROM project.users WHERE pseudo = $1', [username]);
 
@@ -37,6 +40,12 @@ async function loginUser(username, password) {
   }
   return user;
 }
+
+/**
+ * Adds a new user to the db
+ * username: The name the user chooses
+ * password: The user chosen password
+ */
 
 async function registerUser(username, password) {
   const passwordHash = await bcrypt.hash(password, 10);
@@ -51,6 +60,11 @@ async function registerUser(username, password) {
   }
   return user;
 }
+
+/**
+ * Gets details of the current user
+ * username: The user name
+ */
 
 async function currentUser(username) {
   const user = await pool.query('SELECT * FROM project.users WHERE pseudo = $1', [username]);
