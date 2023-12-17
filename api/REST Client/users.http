@@ -1,38 +1,49 @@
 @baseUrl = http://localhost:3000
 
-### Liste de tous les utilisateurs
+### List of all users
 GET {{baseUrl}}/users
 
-### Modification d'un champ d'un utilisateur, ici l'username
-PATCH {{baseUrl}}/users/123
-Content-Type: application/json
+#### First login as the user
+# @name user
 
-{
-    "username": "nouveau pseudo"
-}
-
-### Enregistrer un nouvel utilisateur
-POST {{baseUrl}}/users/register
-Content-Type: application/json
-
-{
-    "username":"jean",
-    "password":"jean"
-}
-
-
-### Connexion avec un utilisateur existant
 POST {{baseUrl}}/users/login
 Content-Type: application/json
 
 {
-    "username":"jean",
-    "password":"jean"
+    "username":"quizwiz",
+    "password":"quizwiz"
 }
+
+
+#### Get details of the connected User
+GET {{baseUrl}}/users/details
+Content-Type: application/json
+Authorization: {{user.response.body.token}}
+
+
+### Register a new user
+POST {{baseUrl}}/users/register
+Content-Type: application/json
+
+{
+    "username":"vinci",
+    "password":"vinci"
+}
+
+### Update the user score
+PATCH {{baseUrl}}/users
+Content-Type: application/json
+Authorization: {{user.response.body.token}}
+
+{
+    "score":145
+}
+
 
 ######### ERROR OPERATION  ###########
 
-### Enregistrement d'un utilisateur avec un nom d'utilisateur et un mot de passe vides
+
+### Register a user with empty username and password
 POST {{baseUrl}}/users/register
 Content-Type: application/json
 
@@ -41,7 +52,7 @@ Content-Type: application/json
     "password":""
 }
 
-### Enregistrement d'un utilisateur avec un nom d'utilisateur mais sans mot de passe
+### Register a user with a username but no password
 POST {{baseUrl}}/users/register
 Content-Type: application/json
 
@@ -50,29 +61,38 @@ Content-Type: application/json
     "password":""
 }
 
-### Connexion d'un utilisateur avec un mot de passe mais sans nom d'utilisateur
-POST {{baseUrl}}/users/login
-Content-Type: application/json
-
-{
-    "username":"",
-    "password":"jean"
-}
-
-### Enregistrement d'un utilisateur avec un mot de passe mais sans nom d'utilisateur
+### Register a user with an existing username
 POST {{baseUrl}}/users/register
 Content-Type: application/json
 
 {
-    "username":"",
-    "password":"jean"
+    "username":"quizwiz",
+    "password":"quizwiz"
 }
 
-### Connexion d'un utilisateur avec un nom d'utilisateur mais sans mot de passe
+
+### Login a user with a password but no username
 POST {{baseUrl}}/users/login
 Content-Type: application/json
 
 {
-    "username":"hello",
-    "password":"hello"
+    "username":"",
+    "password":"jean"
 }
+
+
+#### Get user details without a connected user
+GET {{baseUrl}}/users/details
+Content-Type: application/json
+
+
+### Update score without a connected user
+PATCH {{baseUrl}}/users
+Content-Type: application/json
+
+{
+    "score":145
+}
+
+
+

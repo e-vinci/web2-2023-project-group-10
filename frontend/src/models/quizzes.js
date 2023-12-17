@@ -36,7 +36,7 @@ const addOneQuiz = async (quiz) => {
       body: JSON.stringify(quiz),
       headers: {
         'Content-Type': 'application/json',
-        authorization: `${token}`,
+        Authorization: `${token}`,
       },
     };
     const response = await fetch(`http://localhost:3000/quizzes`, options);
@@ -74,7 +74,7 @@ const readAllQuizzesByUser = async () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `${token}`,
+        Authorization: `${token}`,
       },
     };
 
@@ -112,7 +112,7 @@ const deleteOneQuiz = async (quiz) => {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `${token}`,
+        Authorization: `${token}`,
       },
     };
     console.log(options);

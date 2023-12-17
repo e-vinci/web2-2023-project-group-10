@@ -7,7 +7,7 @@ async function getConnectedUserDetails() {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `${token}`,
+        Authorization: `${token}`,
       },
     };
 

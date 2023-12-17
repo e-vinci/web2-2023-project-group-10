@@ -28,9 +28,6 @@ const { authorize } = require('../utils/auths');
 router.get('/', authorize, async (req, res) => {
   const currentUser = req.user;
   const userId = currentUser.rows[0].user_id;
-  // const userId = req?.query ? Number(req.query['user-id']) : undefined;
-  // const categoryName = req?.query ? req.query.label : undefined;
-  // const quizId = req?.query ? Number(req.query['quiz-id']) : undefined;
 
   try {
     if (!Number.isNaN(userId)) {
@@ -47,7 +44,6 @@ router.get('/', authorize, async (req, res) => {
 });
 
 router.get('/readAllQuizzesByCategories', async (req, res) => {
-  console.log('readAllQuizzesByCategories');
   const categoryName = req?.query ? req.query.label : undefined;
   const quizId = req?.query ? Number(req.query['quiz-id']) : undefined;
   console.log('categorie name dans le back ', categoryName);
@@ -80,14 +76,9 @@ router.get('/readAllQuizzesByCategories', async (req, res) => {
  * questions : An array of questions and their corresponding answers.
  */
 router.post('/', authorize, async (req, res) => {
-  console.log('POST routes/quizzes');
   const { title, category, questions } = req.body;
-
   const currentUser = req.user;
-  console.log('currentUser', currentUser);
-
   const userID = currentUser.rows[0].user_id;
-  console.log('userID', userID);
 
   if (!title || !category || !questions || questions.length === 0) {
     return res.status(400).json({ message: 'Tous les champs du formulaire sont obligatoires' });
@@ -126,7 +117,6 @@ router.get('/categories', async (req, res) => {
   try {
     const categories = await readAllCategories();
     if (categories !== undefined) {
-      console.log('categories : ', categories);
       return res.json(categories);
     }
     return res.sendStatus(404);
@@ -136,10 +126,9 @@ router.get('/categories', async (req, res) => {
   }
 });
 
-router.delete('/:quizId', async (req, res) => {
+router.delete('/:quizId', authorize, async (req, res) => {
   try {
     const { quizId } = req.params;
-    console.log('ID du quiz à supprimer:', quizId);
     const rowCount = await deleteOneQuiz(quizId);
 
     if (rowCount === 0) {
