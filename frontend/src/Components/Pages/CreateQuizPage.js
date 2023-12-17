@@ -11,6 +11,7 @@ let questionCount = 0;
 let currentCount = 0;
 let numberOfQuestions = 0;
 const numberBadAnswer = 3;
+const maxQuestionsPerQuiz  = 70;
 let title;
 let category;
 let quizToBeCreated;
@@ -109,7 +110,10 @@ function attachEventListenersFromInfoQuiz() {
     e.preventDefault();
     numberOfQuestions = parseInt(document.querySelector('#numberQuestion').value, 10);
     // Checking the inputs
-    if (!Number.isNaN(numberOfQuestions) && numberOfQuestions > 0 && title.value && category.value)
+    if(numberOfQuestions > maxQuestionsPerQuiz){
+      showError('Vous avez dépassé la limite de questions possibles');
+
+    }else if (!Number.isNaN(numberOfQuestions) && numberOfQuestions > 0 && title.value && category.value)
       renderQuizQuestions();
     else showError('Tous les champs du formulaire sont obligatoires');
   });
