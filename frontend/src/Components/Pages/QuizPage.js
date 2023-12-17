@@ -119,11 +119,13 @@ function renderQuizModal() {
       timerActivated = true;
       const timerValue = document.getElementById('timer').value;
       const timerNumber = parseInt(timerValue, 10);
+      // Check input value
       if (timerNumber <= 0 || Number.isNaN(timerNumber)) {
         errMsg.innerHTML = '*Veuillez entrer une valeur pour configurer le chronométre';
         return;
       }
       errMsg.innerHTML = '';
+      // startTime is equal to the value entered by the user
       startTime = timerNumber;
     }
     renderQuizPage();
@@ -306,7 +308,7 @@ async function renderQuizPage() {
 
     if (timerActivated === true) {
       printTime();
-      startChrono();
+      startTimer();
     }
 
     let isValidate = false;
@@ -381,10 +383,12 @@ async function renderQuizPage() {
   }
 }
 
-function startChrono() {
+function startTimer() {
+  // If the timer is running we clear it 
   if (intervalId) {
     clearInterval(intervalId);
   }
+  // starts a new interval that calls the printTime function every 1000 milliseconds
   intervalId = setInterval(printTime, 1000); 
 }
 
@@ -396,6 +400,7 @@ function printTime() {
     intervalId = undefined;
     return;
   }
+  // If the time is > than 60 secondes, converts in minutes 
   if (startTime >= 60) {
     const minutesTimer = Math.floor(startTime / 60);
     const secondsTimer = startTime % 60;
@@ -403,11 +408,13 @@ function printTime() {
   } else {
     displaychrono.innerHTML = `Temps restants : 00 min : ${startTime} sec`;
   }
+  // If the time is less than 10 secondes, reset background color
   if (startTime <= 10) {
     containerTimer.style.backgroundColor = 'rgba(255, 0, 0, 0.3)';
   }
 
   startTime -= 1;
+  // If timer equals 0 and we haven't finished the quiz
   if (startTime === 0 && currentQuestion !== nbQuestion) {
     Swal.fire({
       icon: 'warning',

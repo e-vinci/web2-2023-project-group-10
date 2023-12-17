@@ -9,12 +9,14 @@ let categoryName;
 
 const QuizListPage = async () => {
   clearPage();
+  // Recover the label from the url
   const url = new URLSearchParams(window.location.search);
   categoryName = url.get('label');
   renderQuizListInCategory();
 };
 
 async function renderQuizListInCategory() {
+  // Get all the quizzes for the category specified
   const quizzesInCategory = await readAllQuizzesByCategory(categoryName);
   if(quizzesInCategory === null) {
     showError(`La catégorie specifiée n'existe pas`);
@@ -54,7 +56,7 @@ async function renderQuizListInCategory() {
     `;
         counter = 0;
       }
-
+      // Display the cards with title and pseudo
       QuizList += `
     <div class="col-12 col-lg-3 mt-3">
     <a id_quiz = "${q.quiz_id}" class= "quiz text-decoration-none">
@@ -77,7 +79,7 @@ async function renderQuizListInCategory() {
 </section>
 `;
   main.innerHTML = QuizList;
-
+  // If the category don't have quizzes yet, redirect the user to /create
   if (numberOfQuiz === 0) {
     const btnCreateQuiz = document.getElementById('createQuiz');
     btnCreateQuiz.addEventListener('click', renderCreateQuiz);
