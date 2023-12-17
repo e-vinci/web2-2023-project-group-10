@@ -6,13 +6,11 @@ const pool = require('../db');
  * userId : The user's ID.
  */
 async function readAllQuizzesByUser(userId) {
-  console.log('readAllQuizzesByUser in api/models/quizzes.js');
   const quizzes = await pool.query(
     'SELECT * FROM project.quizzes WHERE user_id=$1 ORDER BY date_creation DESC',
     [userId],
   );
   if (quizzes.rows.length > 0) {
-    console.log('quizzes ok');
     return quizzes.rows;
   }
   return undefined;
@@ -23,10 +21,8 @@ async function readAllQuizzesByUser(userId) {
  * label : The label of the category.
  */
 async function readCategoryByLabel(label) {
-  console.log('readCategoryByLabel in api/models/quizzes.js');
   const category = await pool.query('SELECT * FROM project.categories WHERE label = $1', [label]);
   if (category.rows.length > 0) {
-    console.log(`Category ${label} retrieved successfully.`);
     return category.rows;
   }
   return undefined;
@@ -36,10 +32,8 @@ async function readCategoryByLabel(label) {
  * Retrieves all categories from the database.
  */
 async function readAllCategories() {
-  console.log('readAllCategories in api/models/quizzes.js');
   const categories = await pool.query('SELECT * FROM project.categories');
   if (categories.rows.length > 0) {
-    console.log('Categories retrieved successfully.');
     return categories.rows;
   }
   return undefined;
@@ -52,13 +46,11 @@ async function readAllCategories() {
  * user : the id of the current user
  */
 async function addOneQuiz(categoryId, title, user) {
-  console.log('addOneQuiz in api/models/quizzes.js');
   const quiz = await pool.query(
     'INSERT INTO project.quizzes (user_id, category, title) VALUES ($1, $2, $3) RETURNING  quiz_id, title, category',
     [user, categoryId, escape(title)],
   );
   if (quiz.rows.length > 0) {
-    console.log('Quiz add successfully.');
     return quiz.rows;
   }
   return undefined;
@@ -70,13 +62,9 @@ async function addOneQuiz(categoryId, title, user) {
  * questions : a table that contains questions and answers
  */
 async function addQuestionsAnswers(questions, quizId) {
-  console.log('addQuestionsAnswers in api/models/quizzes.js');
-  console.log('questions.lenght : ', questions.length);
-
   /* eslint-disable no-await-in-loop */
   for (let index = 0; index < questions.length; index += 1) {
     // add one of the questions in the database :
-    console.log('the question is : ', questions[index][0]);
     const question = await pool.query(
       'INSERT INTO project.questions (quiz_id, question) VALUES ($1, $2) RETURNING question_id ',
       [quizId, escape(questions[index][0])],
@@ -114,9 +102,6 @@ async function addQuestionsAnswers(questions, quizId) {
  * quizId : the id of the quiz
  */
 async function deleteOneQuiz(quizId) {
-  console.log('deleteOneQuiz in api/models/quizzes.js');
-  console.log('quizId: ', quizId);
-
   try {
     const deleteAnswersQuery = `
       DELETE FROM project.answers
@@ -136,8 +121,8 @@ async function deleteOneQuiz(quizId) {
     return undefined;
   } catch (err) {
     console.error('Deletion failed:', err);
+    return undefined;
   }
-  return undefined;
 }
 
 /**
@@ -145,7 +130,6 @@ async function deleteOneQuiz(quizId) {
  * categoryName : the label of the category
  */
 async function readAllQuizzesByCategory(categoryName) {
-  console.log('readAllQuizzesByCategory in api/models/quizzes.js');
   if ((await readCategoryByLabel(categoryName)) === undefined) {
     return null;
   }
@@ -154,7 +138,6 @@ async function readAllQuizzesByCategory(categoryName) {
     [categoryName],
   );
   if (quizzesInCategory.rows.length > 0) {
-    console.log('quizzes par catégorie OK');
     return quizzesInCategory.rows;
   }
   return undefined;
@@ -165,18 +148,9 @@ async function readAllQuizzesByCategory(categoryName) {
  * quizId : the id of the quiz
  */
 async function readOneQuizDetailsByID(quizId) {
-  console.log('readOneQuizDetailsByID in api/models/quizzes.js');
-
-  // Retrieve the quiz from the database
-  const quiz = await pool.query('SELECT * FROM project.quizzes WHERE quiz_id=$1', [quizId]);
-  console.log('quiz', quiz);
-
   // Retrieve all the questions of the quiz from the database
   const questions = await pool.query('SELECT * FROM project.questions WHERE quiz_id=$1', [quizId]);
-  console.log('questions', questions);
-
   const allquestions = questions.rows;
-  console.log('allquestions', allquestions);
 
   const AllquestionsAnswers = [];
   /* eslint-disable no-restricted-syntax */

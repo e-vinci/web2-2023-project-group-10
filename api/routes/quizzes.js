@@ -110,6 +110,9 @@ router.get('/categories', async (req, res) => {
   }
 });
 
+/**
+ * Delete a quiz by quizId
+ */
 router.delete('/:quizId', authorize, async (req, res) => {
   try {
     const { quizId } = req.params;

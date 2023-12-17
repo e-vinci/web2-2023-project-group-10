@@ -14,13 +14,11 @@ router.get('/', async (req, res) => {
     if (userId) {
       const badges = await getUserBadges(userId);
       if (badges !== undefined) {
-        console.log('Badges retrieved successfully.');
         return res.json(badges);
       }
     } else {
       const badges = await getAllBadges();
       if (badges !== undefined) {
-        console.log('Badges retrieved successfully.');
         return res.json(badges);
       }
     }
@@ -37,15 +35,12 @@ router.get('/', async (req, res) => {
  */
 router.post('/', async (req, res) => {
   const { label, id } = req.body;
-  console.log('label : ', label);
-  console.log('currentUser : ', id);
   if (!label || !id) {
     return res.status(400).json({ message: 'Bad Request: Missing label or ID' });
   }
   try {
     const badges = await addOneBadgeToUser(id, label);
     if (badges !== undefined) {
-      console.log('Badges added successfully.');
       return res.json(badges);
     }
     return res.sendStatus(400);
