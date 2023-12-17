@@ -26,8 +26,8 @@ POST {{baseUrl}}/users/register
 Content-Type: application/json
 
 {
-    "username":"vinci",
-    "password":"vinci"
+    "username":"vinciweb2group10",
+    "password":"vinciweb2group10"
 }
 
 ### Update the user score
